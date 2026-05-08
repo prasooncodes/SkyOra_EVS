@@ -1,0 +1,46 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h2>Register</h2>
+
+    <form (ngSubmit)="onSubmit()">
+      <label>
+        Name
+        <input type="text" [(ngModel)]="name" name="name" required />
+      </label>
+
+      <label>
+        Age
+        <input type="number" [(ngModel)]="age" name="age" required />
+      </label>
+
+      <label>
+        Gender
+        <input type="text" [(ngModel)]="gender" name="gender" required />
+      </label>
+
+      <label>
+        Role
+        <input type="text" [(ngModel)]="role" name="role" required />
+      </label>
+
+      <label>
+        Email
+        <input type="email" [(ngModel)]="email" name="email" required />
+      </label>
+
+      <label>
+        Password
+        <input type="password" [(ngModel)]="password" name="password" required />
+      </label>
+
+      <button type="submit">Register</button>
+
+      <p class="error" *ngIf="error">{{ error }}</p>
+      <p class="success" *ngIf="success">{{ success }}</p>
+
+      <p class="hint">
+        Already have an account? <a routerLink="/login">Login here</a>.
+      </p>
+    </form>
+  </div>
+</div>

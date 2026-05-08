@@ -1,1 +1,17 @@
-<p>user works!</p>
+<div class="container" style="padding: 20px;">
+  <h2 style="color: #007bff;">User List</h2>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+    @for (user of users; track $index) {
+      <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; box-shadow: 2px 2px 10px #eee;">
+        <h3>{{ user.UserName || user.Name || user.Username || 'User' }}</h3>
+        <p><strong>User ID:</strong> {{ user.UserId || user.Id || user.id }}</p>
+        <p><strong>Email:</strong> {{ user.Email || user.email || 'N/A' }}</p>
+        <p><strong>Age:</strong> {{ user.Age || user.age || 'N/A' }}</p>
+        <p><strong>Role:</strong> {{ user.Role || user.role || 'N/A' }}</p>
+      </div>
+    } @empty {
+      <p>No users available at the moment.</p>
+    }
+  </div>
+</div>
