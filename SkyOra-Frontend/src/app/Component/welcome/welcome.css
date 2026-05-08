@@ -1,0 +1,46 @@
+.welcome-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.hero-section {
+  height: 70vh;
+  /* Use a high-res airplane or travel image */
+  background: linear-gradient(rgba(45, 17, 72, 0.6), rgba(45, 17, 72, 0.3)), 
+              url('https://unsplash.com');
+  background-size: cover;
+  background-position: center;
+}
+
+.btn-orange {
+  background-color: #ff6e00; /* Akasa Orange */
+  color: white;
+  border-radius: 30px;
+  padding: 12px 35px;
+}
+
+.btn-purple {
+  background-color: #2d1148; /* Akasa Purple */
+  color: white;
+  font-weight: bold;
+}
+
+.search-overlay {
+  margin-top: -60px; /* Pulls the card onto the hero image */
+  position: relative;
+  z-index: 10;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border: 1px solid #ff6e00;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out;
+}
