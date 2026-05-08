@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { User } from './services/user';
-import { Flight } from './services/flight';
+import { User } from './Component/user/user';
+import { Flight } from './Component/flight/flight';
 import { Welcome } from './Component/welcome/welcome';
 import { Booking } from './Component/booking/booking';
 
