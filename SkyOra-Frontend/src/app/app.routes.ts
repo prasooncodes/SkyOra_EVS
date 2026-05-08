@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { User } from './Component/user/user';
+import { User } from './services/user';
 import { Flight } from './Component/flight/flight';
 import { Welcome } from './Component/welcome/welcome';
 import { Booking } from './Component/booking/booking';
-import { LoginComponent } from './Component/auth/login';
-import { RegisterComponent } from './Component/auth/register';
+import { FlightAdd } from './Component/flight-add/flight-add';
+import { FlightEdit } from './Component/flight-edit/flight-edit';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -12,6 +12,6 @@ export const routes: Routes = [
     { path: 'users', component: User },
     { path: 'flights', component: Flight },
     { path: 'bookings', component: Booking },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent }
+    { path: 'addflight', component: FlightAdd },
+    { path: 'editflight/:id', component: FlightEdit }
 ];
