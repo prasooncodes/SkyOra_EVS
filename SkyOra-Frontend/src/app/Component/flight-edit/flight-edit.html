@@ -1,0 +1,71 @@
+<h2>Edit Flight</h2>
+
+<form [formGroup]="flightForm" (ngSubmit)="updateFlight()">
+
+  <!-- Flight Number -->
+  <div class="form-group mb-2">
+    <label>Flight No</label>
+    <input class="form-control" formControlName="flightNo" />
+  </div>
+
+  <!-- Source -->
+  <div class="form-group mb-2">
+    <label>Source</label>
+    <input class="form-control" formControlName="source" />
+  </div>
+
+  <!-- Destination -->
+  <div class="form-group mb-2">
+    <label>Destination</label>
+    <input class="form-control" formControlName="destination" />
+  </div>
+
+  <!-- Departure -->
+  <div class="form-group mb-2">
+    <label>Departure Time</label>
+    <input type="datetime-local" class="form-control" formControlName="departureTime" />
+  </div>
+
+  <!-- Arrival -->
+  <div class="form-group mb-2">
+    <label>Arrival Time</label>
+    <input type="datetime-local" class="form-control" formControlName="arrivalTime" />
+  </div>
+
+  <!-- Seats -->
+  <div class="form-group mb-2">
+    <label>Total Business Seats</label>
+    <input type="number" class="form-control" formControlName="totalBusinessSeats" />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Total Economy Seats</label>
+    <input type="number" class="form-control" formControlName="totalEconomySeats" />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Available Business Seats</label>
+    <input type="number" class="form-control" formControlName="availableBusinessSeats" />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Available Economy Seats</label>
+    <input type="number" class="form-control" formControlName="availableEconomySeats" />
+  </div>
+
+  <!-- Prices -->
+  <div class="form-group mb-2">
+    <label>Business Price</label>
+    <input type="number" class="form-control" formControlName="businessPrice" />
+  </div>
+
+  <div class="form-group mb-2">
+    <label>Economy Price</label>
+    <input type="number" class="form-control" formControlName="economyPrice" />
+  </div>
+
+  <!-- Submit -->
+  <button class="btn btn-success mt-3" [disabled]="flightForm.invalid">
+    Update Flight
+  </button>
+</form>

@@ -1,1 +1,102 @@
-<p>flight works!</p>
+<!-- ✅ Top Header Row -->
+<div class="row mb-3 align-items-center">
+  
+  <!-- ✅ Left: Heading -->
+  <div class="col-md-6">
+    <h2>Flight Details</h2>
+  </div>
+
+  <!-- ✅ Right: Add Flight Button -->
+  <div class="col-md-6 text-end">
+    <a class="btn btn-success" [routerLink]="['/addflight']">
+      Add Flight
+    </a>
+  </div>
+
+</div>
+
+<!-- ✅ Flight Cards -->
+<div class="row">
+
+  <!-- ✅ Render only when data exists -->
+  <ng-container *ngIf="flights && flights.length > 0">
+
+    <div
+      class="col-md-4 mb-3"
+      *ngFor="let flight of flights; trackBy: trackByFlightId"
+    >
+
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+
+          <h5 class="card-title text-primary">
+            ✈️ {{ flight.FlightNo }}
+          </h5>
+
+          <p class="card-text">
+            <strong>Route:</strong>
+            {{ flight.Source }} → {{ flight.Destination }}
+          </p>
+
+          <p class="card-text">
+            <strong>Departure:</strong>
+            {{ flight.DepartureTime | date:'short' }}
+          </p>
+
+          <p class="card-text">
+            <strong>Arrival:</strong>
+            {{ flight.ArrivalTime | date:'short' }}
+          </p>
+
+          <p class="card-text">
+            Business: ₹{{ flight.BusinessPrice }}
+          </p>
+
+          <p class="card-text">
+            Economy: ₹{{ flight.EconomyPrice }}
+          </p>
+
+          <p class="card-text">
+            Business Seats: {{ flight.AvailableBusinessSeats }}
+          </p>
+
+          <p class="card-text">
+            Economy Seats: {{ flight.AvailableEconomySeats }}
+          </p>
+
+          <!-- ✅ Buttons -->
+          <div class="d-flex justify-content-between mt-3">
+
+            <!-- ✅ EDIT BUTTON -->
+            <a
+              class="btn btn-secondary"
+              [routerLink]="['/editflight', flight.flightId ?? flight.FlightId]"
+            >
+              Edit
+            </a>
+
+            <!-- ✅ DELETE BUTTON -->
+            <button
+              class="btn btn-danger"
+              (click)="deleteFlight(flight.FlightId)"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+  <!-- ✅ Optional: No Data Message -->
+  <ng-container *ngIf="!flights || flights.length === 0">
+    <div class="col-12 text-center">
+      <p>No flights available.</p>
+    </div>
+  </ng-container>
+
+</div>
