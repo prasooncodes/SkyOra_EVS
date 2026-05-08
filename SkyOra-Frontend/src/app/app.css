@@ -1,0 +1,50 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: #1f3c88;
+  color: #fff;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.brand p {
+  margin: 0.25rem 0 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.app-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.app-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  transition: background 0.2s ease;
+}
+
+.app-nav a:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.app-main {
+  flex: 1;
+  padding: 1.5rem;
+}
