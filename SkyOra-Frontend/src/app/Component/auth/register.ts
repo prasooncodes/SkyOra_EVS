@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { User } from '../../services/user';
+import { UserServices } from '../../services/user';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +21,7 @@ export class RegisterComponent {
   error = '';
   success = '';
 
-  constructor(private userService: User, private router: Router) {}
+  constructor(private userService: UserServices, private router: Router) {}
 
   onSubmit() {
     this.error = '';

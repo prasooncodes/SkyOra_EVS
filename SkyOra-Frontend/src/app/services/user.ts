@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class User {
+export class UserServices {
   private apiUrl = 'https://localhost:7169/api/User';
   private authUrl = 'https://localhost:7169/api/Auth';
 

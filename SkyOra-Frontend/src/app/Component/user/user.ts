@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../services/user';
+import { UserServices } from '../../services/user';
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -8,10 +8,10 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './user.html',
   styleUrl: './user.css',
 })
-export class UserComponent implements OnInit {
+export class User implements OnInit {
   users: any[] = [];
 
-  constructor(private userService: User, private cdr: ChangeDetectorRef) {}
+  constructor(private userService: UserServices, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe({
