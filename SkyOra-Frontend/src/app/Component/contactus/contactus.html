@@ -1,0 +1,96 @@
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="hero-title">Contact Us</h1>
+    <p class="hero-subtitle">We're here to help. Reach out to us anytime.</p>
+  </div>
+</section>
+
+<!-- Connect with us Section -->
+<section class="connect-section">
+  <div class="container">
+    <h2 class="section-heading">Get In Touch</h2>
+    <div class="row">
+      <!-- Social Media Card -->
+      <div class="col-md-4">
+        <div class="contact-card social-card">
+          <div class="card-accent-bottom"></div>
+          <div class="card-icon-large">🌐</div>
+          <h3 class="card-title">Follow Our Social Media</h3>
+          <p class="card-text">Stay updated with the latest news, offers, and travel tips from SkyOra.</p>
+          <div class="social-icons">
+            <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link" title="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Number Card -->
+      <div class="col-md-4">
+        <div class="contact-card phone-card">
+          <div class="card-accent-bottom"></div>
+          <div class="card-icon-large">📞</div>
+          <h3 class="card-title">24x7 SkyOra Care</h3>
+          <div class="city-selector">
+            <label for="city-select">Select City:</label>
+            <select id="city-select" [(ngModel)]="selectedCity" (change)="updatePhone()" class="country-dropdown">
+              <option value="Delhi">Delhi</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Bangalore">Bangalore</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Kolkata">Kolkata</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="Pune">Pune</option>
+              <option value="Ahmedabad">Ahmedabad</option>
+              <option value="Jaipur">Jaipur</option>
+              <option value="Surat">Surat</option>
+              <option value="Lucknow">Lucknow</option>
+              <option value="Kanpur">Kanpur</option>
+              <option value="Nagpur">Nagpur</option>
+              <option value="Indore">Indore</option>
+              <option value="Thane">Thane</option>
+              <option value="Bhopal">Bhopal</option>
+              <option value="Visakhapatnam">Visakhapatnam</option>
+              <option value="Patna">Patna</option>
+              <option value="Vadodara">Vadodara</option>
+              <option value="Ghaziabad">Ghaziabad</option>
+            </select>
+          </div>
+          <h2 class="phone-number">{{ phoneNumber }}</h2>
+          <p class="card-text">For any queries or assistance, reach our support team anytime.</p>
+        </div>
+      </div>
+
+      <!-- Email Contact Card -->
+      <div class="col-md-4">
+        <div class="contact-card email-card">
+          <div class="card-accent-bottom"></div>
+          <div class="card-icon-large">✉️</div>
+          <h3 class="card-title">Send us an Email</h3>
+          <p class="card-text">Have questions or feedback? Drop us a message and we'll get back to you.</p>
+
+          <form class="email-form" (ngSubmit)="sendEmail()" #emailForm="ngForm">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Your Name" [(ngModel)]="contactForm.name" name="name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Your Email" [(ngModel)]="contactForm.email" name="email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Subject" [(ngModel)]="contactForm.subject" name="subject" required>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" rows="3" placeholder="Your Message" [(ngModel)]="contactForm.message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="btn-send-email" [disabled]="!emailForm.form.valid">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

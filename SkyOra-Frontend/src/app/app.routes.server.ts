@@ -2,6 +2,26 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
   {
+    path: 'editflight/:id',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'users',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'flights',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'bookings',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'addflight',
+    renderMode: RenderMode.Server
+  },
+  {
     path: '**',
     renderMode: RenderMode.Prerender
   }
