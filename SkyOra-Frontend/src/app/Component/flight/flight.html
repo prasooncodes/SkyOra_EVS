@@ -1,102 +1,81 @@
-<!-- ✅ Top Header Row -->
-<div class="row mb-3 align-items-center">
-  
-  <!-- ✅ Left: Heading -->
-  <div class="col-md-6">
-    <h2>Flight Details</h2>
-  </div>
-
-  <!-- ✅ Right: Add Flight Button -->
-  <div class="col-md-6 text-end">
-    <a class="btn btn-success" [routerLink]="['/addflight']">
-      Add Flight
+<div class="flight-portal-wrapper">
+  <!-- ✅ Top Header Row -->
+  <div class="portal-header d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="brand-text">Active Flight Routes</h2>
+      <p class="subtitle text-muted">Manage your fleet and scheduled departures.</p>
+    </div>
+    <a class="btn btn-akasa-orange shadow-sm" [routerLink]="['/addflight']">
+      + Add New Flight
     </a>
   </div>
 
-</div>
-
-<!-- ✅ Flight Cards -->
-<div class="row">
-
-  <!-- ✅ Render only when data exists -->
-  <ng-container *ngIf="flights && flights.length > 0">
-
-    <div
-      class="col-md-4 mb-3"
-      *ngFor="let flight of flights; trackBy: trackByFlightId"
-    >
-
-      <div class="card shadow-sm h-100">
-        <div class="card-body">
-
-          <h5 class="card-title text-primary">
-            ✈️ {{ flight.FlightNo }}
-          </h5>
-
-          <p class="card-text">
-            <strong>Route:</strong>
-            {{ flight.Source }} → {{ flight.Destination }}
-          </p>
-
-          <p class="card-text">
-            <strong>Departure:</strong>
-            {{ flight.DepartureTime | date:'short' }}
-          </p>
-
-          <p class="card-text">
-            <strong>Arrival:</strong>
-            {{ flight.ArrivalTime | date:'short' }}
-          </p>
-
-          <p class="card-text">
-            Business: ₹{{ flight.BusinessPrice }}
-          </p>
-
-          <p class="card-text">
-            Economy: ₹{{ flight.EconomyPrice }}
-          </p>
-
-          <p class="card-text">
-            Business Seats: {{ flight.AvailableBusinessSeats }}
-          </p>
-
-          <p class="card-text">
-            Economy Seats: {{ flight.AvailableEconomySeats }}
-          </p>
-
-          <!-- ✅ Buttons -->
-          <div class="d-flex justify-content-between mt-3">
-
-            <!-- ✅ EDIT BUTTON -->
-            <a
-              class="btn btn-secondary"
-              [routerLink]="['/editflight', flight.flightId ?? flight.FlightId]"
-            >
-              Edit
-            </a>
-
-            <!-- ✅ DELETE BUTTON -->
-            <button
-              class="btn btn-danger"
-              (click)="deleteFlight(flight.FlightId)"
-            >
-              Delete
-            </button>
-
+  <!-- ✅ Flight List Container -->
+  <div class="flight-list">
+    @for (flight of flights; track flight.FlightId) {
+      <div class="flight-ticket-card shadow-sm">
+        <!-- Brand accent line at the top -->
+        <div class="accent-line"></div>
+        
+        <div class="card-content d-flex align-items-center flex-wrap">
+          
+          <!-- Section 1: Flight No & Icon -->
+          <div class="flight-main-info col-md-2">
+             <img src="https://akasaair.com" 
+                  alt="Akasa Air" class="airline-logo-sm">
+            <span class="flight-no">{{ flight.FlightNo }}</span>
           </div>
 
+          <!-- Section 2: Route & Timeline -->
+          <div class="flight-timeline col-md-5 d-flex align-items-center justify-content-center">
+            <div class="time-block text-start">
+              <span class="city-code">{{ flight.Source.substring(0,3).toUpperCase() }}</span>
+              <span class="time">{{ flight.DepartureTime | date:'HH:mm' }}</span>
+              <span class="date">{{ flight.DepartureTime | date:'EEE, d MMM' }}</span>
+            </div>
+            
+            <div class="duration-line mx-4 flex-grow-1">
+              <div class="line"></div>
+              <span class="plane-icon">✈</span>
+            </div>
+
+            <div class="time-block text-end">
+              <span class="city-code">{{ flight.Destination.substring(0,3).toUpperCase() }}</span>
+              <span class="time">{{ flight.ArrivalTime | date:'HH:mm' }}</span>
+              <span class="date">{{ flight.ArrivalTime | date:'EEE, d MMM' }}</span>
+            </div>
+          </div>
+
+          <!-- Section 3: Pricing & Availability -->
+          <div class="pricing-info col-md-3 d-flex flex-column align-items-end px-4 border-start">
+            <div class="price-row mb-2">
+              <span class="class-label">Economy</span>
+              <span class="price-value">₹{{ flight.EconomyPrice }}</span>
+              <span class="seats-left">{{ flight.AvailableEconomySeats }} seats left</span>
+            </div>
+            <div class="price-row">
+              <span class="class-label">Business</span>
+              <span class="price-value business">₹{{ flight.BusinessPrice }}</span>
+              <span class="seats-left">{{ flight.AvailableBusinessSeats }} seats left</span>
+            </div>
+          </div>
+
+          <!-- Section 4: Management Actions -->
+          <div class="actions col-md-2 d-flex flex-column gap-2">
+            <a class="btn-action edit" [routerLink]="['/editflight', flight.flightId ?? flight.FlightId]">
+              Modify
+            </a>
+            <button class="btn-action delete" (click)="deleteFlight(flight.FlightId)">
+              Remove
+            </button>
+          </div>
         </div>
       </div>
-
-    </div>
-
-  </ng-container>
-
-  <!-- ✅ Optional: No Data Message -->
-  <ng-container *ngIf="!flights || flights.length === 0">
-    <div class="col-12 text-center">
-      <p>No flights available.</p>
-    </div>
-  </ng-container>
-
+    } @empty {
+      <div class="empty-state text-center py-5">
+        <div class="empty-icon">☁️</div>
+        <p>No flights currently scheduled.</p>
+      </div>
+    }
+  </div>
 </div>
