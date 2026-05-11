@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserServices } from '../../services/user';
 import { ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './user.html',
   styleUrl: './user.css',
 })

@@ -1,0 +1,129 @@
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+  --soft-gray: #f4f7f6;
+  --text-main: #2d2d2d;
+}
+
+.user-portal-wrapper {
+  padding: 40px;
+  background-color: var(--soft-gray);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-header h2 {
+  color: var(--akasa-purple);
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+
+.page-header p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* Card Styling */
+.user-card {
+  background: #ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-accent {
+  height: 6px;
+  background: linear-gradient(90deg, var(--akasa-orange), var(--akasa-purple));
+}
+
+.card-body {
+  padding: 25px;
+  text-align: center;
+}
+
+.user-avatar {
+  width: 60px;
+  height: 60px;
+  background: var(--akasa-purple);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 15px;
+}
+
+.user-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-main);
+}
+
+.user-role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #eee;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+/* Highlight roles with brand colors */
+.user-role-badge.admin { background: #ffe9d9; color: var(--akasa-orange); }
+
+.details-list {
+  margin: 20px 0;
+  text-align: left;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.detail-item .label {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.detail-item .value {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-main);
+}
+
+.view-btn {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--akasa-purple);
+  background: transparent;
+  color: var(--akasa-purple);
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.view-btn:hover {
+  background: var(--akasa-purple);
+  color: white;
+}
