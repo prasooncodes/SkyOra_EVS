@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
+import { User } from './Component/user/user';
 import { UserServices } from './services/user';
 import { Flight } from './Component/flight/flight';
 import { Welcome } from './Component/welcome/welcome';
 import { Booking } from './Component/booking/booking';
 import { FlightAdd } from './Component/flight-add/flight-add';
 import { FlightEdit } from './Component/flight-edit/flight-edit';
-import { User } from './Component/user/user';
 import { RegisterComponent } from './Component/auth/register';
 import { LoginComponent } from './Component/auth/login';
 
