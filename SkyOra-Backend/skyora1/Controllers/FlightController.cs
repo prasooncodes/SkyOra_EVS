@@ -38,6 +38,20 @@ namespace skyora1.Controllers
                 return NotFound(ex.Message);
             }
         }
+        [HttpGet("search")]
+        public async Task<IActionResult> GetFlightsByRoute(string source, string destination)
+        {
+            try
+            {
+                var flights = await _flightRepository.GetFlightsByRouteAsync(source, destination);
+                return Ok(flights);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddFlight(FlightDto flight)
