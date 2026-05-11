@@ -37,7 +37,7 @@ export class Flight implements OnInit {
     if (confirm('Are you sure you want to delete this flight?')) {
       this.flightService.deleteFlight(flightId).subscribe((result: number) => {
 
-        if (result > 0)
+        if (result!=null)
           alert('Flight deleted successfully!');
         else
           alert('Failed to delete flight!');

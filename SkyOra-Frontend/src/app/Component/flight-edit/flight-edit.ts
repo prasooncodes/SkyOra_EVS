@@ -75,25 +75,24 @@ export class FlightEdit implements OnInit {
       Destination: formValue.destination,
       DepartureTime: formValue.departureTime,
       ArrivalTime: formValue.arrivalTime,
-
       TotalBusinessSeats: Number(formValue.totalBusinessSeats),
       TotalEconomySeats: Number(formValue.totalEconomySeats),
       AvailableBusinessSeats: Number(formValue.availableBusinessSeats),
       AvailableEconomySeats: Number(formValue.availableEconomySeats),
-
       BusinessPrice: Number(formValue.businessPrice),
       EconomyPrice: Number(formValue.economyPrice)
     };
 
-    const formData = new FormData();
-    Object.keys(updatedFlight).forEach(key => {
-      formData.append(key, (updatedFlight as any)[key]);
-    });
-
-    this.flightService.editFlight(this.flightId, formData)
-      .subscribe(() => {
-        alert('Flight Updated Successfully');
-        this.router.navigate(['/flights']);
+    this.flightService.editFlight(this.flightId, updatedFlight)
+      .subscribe({
+        next: () => {
+          alert('Flight Updated Successfully');
+          this.router.navigate(['/flights']);
+        },
+        error: (err) => {
+          console.error('Update flight error', err);
+          alert('Unable to update flight. Check browser console for details.');
+        }
       });
   }
 

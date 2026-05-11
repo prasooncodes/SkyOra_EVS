@@ -24,15 +24,15 @@ export class FlightService {
     return this.http.get<FlightInterface>(`${this.apiurl}/${id}`);
   }
 
-  addFlight(formdata: FormData): Observable<FlightInterface> {
-    return this.http.post<FlightInterface>(this.apiurl, formdata);
+  addFlight(flight: any): Observable<any> {
+    return this.http.post<any>(this.apiurl, flight);
   }
   
   deleteFlight(id: number): Observable<number> {
     return this.http.delete<number>(`${this.apiurl}/${id}`);
   }
   
-  editFlight(id: number, formdata: any): Observable<any> {
-    return this.http.put<FlightInterface>(`${this.apiurl}/${id}`, formdata);
+  editFlight(id: number, flight: any): Observable<any> {
+    return this.http.put<any>(`${this.apiurl}/${id}`, flight);
   }
 }
