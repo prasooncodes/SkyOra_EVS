@@ -15,6 +15,10 @@ namespace skyora1.Repository
         }
         public async Task<int> AddBooking(BookingDto booking)
         {
+            var flightExists = await appDbContext.flights.AnyAsync(f => f.FlightId == booking.FlightId);
+            if (!flightExists) throw new Exception("Flight with the specified ID does not exist.");
+
+
             var book= new Booking
             {
                 UserId = booking.UserId,
@@ -25,7 +29,7 @@ namespace skyora1.Repository
             };
             await appDbContext.bookings.AddAsync(book);
             await appDbContext.SaveChangesAsync();
-            return booking.BookingId;
+            return book.BookingId;
 
         }
 

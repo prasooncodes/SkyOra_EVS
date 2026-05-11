@@ -14,7 +14,7 @@ import { UserServices } from '../../services/user';
 export class LoginComponent {
   email = '';
   password = '';
-  confirmpassword = '';
+  confirmPassword = '';
   error = '';
 
   constructor(private userService: UserServices, private router: Router) {}
@@ -27,7 +27,7 @@ export class LoginComponent {
       return;
     }
 
-    if (this.password !== this.confirmpassword) {
+    if (this.password !== this.confirmPassword) {
       this.error = 'Password and confirm password do not match.';
       return;
     }
@@ -37,8 +37,9 @@ export class LoginComponent {
 
     this.userService.login(payload).subscribe({
       next: (token: string) => {
-        console.log('Login token received:', token);
-        localStorage.setItem('auth_token', token);
+        const cleanToken = token.replace(/^"|"$/g, '');
+        console.log('Login token received:', cleanToken);
+        localStorage.setItem('auth_token', cleanToken);
         this.router.navigate(['/users']);
       },
       error: (err : any) => {

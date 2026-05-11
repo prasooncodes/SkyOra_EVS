@@ -47,7 +47,7 @@ namespace skyora1.Controllers
 
             var token = IssueToken(user);
 
-            return Ok(token);
+            return Content(token, "text/plain");
         }
         private string IssueToken(User user)
         {
@@ -58,6 +58,7 @@ namespace skyora1.Controllers
             var claims = new List<Claim>
             {
 
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim("Myapp_User_Id", user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
