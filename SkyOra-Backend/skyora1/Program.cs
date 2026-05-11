@@ -55,7 +55,7 @@ namespace skyora1
                    };
                });
 
-            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
 
             builder.Services.AddCors(options =>
             {

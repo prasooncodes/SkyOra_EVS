@@ -1,16 +1,23 @@
 export interface FlightInterface {
-  flightId: number;
-  flightNo: string;
-  source: string;
-  destination: string;
-  departureTime: Date;
-  arrivalTime: Date;
+  FlightId: number;
+  FlightNo: string;
+  Source: string;
+  Destination: string;
+  DepartureTime: Date;
+  ArrivalTime: Date;
 
-  totalBusinessSeats: number;
-  totalEconomySeats: number;
-  availableBusinessSeats: number;
-  availableEconomySeats: number;
+  TotalBusinessSeats: number;
+  TotalEconomySeats: number;
+  AvailableBusinessSeats: number;
+  AvailableEconomySeats: number;
 
-  businessPrice: number;
-  economyPrice: number;
+  BusinessPrice: number;
+  EconomyPrice: number;
+
+  flightId?: number;
+  flightNo?: string;
+  source?: string;
+  destination?: string;
+  businessPrice?: number;
+  economyPrice?: number;
 }

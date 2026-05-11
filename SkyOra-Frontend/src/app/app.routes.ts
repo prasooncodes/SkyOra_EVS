@@ -8,6 +8,7 @@ import { FlightAdd } from './Component/flight-add/flight-add';
 import { FlightEdit } from './Component/flight-edit/flight-edit';
 import { RegisterComponent } from './Component/auth/register';
 import { LoginComponent } from './Component/auth/login';
+import { BookFlight } from './Component/book-flight/book-flight';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -15,6 +16,9 @@ export const routes: Routes = [
     { path: 'users', component: User },
     { path: 'flights', component: Flight },
     { path: 'bookings', component: Booking },
+    { path: 'bookings/create', component: BookFlight },
+    { path: 'bookflight', component: BookFlight },
+    { path: 'bookflight/:id', component: BookFlight },
     { path: 'addflight', component: FlightAdd },
     {path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent },
