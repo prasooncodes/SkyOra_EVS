@@ -1,0 +1,64 @@
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+  --bg-soft: #f4f7f9;
+}
+
+.flight-portal-wrapper {
+  padding: 40px;
+  background-color: var(--bg-soft);
+  min-height: 100vh;
+}
+
+.brand-text { color: var(--akasa-purple); font-weight: 800; }
+
+/* Ticket Strip Design */
+.flight-ticket-card {
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  border: 1px solid #e0e6ed;
+  transition: transform 0.2s ease;
+}
+
+.flight-ticket-card:hover { transform: translateY(-3px); }
+
+.accent-line { height: 5px; background: linear-gradient(90deg, var(--akasa-orange), var(--akasa-purple)); }
+
+.card-content { padding: 25px; }
+
+.airline-logo-sm { height: 18px; margin-bottom: 5px; display: block; }
+.flight-no { font-weight: 800; color: #444; font-size: 1.1rem; }
+
+/* Timeline UI */
+.time-block .city-code { display: block; font-weight: 800; font-size: 1.2rem; color: var(--akasa-purple); }
+.time-block .time { display: block; font-size: 1.5rem; font-weight: 700; color: #222; }
+.time-block .date { font-size: 0.8rem; color: #888; }
+
+.duration-line { position: relative; text-align: center; min-width: 80px; }
+.duration-line .line { height: 2px; background: #d1d5db; width: 100%; position: absolute; top: 50%; }
+.duration-line .plane-icon { position: relative; background: white; padding: 0 8px; color: var(--akasa-orange); z-index: 2; }
+
+/* Pricing Rows */
+.price-row { text-align: right; width: 100%; }
+.class-label { font-size: 0.75rem; color: #888; text-transform: uppercase; margin-right: 10px; }
+.price-value { font-weight: 800; font-size: 1.1rem; color: #333; }
+.price-value.business { color: var(--akasa-purple); }
+.seats-left { display: block; font-size: 0.7rem; color: #dc3545; font-weight: 600; }
+
+/* Management Buttons */
+.btn-akasa-orange { background: var(--akasa-orange); color: white; border-radius: 30px; padding: 10px 25px; font-weight: 700; border: none; }
+
+.btn-action {
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.btn-action.edit { background: #f0f2f5; color: #4b5563; }
+.btn-action.delete { background: #fff5f5; color: #c53030; }
+.btn-action:hover { opacity: 0.8; }

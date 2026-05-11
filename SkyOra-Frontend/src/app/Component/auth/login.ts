@@ -41,7 +41,7 @@ export class LoginComponent {
         localStorage.setItem('auth_token', token);
         this.router.navigate(['/users']);
       },
-      error: (err) => {
+      error: (err : any) => {
         console.error('Login error response:', err);
         this.error =
           err?.error ||

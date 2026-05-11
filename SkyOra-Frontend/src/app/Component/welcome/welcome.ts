@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './welcome.html',
-  styleUrl: './welcome.css',
+  styleUrls: ['./welcome.css'],
 })
 export class Welcome {
 
