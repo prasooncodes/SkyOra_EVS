@@ -9,37 +9,56 @@
       <div class="user-card">
         <div class="card-accent"></div>
         <div class="card-body">
-          <div class="user-avatar">
-            {{ (user.UserName || user.Name || 'U').substring(0,1).toUpperCase() }}
-          </div>
-          <div class="user-info">
-            <h3>{{ user.UserName || user.Name || user.Username || 'Guest User' }}</h3>
-            <span class="user-role-badge" [ngClass]="user.Role?.toLowerCase()">
-              {{ user.Role || 'Standard' }}
-            </span>
-          </div>
           
-          <div class="details-list">
-            <div class="detail-item">
-              <span class="label">ID</span>
-              <span class="value">#{{ user.UserId || user.Id || user.id }}</span>
+          <!-- ✅ VIEW MODE -->
+          @if (editingUser?.userId !== user.userId && editingUser?.UserId !== user.UserId) {
+            <div class="user-avatar">
+              {{ (user.UserName || user.Name || 'U').substring(0,1).toUpperCase() }}
             </div>
-            <div class="detail-item">
-              <span class="label">Email</span>
-              <span class="value">{{ user.Email || user.email || 'N/A' }}</span>
+            <div class="user-info">
+              <h3>{{ user.UserName || user.Name || 'Guest User' }}</h3>
+              <span class="user-role-badge" [ngClass]="user.Role?.toLowerCase()">
+                {{ user.Role || 'Standard' }}
+              </span>
             </div>
-            <div class="detail-item">
-              <span class="label">Age</span>
-              <span class="value">{{ user.Age || user.age || 'N/A' }} yrs</span>
+            
+            <div class="details-list">
+              <div class="detail-item">
+                <span class="label">Email</span>
+                <span class="value">{{ user.Email || user.email }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Age</span>
+                <span class="value">{{ user.Age || user.age }} yrs</span>
+              </div>
             </div>
-          </div>
+            <button class="view-btn" (click)="openEdit(user)">Manage Account</button>
+            <button class="delete-icon-btn" (click)="onDeleteUser(user.UserId || user.userId, user.Name || user.UserName)"
+              title="Delete Traveler">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+          } 
           
-          <button class="view-btn">Manage Account</button>
+          <!-- ✅ EDIT MODE -->
+          @else {
+            <div class="edit-form">
+              <h4 class="text-purple mb-3">Edit Profile</h4>
+              <div class="mb-2">
+                <label class="small text-muted">Full Name</label>
+                <input type="text" [(ngModel)]="editingUser.Name" class="form-control form-control-sm">
+              </div>
+              <div class="mb-3">
+                <label class="small text-muted">Age</label>
+                <input type="number" [(ngModel)]="editingUser.Age" class="form-control form-control-sm">
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-save btn-sm flex-grow-1" (click)="onSave()">Save</button>
+                <button class="btn btn-light btn-sm" (click)="closeEdit()">Cancel</button>
+              </div>
+            </div>
+          }
+
         </div>
-      </div>
-    } @empty {
-      <div class="empty-state">
-        <p>No travelers found. Start by adding a new user.</p>
       </div>
     }
   </div>

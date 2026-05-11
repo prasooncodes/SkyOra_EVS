@@ -18,6 +18,18 @@ export class UserServices {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
+  editUser(id: number, user: { name: string; age: number }) {
+    const payload = {
+      Name: user.name,
+      Age: user.age,
+    };
+    return this.http.put(`${this.apiUrl}/${id}`, payload);
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
   login(credentials: { email: string; password: string }) {
     const payload = {
       email: credentials.email,

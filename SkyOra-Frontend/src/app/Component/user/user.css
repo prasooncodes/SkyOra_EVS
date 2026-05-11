@@ -127,3 +127,20 @@
   background: var(--akasa-purple);
   color: white;
 }
+
+.delete-icon-btn {
+  background: #fff0f0; /* Light red background */
+  color: #dc3545;     /* Dark red icon */
+  border: 1px solid #ffcccc;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1.2rem;   /* Makes the icon bigger */
+  transition: all 0.3s;
+}
+
+.delete-icon-btn:hover {
+  background: #dc3545;
+  color: white;
+  transform: scale(1.1);
+}
+
