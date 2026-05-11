@@ -16,5 +16,7 @@ namespace skyora1.DAL
         public DbSet<Flight> flights { get; set; }
         public DbSet<Booking> bookings { get; set; }
         public DbSet<Passenger> passengers { get; set; }
-    }
+        public DbSet<Feedback> feedbacks { get; set; }
+        public DbSet<Messages> messages { get; set; }
+        }
 }

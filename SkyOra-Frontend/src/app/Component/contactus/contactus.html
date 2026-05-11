@@ -85,9 +85,10 @@
             <div class="form-group">
               <textarea class="form-control" rows="3" placeholder="Your Message" [(ngModel)]="contactForm.message" name="message" required></textarea>
             </div>
-            <button type="submit" class="btn-send-email" [disabled]="!emailForm.form.valid">
+            <button type="submit" class="btn-send-email" [disabled]="!emailForm.form.valid || isSubmitting">
               Send Message
             </button>
+            <div class="contact-status" *ngIf="statusMessage">{{ statusMessage }}</div>
           </form>
         </div>
       </div>

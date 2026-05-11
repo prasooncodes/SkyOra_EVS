@@ -10,6 +10,7 @@ import { RegisterComponent } from './Component/auth/register';
 import { LoginComponent } from './Component/auth/login';
 import { Aboutus } from './Component/aboutus/aboutus';
 import { Contactus } from './Component/contactus/contactus';
+import { Feedback } from './Component/feedback/feedback';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'editflight/:id', component: FlightEdit },
     {path:'about', component:Aboutus},
+    {path:'feedback', component:Feedback},
     {path:'contact',component:Contactus}
 ];

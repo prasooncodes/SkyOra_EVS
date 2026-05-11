@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MessageService } from '../../services/messages';
 
 @Component({
   selector: 'app-contactus',
@@ -12,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 export class Contactus {
   selectedCity: string = 'Delhi';
   phoneNumber: string = '+91 9606 11 21 31';
+  statusMessage = '';
+  isSubmitting = false;
 
   contactForm = {
     name: '',
@@ -19,6 +22,8 @@ export class Contactus {
     subject: '',
     message: ''
   };
+
+  constructor(private messageService: MessageService) {}
 
   updatePhone() {
     const numbers: any = {
@@ -47,21 +52,35 @@ export class Contactus {
   }
 
   sendEmail() {
-    if (this.contactForm.name && this.contactForm.email && this.contactForm.subject && this.contactForm.message) {
-      // Here you would typically send the email to your backend
-      console.log('Sending email:', this.contactForm);
-
-      // For now, just show a success message
-      alert('Thank you for your message! We\'ll get back to you soon.');
-
-      // Reset the form
-      this.contactForm = {
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      };
+    if (!this.contactForm.name || !this.contactForm.email || !this.contactForm.subject || !this.contactForm.message) {
+      this.statusMessage = 'Please fill in all fields before sending your message.';
+      return;
     }
+
+    this.isSubmitting = true;
+    this.statusMessage = '';
+
+    this.messageService.submitMessage({
+      Name: this.contactForm.name,
+      Email: this.contactForm.email,
+      Subject: this.contactForm.subject,
+      Message: this.contactForm.message,
+    }).subscribe({
+      next: () => {
+        this.statusMessage = 'Thank you for your message! We\'ll get back to you soon.';
+        this.contactForm = {
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        };
+        this.isSubmitting = false;
+      },
+      error: () => {
+        this.statusMessage = 'Unable to send your message. Please try again later.';
+        this.isSubmitting = false;
+      }
+    });
   }
 }
 

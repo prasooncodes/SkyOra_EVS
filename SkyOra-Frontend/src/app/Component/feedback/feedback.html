@@ -1,0 +1,45 @@
+<div class="feedback-container">
+  <div class="feedback-card">
+    <h2>Feedback</h2>
+    <p>Share your thoughts with the SkyOra team. We value your username and feedback.</p>
+
+    <ng-container *ngIf="!submitted; else thanksState">
+      <form class="feedback-form" (ngSubmit)="submit()" #feedbackForm="ngForm">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          [(ngModel)]="username"
+          required
+          placeholder="Enter your name"
+        />
+
+        <label for="comments">Comments</label>
+        <textarea
+          id="comments"
+          name="comments"
+          rows="5"
+          [(ngModel)]="comments"
+          required
+          placeholder="Write your feedback here"
+        ></textarea>
+
+        <button type="submit">
+          Submit Feedback
+        </button>
+
+        <div class="status-message" [class.error]="message.includes('Unable') || message.includes('Please')">
+          {{ message }}
+        </div>
+      </form>
+    </ng-container>
+
+    <ng-template #thanksState>
+      <div class="thank-you-panel">
+        <p class="thank-you-copy">Thank you for your valuable feedback</p>
+        <a class="about-button" routerLink="/about">Go to About Us</a>
+      </div>
+    </ng-template>
+  </div>
+</div>
