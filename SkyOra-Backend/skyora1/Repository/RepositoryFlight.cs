@@ -68,6 +68,20 @@ namespace skyora1.Repository
             }
             return await flight;
         }
+        public async Task<List<Flight>> GetFlightsByRouteAsync(string source, string destination)
+        {
+            var flights = await _context.flights
+                .Where(f => f.Source.ToLower() == source.ToLower()
+                         && f.Destination.ToLower() == destination.ToLower())
+                .ToListAsync();
+
+            if (!flights.Any())
+            {
+                throw new KeyNotFoundException($"No flights found from {source} to {destination}");
+            }
+
+            return flights;
+        }
 
         public async Task<int> EditFlightAsync(int id, FlightDto flight)
         {
