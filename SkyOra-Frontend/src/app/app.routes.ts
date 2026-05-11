@@ -8,6 +8,8 @@ import { FlightAdd } from './Component/flight-add/flight-add';
 import { FlightEdit } from './Component/flight-edit/flight-edit';
 import { RegisterComponent } from './Component/auth/register';
 import { LoginComponent } from './Component/auth/login';
+import { Aboutus } from './Component/aboutus/aboutus';
+import { Contactus } from './Component/contactus/contactus';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -18,5 +20,7 @@ export const routes: Routes = [
     { path: 'addflight', component: FlightAdd },
     {path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent },
-    { path: 'editflight/:id', component: FlightEdit }
+    { path: 'editflight/:id', component: FlightEdit },
+    {path:'about', component:Aboutus},
+    {path:'contact',component:Contactus}
 ];
