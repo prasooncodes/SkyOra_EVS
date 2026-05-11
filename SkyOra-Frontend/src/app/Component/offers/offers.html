@@ -1,0 +1,38 @@
+<section class="offers-container">
+  <div class="offers-hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Exclusive deals</span>
+      <h2>Offers crafted for every traveler</h2>
+      <p>Discover curated fares, premium hotel deals, bank savings and limited-time specials — all designed to make your next journey more rewarding.</p>
+    </div>
+    <div class="hero-badge">
+      <div class="badge-icon">✨</div>
+      <div>
+        <p>Hot savings</p>
+        <strong>Up to 25% off</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="offers-tabs">
+    <button [ngClass]="{'active': activeTab === 'flights'}" (click)="setActiveTab('flights')">Flight Offers</button>
+    <button [ngClass]="{'active': activeTab === 'special'}" (click)="setActiveTab('special')">Special Fares</button>
+    <button [ngClass]="{'active': activeTab === 'bank'}" (click)="setActiveTab('bank')">Bank Offers</button>
+    <button [ngClass]="{'active': activeTab === 'hotel'}" (click)="setActiveTab('hotel')">Hotel Offers</button>
+  </div>
+
+  <div class="offers-grid">
+    <div class="offer-card" *ngFor="let offer of currentOffers">
+      <div class="card-top">
+        <div class="offer-icon">{{ offer.icon }}</div>
+        <span class="offer-badge">Best Value</span>
+      </div>
+      <h3>{{ offer.title }}</h3>
+      <p>{{ offer.desc }} <strong>{{ offer.code }}</strong></p>
+      <div class="card-footer">
+        <a href="javascript:void(0)" class="details-link">View details</a>
+        <button class="book-btn">Book Now</button>
+      </div>
+    </div>
+  </div>
+</section>

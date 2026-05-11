@@ -11,6 +11,8 @@ import { LoginComponent } from './Component/auth/login';
 import { BookFlight } from './Component/book-flight/book-flight';
 import { Aboutus } from './Component/aboutus/aboutus';
 import { Contactus } from './Component/contactus/contactus';
+import { Offers } from './Component/offers/offers';
+import { Addons } from './Component/addons/addons';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -26,5 +28,7 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'editflight/:id', component: FlightEdit },
     {path:'about', component:Aboutus},
-    {path:'contact',component:Contactus}
+    {path:'contact',component:Contactus},
+    {path:'offers',component:Offers},
+    {path:'addons',component:Addons}
 ];
