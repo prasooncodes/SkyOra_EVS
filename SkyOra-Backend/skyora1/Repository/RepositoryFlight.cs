@@ -109,5 +109,15 @@ namespace skyora1.Repository
                 throw new KeyNotFoundException($"Flight with ID {id} not found.");
             }
         }
+
+        public async Task<List<string>> GetOperationalCitiesAsync()
+        {
+            var source = await _context.flights.Select(f => f.Source).Distinct().ToListAsync();
+            var destination = await _context.flights.Select(f => f.Destination).Distinct().ToListAsync();
+
+            var operationalCities = source.Union(destination).ToList();
+
+            return operationalCities;
+        }
     }
 }
