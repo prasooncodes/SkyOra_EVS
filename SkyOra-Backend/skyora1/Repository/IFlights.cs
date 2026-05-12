@@ -11,6 +11,7 @@ namespace skyora1.Repository
         Task<int> EditFlightAsync(int id,FlightDto flight);
         Task<int> DeleteFlightAsync(int id);
         Task<List<Flight>> GetFlightsByRouteAsync(string source, string destination);
+        Task<List<string>> GetOperationalCitiesAsync();
 
     }
 }

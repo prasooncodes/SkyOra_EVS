@@ -29,6 +29,8 @@ namespace skyora1
             builder.Services.AddScoped<IFlights, RepositoryFlight>();
             builder.Services.AddScoped<IUser,RepositoryUser>();
             builder.Services.AddScoped<IUserLogin,UserLoginRepository>();
+            builder.Services.AddScoped<IFeedback, RepositoryFeedback>();
+            builder.Services.AddScoped<IMessage, RepositoryMessage>();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
@@ -48,7 +50,7 @@ namespace skyora1
                        ValidAudience = builder.Configuration["Jwt:Audience"],
 
                        IssuerSigningKey = new SymmetricSecurityKey(
-                           Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+                           Convert.FromBase64String(builder.Configuration["Jwt:Key"])
                        ),
 
                        RoleClaimType = ClaimTypes.Role

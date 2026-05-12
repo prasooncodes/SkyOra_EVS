@@ -1,0 +1,39 @@
+<div class="network-split-container">
+  
+  <!-- 60% Connections Info Side -->
+  <div class="connections-side">
+    <div class="content-padding">
+      <h1 class="brand-title">SkyOra <span class="highlight">Connections</span></h1>
+      <p class="brand-subtitle">Expanding horizons, one city at a time.</p>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-num">{{ operationalCities.length }}</span>
+          <span class="stat-label">Active Hubs</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">Tier 1 & 2</span>
+          <span class="stat-label">Connectivity</span>
+        </div>
+      </div>
+
+      <div class="city-chips-container">
+        <h4 class="section-title">Where we fly</h4>
+        <div class="chips-wrapper">
+          @for (city of operationalCities; track city) {
+            <span class="city-chip">
+              <i class="dot"></i> {{ city }}
+            </span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 40% Map Side -->
+  <div class="map-side">
+    <div id="map"></div>
+    <div class="map-overlay-label">Live Network Map</div>
+  </div>
+
+</div>

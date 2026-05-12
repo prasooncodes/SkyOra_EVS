@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink, RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-aboutus',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterOutlet],
   templateUrl: './aboutus.html',
   styleUrl: './aboutus.css',
 })
