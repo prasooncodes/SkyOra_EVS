@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BookingService } from '../../services/booking';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-booking',
   standalone: true, 
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './booking.html',
   styleUrl: './booking.css',
 })

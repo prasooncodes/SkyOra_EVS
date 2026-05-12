@@ -1,0 +1,23 @@
+<div class="mails-wrapper">
+	<div class="mails-card">
+		<div class="mails-header">
+			<h2>Messages</h2>
+			<p class="muted">Incoming messages from contact forms and users.</p>
+		</div>
+
+		<div *ngIf="messages.length === 0" class="muted">No messages yet.</div>
+
+		<ul class="mails-list" *ngIf="messages.length > 0">
+			<li *ngFor="let m of messages" class="mail-item card-sm">
+				<div class="mail-top">
+					<div class="mail-from">
+						<strong>{{ m.Name || m.name || m.From || 'Unknown' }}</strong>
+						<span class="mail-email">{{ m.Email || m.email }}</span>
+					</div>
+					<div class="mail-meta">{{ m.Subject || m.subject }}</div>
+				</div>
+				<div class="mail-body">{{ m.Message || m.message || m.Body }}</div>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+<div class="display-feedback-wrapper">
+	<div class="display-feedback-card">
+		<header class="df-header">
+			<h2>Feedbacks</h2>
+			<p class="muted">Messages submitted by users through the feedback form.</p>
+		</header>
+
+		<div *ngIf="feedbacks.length === 0" class="muted">No feedbacks to display.</div>
+
+		<ul class="df-list" *ngIf="feedbacks.length > 0">
+			<li *ngFor="let f of feedbacks" class="df-item card-sm">
+				<div class="df-top">
+					<div class="df-user">
+						<span class="df-name">{{ f.UserName || f.userName || 'Anonymous' }}</span>
+						<span class="df-sep">•</span>
+						<span class="df-email">{{ f.Email || f.email || '' }}</span>
+					</div>
+					<div class="df-date">{{ f.CreatedAt || f.createdAt || f.Date || '' }}</div>
+				</div>
+				<div class="df-body">{{ f.Comments || f.comments || f.Message }}</div>
+			</li>
+		</ul>
+	</div>
+</div>
