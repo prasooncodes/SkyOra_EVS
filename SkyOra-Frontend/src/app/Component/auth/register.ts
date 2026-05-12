@@ -18,6 +18,7 @@ export class RegisterComponent {
   role = '';
   email = '';
   password = '';
+  confirmPassword = '';
   error = '';
   success = '';
 
@@ -27,8 +28,13 @@ export class RegisterComponent {
     this.error = '';
     this.success = '';
 
-    if (!this.name || !this.age || !this.gender || !this.role || !this.email || !this.password) {
+    if (!this.name || !this.age || !this.gender || !this.role || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'All fields are required.';
+      return;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      this.error = 'Password and confirm password do not match.';
       return;
     }
 

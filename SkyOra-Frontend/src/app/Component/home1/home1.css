@@ -1,0 +1,101 @@
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+}
+
+.welcome-hero {
+  background-image: url('/assets/skyora_welcomeBG.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dark overlay to make white text readable over bright images */
+/* Neutral overlay to preserve original image colors */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Using black with very low opacity (0.2) to maintain natural colors */
+  background: linear-gradient(30deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+  z-index: 1;
+}
+
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900; /* Extra bold for more surface area */
+  color: white;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  
+  /* Layered shadow: first a sharp dark edge, then a soft dark glow */
+  text-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.7), 
+    0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+.highlight {
+  color: var(--akasa-orange);
+}
+
+.hero-subtitle {
+  color: white; /* Changed from 0.9 opacity to pure white for better visibility */
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 2.5rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Akasa Style Buttons */
+.btn-akasa-orange {
+  background-color: var(--akasa-orange);
+  color: white;
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-weight: 700;
+  border: none;
+  transition: transform 0.2s ease;
+}
+
+.btn-akasa-orange:hover {
+  transform: scale(1.05);
+  background-color: #e55900;
+}
+
+.btn-outline-white {
+  border: 2px solid white;
+  color: white;
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-weight: 700;
+  background: transparent;
+}
+
+.btn-outline-white:hover {
+  background: white;
+  color: var(--akasa-purple);
+}
+
+.glass-content-box {
+  background: rgba(0, 0, 0, 0.15); /* Very subtle dark tint */
+  backdrop-filter: blur(8px);       /* Blurs the plane behind the text */
+  -webkit-backdrop-filter: blur(8px);
+  padding: 30px;
+  border-radius: 20px;
+  border-left: 5px solid var(--akasa-orange); /* Adds an Akasa brand accent */
+  display: inline-block;
+}
+

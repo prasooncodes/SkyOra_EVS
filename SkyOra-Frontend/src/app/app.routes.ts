@@ -11,18 +11,17 @@ import { LoginComponent } from './Component/auth/login';
 import { BookFlight } from './Component/book-flight/book-flight';
 import { Aboutus } from './Component/aboutus/aboutus';
 import { Contactus } from './Component/contactus/contactus';
-<<<<<<< HEAD
 import { NetworkComponent } from './Component/my-network/my-network';
-=======
 import { Offers } from './Component/offers/offers';
 import { Addons } from './Component/addons/addons';
 import { Feedback } from './Component/feedback/feedback';
->>>>>>> acb99f11932cfe62eb4009e27ad6e96128360e43
+import { Home1 } from './Component/home1/home1';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
     { path: 'welcome', redirectTo: '', pathMatch: 'full' },
     { path: 'users', component: User },
+    {path:'home1', component:Home1},
     { path: 'flights', component: Flight },
     { path: 'bookings', component: Booking },
     { path: 'bookings/create', component: BookFlight },
@@ -34,12 +33,9 @@ export const routes: Routes = [
     { path: 'editflight/:id', component: FlightEdit },
     {path:'about', component:Aboutus},
     {path:'contact',component:Contactus},
-<<<<<<< HEAD
-    {path:'network',component:NetworkComponent}
-=======
+    {path:'network',component:NetworkComponent},
     {path:'offers',component:Offers},
-    {path:'addons',component:Addons}
+    {path:'addons',component:Addons},
     {path:'feedback', component:Feedback},
     {path:'contact',component:Contactus}
->>>>>>> acb99f11932cfe62eb4009e27ad6e96128360e43
 ];
