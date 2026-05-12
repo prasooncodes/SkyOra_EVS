@@ -108,5 +108,12 @@ namespace skyora1.Controllers
             }
         }
 
+        [HttpGet("operational-cities")]
+        public async Task<IActionResult> OperatingCities()
+        {
+            var cities = await _flightRepository.GetOperationalCitiesAsync();
+            return Ok(cities);
+        }
+
     }
 }

@@ -48,7 +48,7 @@ namespace skyora1
                        ValidAudience = builder.Configuration["Jwt:Audience"],
 
                        IssuerSigningKey = new SymmetricSecurityKey(
-                           Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+                           Convert.FromBase64String(builder.Configuration["Jwt:Key"])
                        ),
 
                        RoleClaimType = ClaimTypes.Role

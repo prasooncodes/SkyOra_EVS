@@ -45,4 +45,8 @@ export class FlightService {
     return this.http.post<any>(this.bookingUrl, booking);
   }
 
+  getOperationalCities(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiurl}/operational-cities`);
+  }
+
 }
