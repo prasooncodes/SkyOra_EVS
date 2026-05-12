@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using skyora1.DTO;
 using skyora1.Models;
 using skyora1.Repository;
+using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class BookingController : ControllerBase
 {
     private readonly IBooking _booking;
@@ -34,12 +37,45 @@ public class BookingController : ControllerBase
 
     // ✅ ADD BOOKING
     [HttpPost]
-    public async Task<IActionResult> AddBooking([FromBody] BookingDto booking)
+    public async Task<IActionResult> AddBooking([FromBody] BookingDto bookingDto)
     {
-        var bookingId = await _booking.AddBooking(booking);
-        return CreatedAtAction(nameof(GetBookingById),
-            new { id = bookingId },
-            booking);
+        // 1. Safely extract User ID from the JWT Token
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim))
+        {
+            return Unauthorized(new { message = "User session expired. Please login again." });
+        }
+
+        if (!int.TryParse(userIdClaim, out int userId))
+        {
+            return BadRequest(new { message = "Invalid User ID format in token." });
+        }
+
+        // 2. Assign the ID from the Token to the DTO (Prevents identity theft)
+        bookingDto.UserId = userId;
+
+        // 3. Basic Validation
+        if (bookingDto.NumberOfPassengers <= 0)
+        {
+            return BadRequest(new { message = "You must book at least one seat." });
+        }
+
+        try
+        {
+            // 4. Call Repository to save
+            var result = await _booking.AddBooking(bookingDto);
+
+            if (result == 0) return BadRequest(new { message = "Failed to create booking." });
+
+            // 5. Return 201 Created with the new ID
+            return CreatedAtAction(nameof(GetBookingById), new { id = result }, bookingDto);
+        }
+        catch (Exception ex)
+        {
+            // Log the error (e.g., to console)
+            return StatusCode(500, new { message = "Internal server error during booking.", detail = ex.Message });
+        }
     }
 
     // ✅ DELETE
