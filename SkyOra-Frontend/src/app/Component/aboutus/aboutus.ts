@@ -6,7 +6,7 @@ import { RouterLink, RouterOutlet } from "@angular/router";
 @Component({
   selector: 'app-aboutus',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink, RouterOutlet],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './aboutus.html',
   styleUrl: './aboutus.css',
 })

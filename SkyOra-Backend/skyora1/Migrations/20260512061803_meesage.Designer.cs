@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using skyora1.DAL;
 
@@ -11,9 +12,11 @@ using skyora1.DAL;
 namespace skyora1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260512061803_meesage")]
+    partial class meesage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,158 +126,6 @@ namespace skyora1.Migrations
                     b.HasKey("FlightId");
 
                     b.ToTable("flights");
-
-                    b.HasData(
-                        new
-                        {
-                            FlightId = 1,
-                            ArrivalTime = new DateTime(2026, 5, 13, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 15000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 8, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Delhi",
-                            EconomyPrice = 8000m,
-                            FlightNo = "SK101",
-                            Source = "Mumbai",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 2,
-                            ArrivalTime = new DateTime(2026, 5, 13, 13, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 14000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Bengaluru",
-                            EconomyPrice = 7500m,
-                            FlightNo = "SK102",
-                            Source = "Delhi",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 3,
-                            ArrivalTime = new DateTime(2026, 5, 13, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 10000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 10, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Chennai",
-                            EconomyPrice = 5500m,
-                            FlightNo = "SK103",
-                            Source = "Bengaluru",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 4,
-                            ArrivalTime = new DateTime(2026, 5, 13, 13, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 6000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Pune",
-                            EconomyPrice = 3000m,
-                            FlightNo = "SK104",
-                            Source = "Mumbai",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 5,
-                            ArrivalTime = new DateTime(2026, 5, 13, 13, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 5000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Jaipur",
-                            EconomyPrice = 2500m,
-                            FlightNo = "SK105",
-                            Source = "Delhi",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 6,
-                            ArrivalTime = new DateTime(2026, 5, 13, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 12000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 13, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Delhi",
-                            EconomyPrice = 6500m,
-                            FlightNo = "SK106",
-                            Source = "Kolkata",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 7,
-                            ArrivalTime = new DateTime(2026, 5, 13, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 9000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Bengaluru",
-                            EconomyPrice = 4500m,
-                            FlightNo = "SK107",
-                            Source = "Hyderabad",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 8,
-                            ArrivalTime = new DateTime(2026, 5, 13, 17, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 8000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 15, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Ahmedabad",
-                            EconomyPrice = 4000m,
-                            FlightNo = "SK108",
-                            Source = "Mumbai",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 9,
-                            ArrivalTime = new DateTime(2026, 5, 13, 18, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 9500m,
-                            DepartureTime = new DateTime(2026, 5, 13, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Bengaluru",
-                            EconomyPrice = 5000m,
-                            FlightNo = "SK109",
-                            Source = "Kochi",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        },
-                        new
-                        {
-                            FlightId = 10,
-                            ArrivalTime = new DateTime(2026, 5, 13, 19, 0, 0, 0, DateTimeKind.Unspecified),
-                            AvailableBusinessSeats = 32,
-                            AvailableEconomySeats = 150,
-                            BusinessPrice = 7000m,
-                            DepartureTime = new DateTime(2026, 5, 13, 17, 0, 0, 0, DateTimeKind.Unspecified),
-                            Destination = "Delhi",
-                            EconomyPrice = 3500m,
-                            FlightNo = "SK110",
-                            Source = "Lucknow",
-                            TotalBusinessSeats = 32,
-                            TotalEconomySeats = 150
-                        });
                 });
 
             modelBuilder.Entity("skyora1.Models.Messages", b =>

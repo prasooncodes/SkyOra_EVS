@@ -1,0 +1,133 @@
+.booking-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.flight-card {
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.flight-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.flight-card.selected {
+  border: 2px solid #ff6b35 !important;
+  background-color: #fff5f0;
+}
+
+.passenger-card {
+  background-color: #fff9f6;
+  border: 1px solid #ffe0d4 !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.passenger-card:hover {
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+}
+
+.passenger-card .form-label {
+  font-weight: 600;
+  color: #6f42c1;
+  font-size: 0.9rem;
+}
+
+.passenger-card .form-control,
+.passenger-card .form-select {
+  border: 1px solid #ddd;
+  transition: all 0.3s;
+}
+
+.passenger-card .form-control:focus,
+.passenger-card .form-select:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.15);
+}
+
+.btn-akasa-orange {
+  background-color: #ff6b35;
+  border-color: #ff6b35;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-akasa-orange:hover:not(:disabled) {
+  background-color: #e55a24;
+  border-color: #e55a24;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.btn-akasa-orange:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.text-purple {
+  color: #6f42c1;
+}
+
+.text-orange {
+  color: #ff6b35;
+}
+
+.bg-light-orange {
+  background-color: #fff5f0;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 20px;
+}
+
+.form-select:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.form-control:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Loading state */
+.btn-akasa-orange[disabled] {
+  opacity: 0.7;
+}
+
+/* Status styles */
+.status-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-dot.confirmed {
+  background-color: #28a745;
+}
+
+.status-dot.pending {
+  background-color: #ffc107;
+}
+
+.status-dot.cancelled {
+  background-color: #dc3545;
+}
+
+/* Badge styling */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4rem 0.6rem;
+}
+

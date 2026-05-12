@@ -15,11 +15,16 @@ import { NetworkComponent } from './Component/my-network/my-network';
 import { Offers } from './Component/offers/offers';
 import { Addons } from './Component/addons/addons';
 import { Feedback } from './Component/feedback/feedback';
+<<<<<<< HEAD
+=======
+import { Home1 } from './Component/home1/home1';
+>>>>>>> bacca375a66782348066fbc10e1b6b0f2a8b6bda
 
 export const routes: Routes = [
     { path: '', component: Welcome },
     { path: 'welcome', redirectTo: '', pathMatch: 'full' },
     { path: 'users', component: User },
+    {path:'home1', component:Home1},
     { path: 'flights', component: Flight },
     { path: 'bookings', component: Booking },
     { path: 'bookings/create', component: BookFlight },
