@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+//[Authorize]
 public class BookingController : ControllerBase
 {
     private readonly IBooking _booking;

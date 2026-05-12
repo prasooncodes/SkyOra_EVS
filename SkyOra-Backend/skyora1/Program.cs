@@ -31,6 +31,7 @@ namespace skyora1
             builder.Services.AddScoped<IUserLogin,UserLoginRepository>();
             builder.Services.AddScoped<IFeedback, RepositoryFeedback>();
             builder.Services.AddScoped<IMessage, RepositoryMessage>();
+            builder.Services.AddScoped<IPassenger, RepositoryPassenger>();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conn"));

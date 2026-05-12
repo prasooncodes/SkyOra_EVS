@@ -43,3 +43,18 @@
     </ng-template>
   </div>
 </div>
+
+<!-- <div class="feedback-list-container">
+  <h3>All Feedbacks</h3>
+  <div *ngIf="loading">Loading feedbacks...</div>
+  <div *ngIf="!loading && feedbacks.length === 0">No feedbacks yet.</div>
+
+  <ul class="feedback-list" *ngIf="!loading && feedbacks.length > 0">
+    <li *ngFor="let f of feedbacks" class="feedback-item">
+      <div class="fb-header">
+        <strong>{{ f.UserName || f.userName || f.User || 'Anonymous' }}</strong>
+      </div>
+      <div class="fb-body">{{ f.Comments || f.comments || f.Message }}</div>
+    </li>
+  </ul>
+</div> -->

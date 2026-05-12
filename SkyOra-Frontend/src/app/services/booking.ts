@@ -28,4 +28,8 @@ export class BookingService {
       ? { headers: { Authorization: `Bearer ${token}` } }
       : {};
   }
+
+  getBookingById(id: number) {
+    return this.http.get(`${this.apiUrl}/${id}`, this.getAuthHeaders());
+  } 
 }

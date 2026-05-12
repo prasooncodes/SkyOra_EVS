@@ -1,0 +1,62 @@
+/* Messages UI — themed to match navbar and feedback */
+.mails-wrapper {
+	padding: 24px 16px;
+	display: flex;
+	justify-content: center;
+}
+
+.mails-card {
+	width: min(100%, 980px);
+	background: linear-gradient(135deg, #ffffff 0%, #fbfbff 100%);
+	border-radius: 14px;
+	padding: 20px;
+	box-shadow: 0 10px 30px rgba(15, 34, 70, 0.06);
+}
+
+.mails-header h2 {
+	margin: 0 0 6px;
+	color: #4b2fa6;
+}
+
+.mails-header .muted {
+	margin: 0 0 12px;
+	color: #6b7280;
+}
+
+.mails-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	gap: 12px;
+}
+
+.mail-item {
+	padding: 12px 14px;
+	border-radius: 10px;
+	border: 1px solid rgba(91, 33, 182, 0.06);
+	background: #fff;
+}
+
+.mail-top {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 12px;
+}
+
+.mail-from strong { color: #111827; }
+.mail-email { margin-left: 8px; color: #6b7280; font-size: 0.9rem; }
+.mail-meta { color: #4b2fa6; font-weight: 600; }
+
+.mail-body {
+	margin-top: 8px;
+	color: #374151;
+	line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+	.mails-card { padding: 16px; }
+	.mail-top { flex-direction: column; align-items: flex-start; }
+	.mail-meta { margin-top: 6px; }
+}

@@ -1,0 +1,47 @@
+﻿using Microsoft.EntityFrameworkCore;
+using skyora1.DAL;
+using skyora1.DTO;
+using skyora1.Models;
+
+namespace skyora1.Repository
+{
+    public class RepositoryPassenger : IPassenger
+    {
+        private readonly AppDbContext _context;
+
+        public RepositoryPassenger(AppDbContext context)
+        {
+            _context = context;
+        }
+
+         public async Task<List<Passenger>> GetAllPassengerAsync()
+        {
+            var passengers = await _context.passengers.ToListAsync();
+            return passengers;
+        }
+
+        public async Task<int> AddPassengersAsync(PassengerDTO passenger)
+        {
+            var bookingExists = await _context.bookings.AnyAsync(b => b.BookingId == passenger.BookingId);
+            if (!bookingExists)
+            {
+                throw new Exception($"Cannot add passenger. Booking ID {passenger.BookingId} not found.");
+            }
+
+            var newPassenger = new skyora1.Models.Passenger
+            {
+                PassengerId = passenger.PassengerId,
+                BookingId = passenger.BookingId,
+                Name = passenger.Name,
+                Age = passenger.Age,
+                Gender = passenger.Gender
+            };
+
+            await _context.passengers.AddAsync(newPassenger);
+            await _context.SaveChangesAsync();
+            return newPassenger.PassengerId;
+
+        }
+
+    }
+}
