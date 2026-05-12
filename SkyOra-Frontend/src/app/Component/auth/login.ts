@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserServices } from '../../services/user';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -17,18 +18,17 @@ export class LoginComponent {
   confirmPassword = '';
   error = '';
 
-  constructor(private userService: UserServices, private router: Router) {}
+  constructor(
+    private userService: UserServices,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   onSubmit() {
     this.error = '';
 
     if (!this.email || !this.password) {
       this.error = 'Email and password are required.';
-      return;
-    }
-
-    if (this.password !== this.confirmPassword) {
-      this.error = 'Password and confirm password do not match.';
       return;
     }
 
@@ -39,8 +39,8 @@ export class LoginComponent {
       next: (token: string) => {
         const cleanToken = token.replace(/^"|"$/g, '');
         console.log('Login token received:', cleanToken);
-        localStorage.setItem('auth_token', cleanToken);
-        this.router.navigate(['/users']);
+        this.authService.setToken(cleanToken);
+        this.router.navigate(['/home1']);
       },
       error: (err : any) => {
         console.error('Login error response:', err);
