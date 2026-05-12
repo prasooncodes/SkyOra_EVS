@@ -9,8 +9,8 @@ import { FlightInterface } from '../Models/flights';
 })
 export class FlightService {
 
-  private apiurl = 'https://localhost:7169/api/Flight';
-  private bookingUrl = 'https://localhost:7169/api/Flight';
+  private apiurl = 'http://localhost:5084/api/Flight';
+  private bookingUrl = this.apiurl;
   private http: HttpClient;
 
   constructor(http: HttpClient) {
