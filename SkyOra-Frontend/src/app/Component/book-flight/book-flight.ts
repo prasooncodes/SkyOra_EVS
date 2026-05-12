@@ -213,7 +213,7 @@ export class BookFlight implements OnInit {
     this.bookingService.createBooking(bookingPayload).subscribe({
       next: () => {
         alert('Booking confirmed successfully!');
-        this.router.navigate(['/bookings']);
+        this.router.navigate(['/bookingsbyid']);
       },
       error: (error) => {
         console.error('Booking failed:', error);

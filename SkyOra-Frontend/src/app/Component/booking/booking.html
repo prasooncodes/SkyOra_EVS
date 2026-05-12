@@ -47,7 +47,7 @@
               <small class="text-muted">Total Paid</small>
               <!-- Match: TotalAmount -->
               <h4 class="fw-bold text-purple">{{ booking.TotalAmount | currency:'INR' }}</h4>
-              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill">Manage</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" routerLink="/passengerdetails/{{ booking.BookingId }}">View Passenger Details</button>
             </div>
           </div>
         </div>
