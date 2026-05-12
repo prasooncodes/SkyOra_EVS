@@ -17,14 +17,36 @@ import { AuthService } from '../../services/auth-service';
 export class BookFlight implements OnInit {
   flightId: number = 0;
   flight: FlightInterface | null = null;
-  flights: FlightInterface[] = [];
+  searchedFlights: FlightInterface[] = [];
+  isSearching: boolean = false;
+
+  // Passenger interface
+  passengers: Array<{
+    name: string;
+    age: number | null;
+    gender: string;
+    seatType: string;
+  }> = [];
+
+  // Indian cities list
+  indianCities: string[] = [
+    'Delhi', 'Mumbai', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata',
+    'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 'Chandigarh', 'Indore',
+    'Kochi', 'Visakhapatnam', 'Surat', 'Vadodara', 'Nagpur', 'Bhopal',
+    'Guwahati', 'Cochin', 'Thiruvananthapuram', 'Calicut', 'Coimbatore',
+    'Madurai', 'Varanasi', 'Patna', 'Ranchi', 'Srinagar', 'Jodhpur',
+    'Udaipur', 'Goa', 'Agra', 'Amritsar', 'Ludhiana', 'Kanpur',
+    'Aurangabad', 'Nashik'
+  ];
+
+  searchCriteria = {
+    source: '',
+    destination: ''
+  };
 
   bookingData = {
     flightId: 0,
     userId: 0,
-    passengerName: '',
-    passengerAge: null as number | null,
-    seatType: 'Economy',
     numberOfPassengers: 1,
     bookingDate: new Date(),
     status: 'Confirmed'
@@ -50,29 +72,34 @@ export class BookFlight implements OnInit {
 
     this.bookingData.userId = currentUserId;
     this.flightId = Number(this.ar.snapshot.paramMap.get('id')) || 0;
+    
+    // Initialize passengers array
+    this.updatePassengersArray(1);
 
     if (this.flightId) {
       this.bookingData.flightId = this.flightId;
       this.loadFlightById(this.flightId);
-    } else {
-      this.loadFlights();
     }
   }
 
-  loadFlights(): void {
-    this.flightService.getFlights().subscribe({
-      next: (data) => {
-        this.flights = data;
-        if (!this.bookingData.flightId && this.flights.length) {
-          this.bookingData.flightId = this.flights[0].FlightId ?? this.flights[0].flightId;
-        }
-        if (this.bookingData.flightId) {
-          this.selectFlightById(this.bookingData.flightId);
-        }
-        this.cdr.detectChanges();
-      },
-      error: (error) => console.error('Unable to load flights:', error)
-    });
+  updatePassengersArray(count: number): void {
+    const currentLength = this.passengers.length;
+    
+    if (count > currentLength) {
+      // Add new passenger entries
+      for (let i = currentLength; i < count; i++) {
+        this.passengers.push({
+          name: '',
+          age: null,
+          gender: '',
+          seatType: 'Economy'
+        });
+      }
+    } else if (count < currentLength) {
+      // Remove extra passenger entries
+      this.passengers = this.passengers.slice(0, count);
+    }
+    this.bookingData.numberOfPassengers = count;
   }
 
   loadFlightById(id: number): void {
@@ -91,7 +118,8 @@ export class BookFlight implements OnInit {
       return;
     }
 
-    const matchedFlight = this.flights.find(f => f.FlightId === id || f.flightId === id);
+    const flightId = id;
+    const matchedFlight = this.searchedFlights.find(f => (f.FlightId || f.flightId) === flightId);
     if (matchedFlight) {
       this.flight = matchedFlight;
     } else {
@@ -101,27 +129,70 @@ export class BookFlight implements OnInit {
     this.bookingData.flightId = id;
   }
 
+  searchFlights(): void {
+    if (!this.searchCriteria.source || !this.searchCriteria.destination) {
+      alert('Please select both source and destination cities.');
+      return;
+    }
+
+    if (this.searchCriteria.source === this.searchCriteria.destination) {
+      alert('Source and destination cities must be different.');
+      return;
+    }
+
+    this.isSearching = true;
+    this.flightService.searchFlights(this.searchCriteria.source, this.searchCriteria.destination).subscribe({
+      next: (data) => {
+        this.searchedFlights = data;
+        if (this.searchedFlights.length === 0) {
+          alert('No flights found for the selected route.');
+        } else if (this.searchedFlights.length === 1) {
+          const flightId = this.searchedFlights[0].FlightId || this.searchedFlights[0].flightId || 0;
+          this.selectFlightById(flightId);
+        }
+        this.isSearching = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Flight search failed:', error);
+        alert('Unable to search flights. Please try again later.');
+        this.isSearching = false;
+      }
+    });
+  }
+
   getTicketPrice(): number {
     if (!this.flight) {
       return 0;
     }
-    return this.bookingData.seatType === 'Economy'
-      ? Number(this.flight.EconomyPrice ?? this.flight.economyPrice ?? 0)
-      : Number(this.flight.BusinessPrice ?? this.flight.businessPrice ?? 0);
+    // Calculate total price for all passengers based on their seat types
+    let totalPrice = 0;
+    for (let i = 0; i < this.passengers.length; i++) {
+      const passengerSeatType = this.passengers[i].seatType;
+      const price = passengerSeatType === 'Economy'
+        ? Number(this.flight.EconomyPrice || this.flight.economyPrice || 0)
+        : Number(this.flight.BusinessPrice || this.flight.businessPrice || 0);
+      totalPrice += price;
+    }
+    return totalPrice;
   }
 
   get totalPrice(): number {
-    return this.getTicketPrice() * (this.bookingData.numberOfPassengers || 1);
+    return this.getTicketPrice();
   }
 
-  processBooking() {
+  isAllPassengersValid(): boolean {
+    return this.passengers.every(p => p.name && p.age && p.age > 0);
+  }
+
+  processBooking(): void {
     if (!this.flight) {
       alert('Please select a flight before confirming booking.');
       return;
     }
 
-    if (!this.bookingData.passengerName || !this.bookingData.passengerAge) {
-      alert('Please enter passenger name and age before confirming booking.');
+    if (!this.isAllPassengersValid()) {
+      alert('Please fill in all passenger details (name, age, and seat type).');
       return;
     }
 
@@ -130,7 +201,13 @@ export class BookFlight implements OnInit {
       FlightId: this.bookingData.flightId,
       NumberOfPassengers: this.bookingData.numberOfPassengers,
       TotalAmount: this.totalPrice,
-      BookingStatus: this.bookingData.status
+      BookingStatus: this.bookingData.status,
+      Passengers: this.passengers.map(p => ({
+        PassengerName: p.name,
+        PassengerAge: p.age,
+        PassengerGender:p.gender,
+        SeatType: p.seatType
+      }))
     };
 
     this.bookingService.createBooking(bookingPayload).subscribe({
