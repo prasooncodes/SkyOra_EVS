@@ -1,51 +1,82 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">SkyOra</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Logo/Brand -->
+    <a class="navbar-brand navbar-brand-custom" href="/">
+      <i class="bi bi-airplane-fill me-2"></i>
+      <span class="fw-bold">SkyOra</span>
+    </a>
+    
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
+    <!-- Navbar Content -->
     <div class="collapse navbar-collapse" id="navbarText">
+      <!-- Center Navigation Links -->
       <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="/users">Users</a>
-        </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="/flights">Flights</a>
-        </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="/bookings">Bookings</a>
-        </li>
-         <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="/offers">Offers</a>
-        </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="/addons">Add Ons</a>
-        </li>
-         <li class="nav-item mx-lg-3">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/bookflight">Create Booking</a>
-         <li class="nav-item">
-          <a class="nav-link" routerLink="/about">About Us</a>
+          <a class="nav-link nav-link-custom" href="/">
+            <i class="bi bi-house-fill me-1"></i>Home
+          </a>
         </li>
-         <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="/contact">Contact Us</a>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/users">
+            <i class="bi bi-ticket-fill me-1"></i>Users
+          </a>
         </li>
-<<<<<<< HEAD
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/bookflight">
+            <i class="bi bi-ticket-fill me-1"></i>Book Flight
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/flights">
+            <i class="bi bi-airplane me-1"></i>Flights
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/bookings">
+            <i class="bi bi-calendar-check-fill me-1"></i>My Bookings
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/offers">
+            <i class="bi bi-gift-fill me-1"></i>Offers
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/addons">
+            <i class="bi bi-gift-fill me-1"></i>Add Ons
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/about">
+            <i class="bi bi-info-circle-fill me-1"></i>About
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom" routerLink="/contact">
+            <i class="bi bi-telephone-fill me-1"></i>Contact
+          </a>
+        </li>
+      </ul>
+      
+      <!-- Right Side: Auth Buttons -->
         <li class="nav-item">
           <a class="nav-link" routerLink="/network">My Network</a>
         </li>
       </ul>
-=======
         </ul>
->>>>>>> acb99f11932cfe62eb4009e27ad6e96128360e43
+
       <div class="d-flex align-items-center gap-2">
-        <a class="btn btn-outline-primary btn-sm px-4 rounded-pill" routerLink="/login">Login</a>
-        <a class="btn btn-primary btn-sm px-4 rounded-pill shadow-sm" routerLink="/register">Register</a>
+        <a class="btn btn-outline-light btn-sm px-4 rounded-pill border-2 fw-600 nav-btn-outline" routerLink="/login">
+          <i class="bi bi-box-arrow-in-right me-1"></i>Login
+        </a>
+        <a class="btn btn-nav-orange btn-sm px-4 rounded-pill fw-600 nav-btn-primary shadow-sm" routerLink="/register">
+          <i class="bi bi-person-plus-fill me-1"></i>Register
+        </a>
       </div>
-      
     </div>
   </div>
 </nav>

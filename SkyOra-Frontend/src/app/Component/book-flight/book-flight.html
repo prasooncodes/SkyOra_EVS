@@ -1,99 +1,255 @@
 <div class="booking-page py-5">
   <div class="container">
     <div class="row g-4">
-      <!-- Left: Passenger Form -->
+      <!-- Left: Flight Search & Passenger Form -->
       <div class="col-lg-8">
-        <div class="card p-4 border-0 shadow-sm">
-          <h4 class="fw-bold mb-4 text-purple">Passenger Details</h4>
-          <div class="mb-3">
-            <label class="form-label">Select Flight</label>
-            <select
-              class="form-select"
-              name="flightId"
-              [(ngModel)]="bookingData.flightId"
-              (ngModelChange)="selectFlightById($event)"
-            >
-              <option *ngFor="let f of flights" [ngValue]="f.FlightId">
-                {{ f.FlightNo }} — {{ f.Source }} → {{ f.Destination }}
-              </option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <input
-              type="text"
-              class="form-control"
-              name="passengerName"
-              [(ngModel)]="bookingData.passengerName"
-              placeholder="Enter traveler name"
-            >
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Age</label>
-              <input
-                type="number"
-                class="form-control"
-                name="passengerAge"
-                [(ngModel)]="bookingData.passengerAge"
-              >
-            </div>
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Preferred Class</label>
+        <div class="card p-4 border-0 shadow-sm mb-4">
+          <h4 class="fw-bold mb-4 text-purple">Search Flights</h4>
+          
+          <!-- Search Form -->
+          <div class="row mb-3">
+            <div class="col-md-5 mb-3">
+              <label class="form-label">From (Source City)</label>
               <select
                 class="form-select"
-                name="seatType"
-                [(ngModel)]="bookingData.seatType"
+                [(ngModel)]="searchCriteria.source"
+                name="source"
               >
-                <option value="Economy">Economy</option>
-                <option value="Business">Business</option>
+                <option value="">Select Source City</option>
+                <option *ngFor="let city of indianCities" [value]="city">
+                  {{ city }}
+                </option>
               </select>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Passengers</label>
-              <input
-                type="number"
-                class="form-control"
-                name="numberOfPassengers"
-                min="1"
-                [(ngModel)]="bookingData.numberOfPassengers"
+            
+            <div class="col-md-5 mb-3">
+              <label class="form-label">To (Destination City)</label>
+              <select
+                class="form-select"
+                [(ngModel)]="searchCriteria.destination"
+                name="destination"
               >
+                <option value="">Select Destination City</option>
+                <option *ngFor="let city of indianCities" [value]="city">
+                  {{ city }}
+                </option>
+              </select>
+            </div>
+            
+            <div class="col-md-2 d-flex align-items-end">
+              <button
+                class="btn btn-akasa-orange w-100"
+                (click)="searchFlights()"
+                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination"
+              >
+                {{ isSearching ? 'Searching...' : 'Search' }}
+              </button>
             </div>
           </div>
         </div>
+
+        <!-- Available Flights -->
+        @if (searchedFlights.length > 0) {
+          <div class="card p-4 border-0 shadow-sm mb-4">
+            <h4 class="fw-bold mb-4 text-purple">Available Flights</h4>
+            
+            <div class="row g-3">
+              @for (flightOption of searchedFlights; track flightOption.FlightId) {
+                <div class="col-12 mb-3">
+                  <div 
+                    class="flight-card p-3 border rounded cursor-pointer"
+                    [ngClass]="{'selected': bookingData.flightId === (flightOption.FlightId || flightOption.flightId)}"
+                    (click)="selectFlightById(flightOption.FlightId || flightOption.flightId || 0)"
+                    style="cursor: pointer; border: 2px solid #ddd; transition: all 0.3s;"
+                    [style.borderColor]="bookingData.flightId === (flightOption.FlightId || flightOption.flightId) ? '#ff6b35' : '#ddd'"
+                  >
+                    <div class="row align-items-center">
+                      <div class="col-md-3">
+                        <h6 class="fw-bold text-purple mb-1">{{ flightOption.FlightNo }}</h6>
+                        <small class="text-muted">Flight Number</small>
+                      </div>
+                      
+                      <div class="col-md-3 text-center">
+                        <h6 class="mb-0">
+                          {{ flightOption.Source }} <i class="bi bi-arrow-right"></i> {{ flightOption.Destination }}
+                        </h6>
+                        <small class="text-muted">Route</small>
+                      </div>
+                      
+                      <div class="col-md-2 text-center">
+                        <h6 class="fw-bold text-orange mb-1">
+                          ₹{{ flightOption.EconomyPrice || flightOption.economyPrice }}
+                        </h6>
+                        <small class="text-muted">Economy</small>
+                      </div>
+                      
+                      <div class="col-md-2 text-center">
+                        <h6 class="fw-bold text-orange mb-1">
+                          ₹{{ flightOption.BusinessPrice || flightOption.businessPrice }}
+                        </h6>
+                        <small class="text-muted">Business</small>
+                      </div>
+                      
+                      <div class="col-md-2 text-end">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="flightSelection"
+                            [id]="'flight_' + (flightOption.FlightId || flightOption.flightId)"
+                            [checked]="bookingData.flightId === (flightOption.FlightId || flightOption.flightId)"
+                            [value]="flightOption.FlightId || flightOption.flightId"
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Passenger Count Selection -->
+        @if (flight) {
+          <div class="card p-4 border-0 shadow-sm mb-4">
+            <h4 class="fw-bold mb-3 text-purple">Select Number of Passengers</h4>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Number of Passengers</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="numberOfPassengers"
+                  min="1"
+                  max="6"
+                  [(ngModel)]="bookingData.numberOfPassengers"
+                  (ngModelChange)="updatePassengersArray(bookingData.numberOfPassengers)"
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Passenger Details Form -->
+          <div class="card p-4 border-0 shadow-sm">
+            <h4 class="fw-bold mb-4 text-purple">Passenger Details</h4>
+            
+            @for (passenger of passengers; let i = $index; track i) {
+              <div class="passenger-card p-3 mb-3 border rounded bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h5 class="fw-bold text-orange mb-0">Passenger {{ i + 1 }}</h5>
+                  <span class="badge bg-purple">{{ i + 1 }}/{{ passengers.length }}</span>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="passengerName_{{ i }}"
+                      [(ngModel)]="passenger.name"
+                      placeholder="Enter passenger name"
+                    >
+                  </div>
+
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Age</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="passengerAge_{{ i }}"
+                      [(ngModel)]="passenger.age"
+                      min="1"
+                      max="120"
+                      placeholder="Enter age"
+                    >
+                  </div>
+                   <div class="col-md-6 mb-3">
+                    <label class="form-label">Gender</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="passengerGender_{{ i }}"
+                      [(ngModel)]="passenger.gender"
+                      min="1"
+                      max="120"
+                      placeholder="Enter gender"
+                    >
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <label class="form-label">Preferred Class</label>
+                    <select
+                      class="form-select"
+                      name="seatType_{{ i }}"
+                      [(ngModel)]="passenger.seatType"
+                    >
+                      <option value="Economy">Economy</option>
+                      <option value="Business">Business</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
       </div>
 
       <!-- Right: Pricing Summary -->
       <div class="col-lg-4">
-        <div class="card p-4 border-0 shadow-sm bg-light">
-          <h5 class="fw-bold">Fare Summary</h5>
-          <hr>
-          <div class="d-flex justify-content-between mb-2">
-            <span>Per-Passenger Fare</span>
-            <span>
-              ₹{{ getTicketPrice() }}
-            </span>
+        @if (flight) {
+          <div class="card p-4 border-0 shadow-sm bg-light sticky-top">
+            <h5 class="fw-bold">Fare Summary</h5>
+            <hr>
+            
+            <div class="mb-3">
+              <small class="text-muted">Flight Selected:</small>
+              <h6 class="fw-bold text-purple">
+                {{ flight.FlightNo }} - {{ flight.Source }} to {{ flight.Destination }}
+              </h6>
+            </div>
+            
+            <hr>
+            
+            <div class="d-flex justify-content-between mb-2">
+              <span>Total Fare</span>
+              <span>
+                ₹{{ getTicketPrice() }}
+              </span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Number of Passengers</span>
+              <span>{{ bookingData.numberOfPassengers }}</span>
+            </div>
+            <div class="d-flex justify-content-between text-success mb-3">
+              <span>Taxes & Fees</span>
+              <span>Included</span>
+            </div>
+            <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-3">
+              <span>Total Amount</span>
+              <span class="text-orange">
+                ₹{{ totalPrice }}
+              </span>
+            </div>
+            <button
+              class="btn btn-akasa-orange w-100 mt-4 py-2"
+              (click)="processBooking()"
+              [disabled]="!flight || !isAllPassengersValid()"
+            >
+              Confirm Booking
+            </button>
           </div>
-          <div class="d-flex justify-content-between text-success mb-3">
-            <span>Taxes & Fees</span>
-            <span>Included</span>
+        } @else {
+          <div class="card p-4 border-0 shadow-sm bg-light">
+            <div class="text-center">
+              <h5 class="text-muted mb-3">Select a Flight</h5>
+              <p class="text-muted small">Search for flights and select one to see pricing details and confirm your booking.</p>
+            </div>
           </div>
-          <div class="d-flex justify-content-between fw-bold fs-5 border-top pt-3">
-            <span>Total Pay</span>
-            <span class="text-orange">
-              ₹{{ totalPrice }}
-            </span>
-          </div>
-          <button
-            class="btn btn-akasa-orange w-100 mt-4 py-2"
-            (click)="processBooking()"
-            [disabled]="!flight"
-          >
-            Confirm Booking
-          </button>
-        </div>
+        }
       </div>
     </div>
   </div>
