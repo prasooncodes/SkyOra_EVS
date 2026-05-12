@@ -13,6 +13,7 @@ import { Aboutus } from './Component/aboutus/aboutus';
 import { Contactus } from './Component/contactus/contactus';
 import { Offers } from './Component/offers/offers';
 import { Addons } from './Component/addons/addons';
+import { Feedback } from './Component/feedback/feedback';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -31,4 +32,6 @@ export const routes: Routes = [
     {path:'contact',component:Contactus},
     {path:'offers',component:Offers},
     {path:'addons',component:Addons}
+    {path:'feedback', component:Feedback},
+    {path:'contact',component:Contactus}
 ];
