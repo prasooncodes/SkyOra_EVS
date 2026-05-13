@@ -3,46 +3,99 @@
     <div class="row g-4">
       <!-- Left: Flight Search & Passenger Form -->
       <div class="col-lg-8">
-        <div class="card p-4 border-0 shadow-sm mb-4">
-          <h4 class="fw-bold mb-4 text-purple">Search Flights</h4>
+        <div class="card p-4 border-0 shadow-sm mb-4 search-card">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+            <div>
+              <h4 class="fw-bold mb-1 text-purple">Search Flights</h4>
+              <p class="text-muted mb-0 small">Choose where you want to go, when you want to fly, and what type of trip you need.</p>
+            </div>
+            <span class="search-card-badge">Flexible booking</span>
+          </div>
           
           <!-- Search Form -->
-          <div class="row mb-3">
-            <div class="col-md-5 mb-3">
-              <label class="form-label">From (Source City)</label>
-              <select
-                class="form-select"
-                [(ngModel)]="searchCriteria.source"
-                name="source"
-              >
-                <option value="">Select Source City</option>
-                <option *ngFor="let city of indianCities" [value]="city">
-                  {{ city }}
-                </option>
-              </select>
+          <div class="row g-3 align-items-stretch">
+            <div class="col-lg-4">
+              <div class="search-input-shell h-100">
+                <label class="form-label fw-semibold text-purple mb-2">From</label>
+                <select
+                  class="form-select search-select"
+                  [(ngModel)]="searchCriteria.source"
+                  name="source"
+                >
+                  <option value="">Select Source City</option>
+                  <option *ngFor="let city of indianCities" [value]="city">
+                    {{ city }}
+                  </option>
+                </select>
+              </div>
             </div>
-            
-            <div class="col-md-5 mb-3">
-              <label class="form-label">To (Destination City)</label>
-              <select
-                class="form-select"
-                [(ngModel)]="searchCriteria.destination"
-                name="destination"
-              >
-                <option value="">Select Destination City</option>
-                <option *ngFor="let city of indianCities" [value]="city">
-                  {{ city }}
-                </option>
-              </select>
+
+            <div class="col-lg-4">
+              <div class="search-input-shell h-100">
+                <label class="form-label fw-semibold text-purple mb-2">To</label>
+                <select
+                  class="form-select search-select"
+                  [(ngModel)]="searchCriteria.destination"
+                  name="destination"
+                >
+                  <option value="">Select Destination City</option>
+                  <option *ngFor="let city of indianCities" [value]="city">
+                    {{ city }}
+                  </option>
+                </select>
+              </div>
             </div>
-            
-            <div class="col-md-2 d-flex align-items-end">
+
+            <div class="col-lg-4">
+              <div class="search-meta-shell h-100">
+                <div>
+                  <label class="form-label fw-semibold text-purple mb-2">Travel Date</label>
+                  <input
+                    type="date"
+                    class="form-control search-date"
+                    name="searchBookingDate"
+                    [(ngModel)]="bookingData.bookingDate"
+                    [min]="minBookingDate"
+                  />
+                  <small class="text-danger d-block mt-1" *ngIf="bookingData.bookingDate && !isBookingDateValid(bookingData.bookingDate)">Date cannot be earlier than today.</small>
+                </div>
+
+                <div class="trip-toggle-group mt-3">
+                  <label class="form-label fw-semibold text-purple mb-2">Trip Type</label>
+                  <div class="trip-toggle">
+                    <div class="form-check trip-option">
+                      <input class="form-check-input" type="radio" name="searchTripType" id="searchOneWay" [(ngModel)]="bookingData.tripType" value="oneway">
+                      <label class="form-check-label" for="searchOneWay">One-way</label>
+                    </div>
+                    <div class="form-check trip-option">
+                      <input class="form-check-input" type="radio" name="searchTripType" id="searchRoundTrip" [(ngModel)]="bookingData.tripType" value="roundtrip">
+                      <label class="form-check-label" for="searchRoundTrip">Round-trip</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="bookingData.tripType === 'roundtrip'" class="mt-3 return-date-box">
+                  <label class="form-label fw-semibold text-purple mb-2">Return Date</label>
+                  <input
+                    type="date"
+                    class="form-control search-date"
+                    name="returnDate"
+                    [(ngModel)]="bookingData.returnDate"
+                    [min]="bookingData.bookingDate || minBookingDate"
+                  />
+                  <small class="text-danger d-block mt-1" *ngIf="bookingData.returnDate && !isReturnDateValid(bookingData.returnDate)">Return date cannot be earlier than the booking date.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
               <button
-                class="btn btn-akasa-orange w-100"
+                type="button"
+                class="btn btn-akasa-orange w-100 search-submit-btn"
                 (click)="searchFlights()"
                 [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination"
               >
-                {{ isSearching ? 'Searching...' : 'Search' }}
+                {{ isSearching ? 'Searching...' : 'Search Flights' }}
               </button>
             </div>
           </div>
@@ -127,6 +180,7 @@
                   (ngModelChange)="updatePassengersArray(bookingData.numberOfPassengers)"
                 >
               </div>
+              
             </div>
           </div>
 
@@ -234,10 +288,22 @@
                 ₹{{ totalPrice }}
               </span>
             </div>
+            <div class="mt-3">
+              <label class="form-label">Booking Date</label>
+              <input
+                type="date"
+                class="form-control"
+                name="bookingDate"
+                [(ngModel)]="bookingData.bookingDate"
+                [min]="minBookingDate"
+              >
+              <small class="text-danger" *ngIf="bookingData.bookingDate && !isBookingDateValid(bookingData.bookingDate)">Date cannot be earlier than today.</small>
+            </div>
             <button
+              type="button"
               class="btn btn-akasa-orange w-100 mt-4 py-2"
               (click)="processBooking()"
-              [disabled]="!flight || !isAllPassengersValid()"
+              [disabled]="!flight || !isAllPassengersValid() || !isBookingDateValid(bookingData.bookingDate) || (bookingData.tripType === 'roundtrip' && !isReturnDateValid(bookingData.returnDate))"
             >
               Confirm Booking
             </button>

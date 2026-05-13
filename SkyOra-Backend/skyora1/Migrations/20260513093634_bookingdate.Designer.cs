@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using skyora1.DAL;
 
@@ -11,9 +12,11 @@ using skyora1.DAL;
 namespace skyora1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260513093634_bookingdate")]
+    partial class bookingdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +45,6 @@ namespace skyora1.Migrations
 
                     b.Property<int>("NumberOfPassengers")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("ReturnDate")
-                        .HasColumnType("date");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
