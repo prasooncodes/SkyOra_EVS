@@ -25,7 +25,9 @@ namespace skyora1.Repository
                 FlightId=booking.FlightId,
                 NumberOfPassengers=booking.NumberOfPassengers,
                 TotalAmount=booking.TotalAmount,
-                BookingStatus=booking.BookingStatus
+                BookingStatus=booking.BookingStatus,
+                BookingDate=booking.BookingDate,
+                ReturnDate=booking.ReturnDate,
             };
             await appDbContext.bookings.AddAsync(book);
             await appDbContext.SaveChangesAsync();
@@ -58,7 +60,10 @@ namespace skyora1.Repository
                     NumberOfPassengers = b.NumberOfPassengers,
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
-                    Passengers = b.Passengers
+                    Passengers = b.Passengers,
+                    BookingDate = b.BookingDate,
+                    ReturnDate = b.ReturnDate,
+                    
                 })
                 .ToListAsync();
         }
@@ -77,7 +82,9 @@ namespace skyora1.Repository
                     NumberOfPassengers = b.NumberOfPassengers,
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
-                    Passengers = b.Passengers
+                    Passengers = b.Passengers,
+                    BookingDate = b.BookingDate,
+                    ReturnDate = b.ReturnDate,
                 })
                 .FirstOrDefaultAsync();
         }

@@ -23,6 +23,8 @@ namespace skyora1.Models
         public int NumberOfPassengers { get; set; }
         public decimal TotalAmount { get; set; }
         public string BookingStatus { get; set; } = string.Empty;
+        public DateOnly BookingDate { get; set; }
+        public DateOnly ReturnDate { get; set; }
         public ICollection<Passenger> Passengers { get; set; } = new List<Passenger>();
     }
 }
