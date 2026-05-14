@@ -15,7 +15,7 @@ export class RegisterComponent {
   name = '';
   age = '';
   gender = '';
-  role = '';
+  role = 'User';
   email = '';
   password = '';
   confirmPassword = '';
@@ -28,7 +28,7 @@ export class RegisterComponent {
     this.error = '';
     this.success = '';
 
-    if (!this.name || !this.age || !this.gender || !this.role || !this.email || !this.password || !this.confirmPassword) {
+    if (!this.name || !this.age || !this.gender || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'All fields are required.';
       return;
     }
@@ -37,12 +37,16 @@ export class RegisterComponent {
       this.error = 'Password and confirm password do not match.';
       return;
     }
+    if(this.password.length < 6) {
+      this.error = 'Password must be at least 6 characters long.';
+      return;
+    }
 
     this.userService.register({
       name: this.name,
       age: parseInt(this.age),
       gender: this.gender,
-      role: this.role,
+      role: 'User',
       email: this.email,
       password: this.password,
     }).subscribe({

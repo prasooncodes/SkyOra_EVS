@@ -12,7 +12,12 @@ namespace skyora1.DTO
         public int NumberOfPassengers { get; set; }
         public decimal TotalAmount { get; set; }
         public string BookingStatus { get; set; } = string.Empty;
+<<<<<<< HEAD
         public List<PassengerDTO> Passengers { get; set; } = new List<PassengerDTO>();
+=======
+        public DateOnly BookingDate { get; set; }
+        public DateOnly ReturnDate { get; set; }
+>>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
     }
     public class GetBookingDto
     {
@@ -24,6 +29,8 @@ namespace skyora1.DTO
         public int NumberOfPassengers { get; set; }
         public decimal TotalAmount { get; set; }
         public string BookingStatus { get; set; } = string.Empty;
+        public DateOnly BookingDate { get; set; }
+        public DateOnly ReturnDate { get; set; }
         public ICollection<Passenger> Passengers { get; set; } = new List<Passenger>();
         
         // ✅ NEW: Include Flight details for displaying flight information in booking view

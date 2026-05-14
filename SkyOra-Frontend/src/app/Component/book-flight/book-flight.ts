@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlightService } from '../../services/flight';
-import { BookingService } from '../../services/booking';
 import { FlightInterface } from '../../Models/flights';
 import { AuthService } from '../../services/auth-service';
+import { BookingFlowService } from '../../services/booking-flow';
+import { BookingService } from '../../services/booking';
 
 @Component({
   selector: 'app-book-flight',
@@ -48,24 +49,47 @@ export class BookFlight implements OnInit {
     flightId: 0,
     userId: 0,
     numberOfPassengers: 1,
-    bookingDate: new Date(),
-    status: 'Confirmed'
+    bookingDate: '',
+    returnDate: '',
+    status: 'Confirmed',
+    tripType: 'oneway'
   };
+
+  // Minimum selectable booking date (YYYY-MM-DD) - cannot be before today
+  minBookingDate: string = '';
 
   constructor(
     private flightService: FlightService,
     private authService: AuthService,
+    private bookingFlowService: BookingFlowService,
     private bookingService: BookingService,
     private cdr: ChangeDetectorRef,
     private ar: ActivatedRoute,
     private router: Router
   ) {}
 
+  // Use this instead of calling `alert()` directly so SSR won't crash
+  safeAlert(message: string): void {
+    try {
+      if (typeof window !== 'undefined' && window.alert) {
+        window.alert(message);
+      } else {
+        // fallback for server-side rendering
+        // eslint-disable-next-line no-console
+        console.warn('Alert:', message);
+      }
+    } catch (e) {
+      // swallow any errors in environments without window
+      // eslint-disable-next-line no-console
+      console.warn('safeAlert failed', e, message);
+    }
+  }
+
   ngOnInit(): void {
     const currentUserId = this.authService.getUserId();
 
     if (currentUserId === 0) {
-      alert('Please log in to book a flight.');
+      this.safeAlert('Please log in to book a flight.');
       this.router.navigate(['/login']);
       return;
     }
@@ -75,6 +99,10 @@ export class BookFlight implements OnInit {
     
     // Initialize passengers array
     this.updatePassengersArray(1);
+
+    // set minimum booking date to today and default booking date to today
+    this.minBookingDate = this.formatDateToYYYYMMDD(new Date());
+    this.bookingData.bookingDate = this.minBookingDate;
 
     if (this.flightId) {
       this.bookingData.flightId = this.flightId;
@@ -131,12 +159,12 @@ export class BookFlight implements OnInit {
 
   searchFlights(): void {
     if (!this.searchCriteria.source || !this.searchCriteria.destination) {
-      alert('Please select both source and destination cities.');
+      this.safeAlert('Please select both source and destination cities.');
       return;
     }
 
     if (this.searchCriteria.source === this.searchCriteria.destination) {
-      alert('Source and destination cities must be different.');
+      this.safeAlert('Source and destination cities must be different.');
       return;
     }
 
@@ -145,7 +173,7 @@ export class BookFlight implements OnInit {
       next: (data) => {
         this.searchedFlights = data;
         if (this.searchedFlights.length === 0) {
-          alert('No flights found for the selected route.');
+            this.safeAlert('No flights found for the selected route.');
         } else if (this.searchedFlights.length === 1) {
           const flightId = this.searchedFlights[0].FlightId || this.searchedFlights[0].flightId || 0;
           this.selectFlightById(flightId);
@@ -155,7 +183,7 @@ export class BookFlight implements OnInit {
       },
       error: (error) => {
         console.error('Flight search failed:', error);
-        alert('Unable to search flights. Please try again later.');
+        this.safeAlert('Unable to search flights. Please try again later.');
         this.isSearching = false;
       }
     });
@@ -174,6 +202,10 @@ export class BookFlight implements OnInit {
         : Number(this.flight.BusinessPrice || this.flight.businessPrice || 0);
       totalPrice += price;
     }
+    // If round-trip, assume return fare equals outbound fare
+    if (this.bookingData.tripType === 'roundtrip') {
+      totalPrice = totalPrice * 2;
+    }
     return totalPrice;
   }
 
@@ -182,17 +214,67 @@ export class BookFlight implements OnInit {
   }
 
   isAllPassengersValid(): boolean {
-    return this.passengers.every(p => p.name && p.age && p.age > 0);
+    return this.passengers.every(
+      (p) =>
+        !!p.name?.trim() &&
+        !!p.gender?.trim() &&
+        !!p.seatType?.trim() &&
+        typeof p.age === 'number' &&
+        p.age > 0
+    );
+  }
+
+  // Format a Date to YYYY-MM-DD for use with input[type="date"] and min attr
+  formatDateToYYYYMMDD(d: Date): string {
+    const yr = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${yr}-${m}-${day}`;
+  }
+
+  // Ensure booking date string is not before today
+  isBookingDateValid(dateStr: string): boolean {
+    if (!dateStr) return false;
+    const selected = new Date(dateStr + 'T00:00:00');
+    const today = new Date();
+    // zero out time for today
+    today.setHours(0,0,0,0);
+    return selected.getTime() >= today.getTime();
+  }
+
+  isReturnDateValid(dateStr: string): boolean {
+    if (this.bookingData.tripType !== 'roundtrip') {
+      return true;
+    }
+
+    if (!dateStr || !this.isBookingDateValid(this.bookingData.bookingDate)) {
+      return false;
+    }
+
+    const returnDate = new Date(dateStr + 'T00:00:00');
+    const bookingDate = new Date(this.bookingData.bookingDate + 'T00:00:00');
+    return returnDate.getTime() >= bookingDate.getTime();
   }
 
   processBooking(): void {
     if (!this.flight) {
-      alert('Please select a flight before confirming booking.');
+      this.safeAlert('Please select a flight before confirming booking.');
       return;
     }
 
     if (!this.isAllPassengersValid()) {
-      alert('Please fill in all passenger details (name, age, and seat type).');
+      this.safeAlert('Please fill in all passenger details (name, age, gender, and seat type).');
+      return;
+    }
+
+    // Validate booking date
+    if (!this.bookingData.bookingDate || !this.isBookingDateValid(this.bookingData.bookingDate)) {
+      this.safeAlert('Please choose a valid booking date. Date cannot be earlier than today.');
+      return;
+    }
+
+    if (this.bookingData.tripType === 'roundtrip' && !this.isReturnDateValid(this.bookingData.returnDate)) {
+      this.safeAlert('Please choose a valid return date. It cannot be earlier than the booking date.');
       return;
     }
 
@@ -207,7 +289,7 @@ export class BookFlight implements OnInit {
     const bookingPayload = {
       UserId: this.bookingData.userId,
       FlightId: this.bookingData.flightId,
-      NumberOfPassengers: this.bookingData.numberOfPassengers,
+      NumberOfPassengers: this.passengers.length,
       TotalAmount: this.totalPrice,
       BookingStatus: this.bookingData.status,
       Passengers: passengersData // ✅ Include passengers with booking
@@ -235,5 +317,19 @@ export class BookFlight implements OnInit {
         alert('Unable to confirm booking. Please try again later.');
       }
     });
+      BookingStatus: 'Pending',
+      TripType: this.bookingData.tripType,
+      BookingDate: this.bookingData.bookingDate,
+      ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
+      Passengers: this.passengers.map(p => ({
+        PassengerName: p.name.trim(),
+        PassengerAge: Number(p.age),
+        PassengerGender: p.gender.trim(),
+        SeatType: p.seatType
+      }))
+    };
+
+    this.bookingFlowService.setPendingBooking(bookingPayload);
+    this.router.navigate(['/booking-cart']);
   }
 }

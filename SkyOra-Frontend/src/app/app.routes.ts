@@ -20,23 +20,29 @@ import { DisplayFeedback } from './Component/display-feedback/display-feedback';
 import { DisplayMails } from './Component/display-mails/display-mails';
 import { PassengerDetail } from './Component/passenger-detail/passenger-detail';
 import { BookingByID } from './Component/booking-by-id/booking-by-id';
+<<<<<<< HEAD
 import { Error } from './Component/error/error';
+=======
+import { PaymentGateway } from './Component/payment-gateway/payment-gateway';
+import { BookingCart } from './Component/booking-cart/booking-cart';
+import { ManageAccount } from './Component/manage-account/manage-account';
+>>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
 
 export const routes: Routes = [
-    { path: '', component: Welcome },
-    { path: 'welcome', redirectTo: '', pathMatch: 'full' },
-    { path: 'users', component: User },
+    {path: '', component: Welcome },
+    {path: 'welcome', redirectTo: '', pathMatch: 'full' },
+    {path: 'users', component: User },
     {path:'home1', component:Home1},
-    { path: 'flights', component: Flight },
-    { path: 'bookings', component: Booking },
-    { path: 'bookings/create', component: BookFlight },
-    { path: 'bookflight', component: BookFlight },
+    {path: 'flights', component: Flight },
+    {path: 'bookings', component: Booking },
+    {path: 'bookings/create', component: BookFlight },
+    {path: 'bookflight', component: BookFlight },
     {path:'bookingsbyid', component:BookingByID},
-    { path: 'bookflight/:id', component: BookFlight },
-    { path: 'addflight', component: FlightAdd },
+    {path: 'bookflight/:id', component: BookFlight },
+    {path: 'addflight', component: FlightAdd },
     {path: 'login', component: LoginComponent},
-    { path: 'register', component: RegisterComponent },
-    { path: 'editflight/:id', component: FlightEdit },
+    {path: 'register', component: RegisterComponent },
+    {path: 'editflight/:id', component: FlightEdit },
     {path:'about', component:Aboutus},
     {path:'contact',component:Contactus},
     {path:'network',component:NetworkComponent},
@@ -48,6 +54,12 @@ export const routes: Routes = [
     {path:'dismessages', component:DisplayMails},
     {path:'passengerdetails/:id', component:PassengerDetail},
     {path:'passengerdetails', component:PassengerDetail},
+<<<<<<< HEAD
     {path:'error', component:Error}
+=======
+    {path:'booking-cart', component: BookingCart},
+    {path:'payment',component:PaymentGateway},
+    {path:'manageaccount', component: ManageAccount}
+>>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
 
 ];

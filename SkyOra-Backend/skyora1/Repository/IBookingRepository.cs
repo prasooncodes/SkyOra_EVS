@@ -21,11 +21,20 @@ namespace skyora1.Repository
             var book = new Booking
             {
                 UserId = booking.UserId,
+<<<<<<< HEAD
                 FlightId = booking.FlightId,
                 NumberOfPassengers = booking.NumberOfPassengers,
                 TotalAmount = booking.TotalAmount,
                 BookingStatus = booking.BookingStatus,
                 Passengers = new List<Passenger>() // ✅ Initialize passengers collection
+=======
+                FlightId=booking.FlightId,
+                NumberOfPassengers=booking.NumberOfPassengers,
+                TotalAmount=booking.TotalAmount,
+                BookingStatus=booking.BookingStatus,
+                BookingDate=booking.BookingDate,
+                ReturnDate=booking.ReturnDate,
+>>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
             };
 
             // ✅ Add passengers to the booking if provided
@@ -75,6 +84,7 @@ namespace skyora1.Repository
                     NumberOfPassengers = b.NumberOfPassengers,
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
+<<<<<<< HEAD
                     Passengers = b.Passengers, // ✅ Maps the records cleanly into your GetBookingDto list
                     Flight = new FlightDto // ✅ Map flight details
                     {
@@ -88,6 +98,14 @@ namespace skyora1.Repository
                         EconomyPrice = b.Flight.EconomyPrice
                     }
                 }).ToListAsync();
+=======
+                    Passengers = b.Passengers,
+                    BookingDate = b.BookingDate,
+                    ReturnDate = b.ReturnDate,
+                    
+                })
+                .ToListAsync();
+>>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
         }
 
 
@@ -107,6 +125,7 @@ namespace skyora1.Repository
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
                     Passengers = b.Passengers,
+<<<<<<< HEAD
                     Flight = new FlightDto // ✅ Map flight details
                     {
                         FlightId = b.Flight.FlightId,
@@ -118,6 +137,10 @@ namespace skyora1.Repository
                         BusinessPrice = b.Flight.BusinessPrice,
                         EconomyPrice = b.Flight.EconomyPrice
                     }
+=======
+                    BookingDate = b.BookingDate,
+                    ReturnDate = b.ReturnDate,
+>>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
                 })
                 .FirstOrDefaultAsync();
         }

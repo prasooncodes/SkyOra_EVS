@@ -1,0 +1,67 @@
+<section class="booking-cart-page py-5">
+  <div class="container">
+    @if (hasPendingBooking()) {
+      <div class="card p-4 border-0 shadow-sm booking-cart-card">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+          <div>
+            <h4 class="fw-bold mb-1 text-purple">Booking Cart</h4>
+            <p class="text-muted mb-0">Review your booking details before proceeding to payment.</p>
+          </div>
+          <span class="cart-badge">Pending Confirmation</span>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="summary-box h-100">
+              <p class="summary-label">Flight ID</p>
+              <p class="summary-value">{{ pendingBooking()?.FlightId }}</p>
+
+              <p class="summary-label">Trip Type</p>
+              <p class="summary-value text-capitalize">{{ pendingBooking()?.TripType }}</p>
+
+              <p class="summary-label">Booking Date</p>
+              <p class="summary-value">{{ pendingBooking()?.BookingDate }}</p>
+
+              @if (pendingBooking()?.TripType === 'roundtrip') {
+                <p class="summary-label">Return Date</p>
+                <p class="summary-value">{{ pendingBooking()?.ReturnDate }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="summary-box h-100">
+              <p class="summary-label">Passengers</p>
+              <p class="summary-value">{{ pendingBooking()?.NumberOfPassengers }}</p>
+
+              <p class="summary-label">Booking Status</p>
+              <p class="summary-value">{{ pendingBooking()?.BookingStatus }}</p>
+
+              <p class="summary-label">Total Amount</p>
+              <p class="summary-value text-orange fw-bold fs-4">₹{{ pendingBooking()?.TotalAmount }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="fw-bold text-purple mb-3">Passenger Details</h6>
+          <div class="row g-2">
+            @for (passenger of pendingBooking()?.Passengers || []; track $index) {
+              <div class="col-md-6">
+                <div class="passenger-item">
+                  <strong>{{ passenger.PassengerName }}</strong>
+                  <span>Age {{ passenger.PassengerAge }} | {{ passenger.PassengerGender }} | {{ passenger.SeatType }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end flex-wrap mt-4">
+          <button type="button" class="btn btn-outline-secondary" (click)="backToBookFlight()">Edit Booking</button>
+          <button type="button" class="btn btn-akasa-orange px-4" (click)="goToPayment()">Proceed to Payment</button>
+        </div>
+      </div>
+    }
+  </div>
+</section>

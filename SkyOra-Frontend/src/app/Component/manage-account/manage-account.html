@@ -1,0 +1,84 @@
+<div class="auth-page">
+    <div class="auth-overlay"></div>
+
+    <div class="container auth-shell">
+        <div class="auth-copy">
+            <h1>Update your travel profile</h1>
+            <p>
+                Keep your personal information accurate to book flights faster, manage passengers seamlessly, and
+                maintain your latest preferences in your travel-first dashboard.
+            </p>
+
+
+            <div class="auth-highlights">
+                <div class="auth-highlight-card">
+                    <strong>Personalized Trips</strong>
+                    <span>Update your details and reuse them on future bookings.</span>
+                </div>
+                <div class="auth-highlight-card">
+                    <strong>One Travel Account</strong>
+                    <span>Access bookings, offers, and payment cart in one place.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-card auth-card-register">
+            <div class="auth-brand">
+                <span class="brand-mark"></span>
+                <div>
+                    <strong>SkyOra</strong>
+                    <p>Fly bold. Fly bright.</p>
+                </div>
+            </div>
+
+            <h2>Manage Your Profile</h2>
+            <p class="subtitle">Update your information and preferences at any time.</p>
+
+            <form (ngSubmit)="onSubmit()">
+                <label>
+                    Name
+                    <input type="text" [(ngModel)]="name" name="name" required />
+                </label>
+
+                <div class="form-grid-two">
+                    <label>
+                        Age
+                        <input type="number" [(ngModel)]="age" name="age" required />
+                    </label>
+
+                    <label>
+                        Gender
+                        <input type="text" [(ngModel)]="gender" name="gender" required />
+                    </label>
+                </div>
+
+                <label>
+                    Role
+                    <input type="text" [(ngModel)]="role" name="role" required />
+                </label>
+
+                <label>
+                    Email
+                    <input type="email" [(ngModel)]="email" name="email" required />
+                </label>
+
+                <div class="form-grid-two">
+                    <label>
+                         New Password
+                        <input type="password" [(ngModel)]="password" name="password" required />
+                    </label>
+
+                    <label>
+                        Confirm Password
+                        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+                    </label>
+                </div>
+
+                <button type="submit">Update Profile</button>
+
+                <p class="error" *ngIf="error">{{ error }}</p>
+                <p class="success" *ngIf="success">{{ success }}</p>
+            </form>
+        </div>
+    </div>
+</div>
