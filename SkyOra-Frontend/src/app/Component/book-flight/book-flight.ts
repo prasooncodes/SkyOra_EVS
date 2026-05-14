@@ -303,32 +303,6 @@ export class BookFlight implements OnInit {
     }))
     };
     this.bookingFlowService.setPendingBooking(bookingPayload);
-    this.router.navigate(['/booking-cart']);
-
-    this.bookingService.createBooking(bookingPayload).subscribe({
-      next: (bookingResponse: any) => {
-        console.log('Booking with passengers saved successfully:', bookingResponse);
-        
-        // Extract the booking ID from response
-        const bookingId = bookingResponse.bookingId ?? bookingResponse.BookingId ?? bookingResponse.id;
-
-        if (!bookingId || bookingId === 0) {
-          console.error('Booking created but ID was not returned:', bookingResponse);
-          alert('Booking created successfully!');
-          this.router.navigate(['/bookingsbyid']); 
-          return;
-        }
-
-        alert('Booking confirmed successfully with all passenger details!');
-        this.router.navigate(['/bookingsbyid']);
-      },
-      error: (error) => {
-        console.error('Booking failed:', error);
-        alert('Unable to confirm booking. Please try again later.');
-      }
-    });
-     
-
-    
+    this.router.navigate(['/booking-cart']); 
   }
 }

@@ -20,13 +20,9 @@ import { DisplayFeedback } from './Component/display-feedback/display-feedback';
 import { DisplayMails } from './Component/display-mails/display-mails';
 import { PassengerDetail } from './Component/passenger-detail/passenger-detail';
 import { BookingByID } from './Component/booking-by-id/booking-by-id';
-<<<<<<< HEAD
-import { Error } from './Component/error/error';
-=======
 import { PaymentGateway } from './Component/payment-gateway/payment-gateway';
 import { BookingCart } from './Component/booking-cart/booking-cart';
 import { ManageAccount } from './Component/manage-account/manage-account';
->>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -54,12 +50,8 @@ export const routes: Routes = [
     {path:'dismessages', component:DisplayMails},
     {path:'passengerdetails/:id', component:PassengerDetail},
     {path:'passengerdetails', component:PassengerDetail},
-<<<<<<< HEAD
-    {path:'error', component:Error}
-=======
     {path:'booking-cart', component: BookingCart},
     {path:'payment',component:PaymentGateway},
     {path:'manageaccount', component: ManageAccount}
->>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
 
 ];
