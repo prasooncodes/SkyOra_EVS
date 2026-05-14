@@ -22,6 +22,7 @@ import { PassengerDetail } from './Component/passenger-detail/passenger-detail';
 import { BookingByID } from './Component/booking-by-id/booking-by-id';
 import { PaymentGateway } from './Component/payment-gateway/payment-gateway';
 import { BookingCart } from './Component/booking-cart/booking-cart';
+import { ManageAccount } from './Component/manage-account/manage-account';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -50,6 +51,7 @@ export const routes: Routes = [
     {path:'passengerdetails/:id', component:PassengerDetail},
     {path:'passengerdetails', component:PassengerDetail},
     {path:'booking-cart', component: BookingCart},
-    {path:'payment',component:PaymentGateway}
+    {path:'payment',component:PaymentGateway},
+    {path:'manageaccount', component: ManageAccount}
 
 ];

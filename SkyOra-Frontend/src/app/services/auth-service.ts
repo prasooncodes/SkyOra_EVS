@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export interface AuthUser {
   id: number;
+  name: string | null;
   email: string | null;
   role: string | null;
 }
@@ -76,6 +77,14 @@ export class AuthService {
 
     return {
       id: Number(decoded.Myapp_User_Id || decoded.sub || 0),
+      name:
+        decoded.name ||
+        decoded.unique_name ||
+        decoded.given_name ||
+        decoded.fullName ||
+        decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] ||
+        decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'] ||
+        null,
       email:
         decoded.email ||
         decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ||

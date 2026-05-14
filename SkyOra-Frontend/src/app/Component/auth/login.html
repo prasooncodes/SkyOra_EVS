@@ -1,35 +1,57 @@
 <div class="auth-page">
-  <div class="auth-card">
-    <div class="auth-brand">
-      <span class="brand-mark"></span>
-      <div>
-        <strong>SkyOra</strong>
-        <p>Fly bold. Fly bright.</p>
+  <div class="auth-overlay"></div>
+
+  <div class="container auth-shell">
+    <div class="auth-copy">
+      <span class="auth-chip">Secure access</span>
+      <h1>Welcome back to SkyOra</h1>
+      <p>
+        Sign in to manage your bookings, review offers, and continue your journey with the same flying theme as the rest of the app.
+      </p>
+
+      <div class="auth-highlights">
+        <div class="auth-highlight-card">
+          <strong>Fast Booking</strong>
+          <span>Resume your cart and payment flow instantly.</span>
+        </div>
+        <div class="auth-highlight-card">
+          <strong>Travel Dashboard</strong>
+          <span>Track flights, bookings, and passenger details.</span>
+        </div>
       </div>
     </div>
 
-    <h2>Login</h2>
-    <p class="subtitle">Access your bookings and travel dashboard.</p>
+    <div class="auth-card">
+      <div class="auth-brand">
+        <span class="brand-mark"></span>
+        <div>
+          <strong>SkyOra</strong>
+          <p>Fly bold. Fly bright.</p>
+        </div>
+      </div>
 
-    <form (ngSubmit)="onSubmit()">
-      <label>
-        Email
-        <input type="email" [(ngModel)]="email" name="email" required />
-      </label>
+      <h2>Login</h2>
+      <p class="subtitle">Access your bookings and travel dashboard.</p>
 
-      <label>
-        Password
-        <input type="password" [(ngModel)]="password" name="password" required />
-      </label>
-      
+      <form (ngSubmit)="onSubmit()">
+        <label>
+          Email
+          <input type="email" [(ngModel)]="email" name="email" required />
+        </label>
 
-      <button type="submit">Login</button>
+        <label>
+          Password
+          <input type="password" [(ngModel)]="password" name="password" required />
+        </label>
 
-      <p class="error" *ngIf="error">{{ error }}</p>
+        <button type="submit">Login</button>
 
-      <p class="hint">
-        Don't have an account? <a routerLink="/register">Register here</a>.
-      </p>
-    </form>
+        <p class="error" *ngIf="error">{{ error }}</p>
+
+        <p class="hint">
+          Don't have an account? <a routerLink="/register">Register here</a>.
+        </p>
+      </form>
+    </div>
   </div>
 </div>

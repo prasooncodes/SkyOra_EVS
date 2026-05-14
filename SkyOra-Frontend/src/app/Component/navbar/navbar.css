@@ -105,6 +105,18 @@
   transform: translateY(-1px);
 }
 
+.navbar-auth-actions {
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.logged-in-greeting {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
 /* Mobile Toggler */
 .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.3) !important;
@@ -154,6 +166,19 @@
     width: 100%;
     justify-content: center;
     margin-bottom: 0.5rem;
+  }
+
+  .navbar-auth-actions {
+    align-items: stretch;
+  }
+
+  .user-quick-panel {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .logged-in-greeting {
+    text-align: center;
   }
 }
 

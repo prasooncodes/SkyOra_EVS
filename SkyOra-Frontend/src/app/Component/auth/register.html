@@ -1,60 +1,94 @@
 <div class="auth-page">
-  <div class="auth-card">
-    <div class="auth-brand">
-      <span class="brand-mark"></span>
-      <div>
-        <strong>SkyOra</strong>
-        <p>Fly bold. Fly bright.</p>
+  <div class="auth-overlay"></div>
+
+  <div class="container auth-shell">
+    <div class="auth-copy">
+      <span class="auth-chip">Join SkyOra</span>
+      <h1>Create your travel profile</h1>
+      <p>
+        Register once to book flights faster, manage passengers, and keep your journey details in one branded,
+        travel-first dashboard.
+      </p>
+
+      <div class="auth-highlights">
+        <div class="auth-highlight-card">
+          <strong>Personalized Trips</strong>
+          <span>Save your details and reuse them on future bookings.</span>
+        </div>
+        <div class="auth-highlight-card">
+          <strong>One Travel Account</strong>
+          <span>Access bookings, offers, and payment cart in one place.</span>
+        </div>
       </div>
     </div>
 
-    <h2>Register</h2>
-    <p class="subtitle">Create your account and start booking flights instantly.</p>
+    <div class="auth-card auth-card-register">
+      <div class="auth-brand">
+        <span class="brand-mark"></span>
+        <div>
+          <strong>SkyOra</strong>
+          <p>Fly bold. Fly bright.</p>
+        </div>
+      </div>
 
-    <form (ngSubmit)="onSubmit()">
-      <label>
-        Name
-        <input type="text" [(ngModel)]="name" name="name" required />
-      </label>
+      <h2>Register</h2>
+      <p class="subtitle">Create your account and start booking flights instantly.</p>
 
-      <label>
-        Age
-        <input type="number" [(ngModel)]="age" name="age" required />
-      </label>
+      <form (ngSubmit)="onSubmit()">
+        <label>
+          Name
+          <input type="text" [(ngModel)]="name" name="name" required />
+        </label>
 
-      <label>
-        Gender
-        <input type="text" [(ngModel)]="gender" name="gender" required />
-      </label>
+        <div class="form-grid-two">
+          <label>
+            Age
+            <input type="number" [(ngModel)]="age" name="age" required />
+          </label>
 
-      <label>
-        Role
-        <input type="text" [(ngModel)]="role" name="role" required />
-      </label>
+          <label>
+            Gender
+            <input type="text" [(ngModel)]="gender" name="gender" required />
+          </label>
+        </div>
 
-      <label>
-        Email
-        <input type="email" [(ngModel)]="email" name="email" required />
-      </label>
+        <label>
+          Email
+          <input type="email" [(ngModel)]="email" name="email" required />
+        </label>
 
-      <label>
-        Password
-        <input type="password" [(ngModel)]="password" name="password" required />
-      </label>
+        <div class="form-grid-two">
+          <label>
+            Password
+            <input type="password" [(ngModel)]="password" name="password" #passwordModel="ngModel" minlength="6" required />
+            <ng-container *ngIf="passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)">
+              <small *ngIf="passwordModel.errors?.['minlength']" class="text-danger d-block mt-1 validation-error">
+                <i class="bi bi-exclamation-circle me-1"></i>Password must be at least 6 characters.
+              </small>
+            </ng-container>
+          </label>
 
-      <label>
-        Confirm Password
-        <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required />
-      </label>
+          <label>
+            Confirm Password
+            <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" #confirmPasswordModel="ngModel" required />
+            <!-- Mismatch validation check based on the component comparison -->
+            <ng-container *ngIf="confirmPassword && password !== confirmPassword && (confirmPasswordModel.dirty || confirmPasswordModel.touched)">
+              <small class="text-danger d-block mt-1 validation-error">
+                <i class="bi bi-exclamation-circle me-1"></i>Passwords do not match.
+              </small>
+            </ng-container>
+          </label>
+        </div>
 
-      <button type="submit">Register</button>
+        <button type="submit">Register</button>
 
-      <p class="error" *ngIf="error">{{ error }}</p>
-      <p class="success" *ngIf="success">{{ success }}</p>
+        <p class="error" *ngIf="error">{{ error }}</p>
+        <p class="success" *ngIf="success">{{ success }}</p>
 
-      <p class="hint">
-        Already have an account? <a routerLink="/login">Login here</a>.
-      </p>
-    </form>
+        <p class="hint">
+          Already have an account? <a routerLink="/login">Login here</a>.
+        </p>
+      </form>
+    </div>
   </div>
 </div>

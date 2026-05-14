@@ -46,9 +46,13 @@ export class User implements OnInit {
   onSave() {
     if (this.editingUser) {
       const id = this.editingUser.UserId || this.editingUser.userId;
-      const data = { 
-        name: this.editingUser.Name || this.editingUser.name, 
-        age: this.editingUser.Age || this.editingUser.age 
+      const data = {
+        name: this.editingUser.Name || this.editingUser.name,
+        age: Number(this.editingUser.Age ?? this.editingUser.age),
+        gender: this.editingUser.Gender || this.editingUser.gender || 'User',
+        role: this.editingUser.Role || this.editingUser.role || 'User',
+        email: this.editingUser.Email || this.editingUser.email || '',
+        ...(this.editingUser.password ? { password: this.editingUser.password } : {}),
       };
 
       this.userService.editUser(id, data).subscribe({
