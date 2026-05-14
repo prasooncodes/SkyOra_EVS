@@ -21,20 +21,14 @@ namespace skyora1.Repository
             var book = new Booking
             {
                 UserId = booking.UserId,
-<<<<<<< HEAD
+
                 FlightId = booking.FlightId,
                 NumberOfPassengers = booking.NumberOfPassengers,
                 TotalAmount = booking.TotalAmount,
                 BookingStatus = booking.BookingStatus,
-                Passengers = new List<Passenger>() // ✅ Initialize passengers collection
-=======
-                FlightId=booking.FlightId,
-                NumberOfPassengers=booking.NumberOfPassengers,
-                TotalAmount=booking.TotalAmount,
-                BookingStatus=booking.BookingStatus,
+                Passengers = new List<Passenger>(), // ✅ Initialize passengers collection
                 BookingDate=booking.BookingDate,
                 ReturnDate=booking.ReturnDate,
->>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
             };
 
             // ✅ Add passengers to the booking if provided
@@ -83,8 +77,7 @@ namespace skyora1.Repository
                     FlightId = b.FlightId,
                     NumberOfPassengers = b.NumberOfPassengers,
                     TotalAmount = b.TotalAmount,
-                    BookingStatus = b.BookingStatus,
-<<<<<<< HEAD
+                    BookingStatus = b.BookingStatus,         
                     Passengers = b.Passengers, // ✅ Maps the records cleanly into your GetBookingDto list
                     Flight = new FlightDto // ✅ Map flight details
                     {
@@ -98,14 +91,7 @@ namespace skyora1.Repository
                         EconomyPrice = b.Flight.EconomyPrice
                     }
                 }).ToListAsync();
-=======
-                    Passengers = b.Passengers,
-                    BookingDate = b.BookingDate,
-                    ReturnDate = b.ReturnDate,
-                    
-                })
-                .ToListAsync();
->>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
+                   
         }
 
 
@@ -114,7 +100,7 @@ namespace skyora1.Repository
         {
             return await appDbContext.bookings
                 .Include(b => b.Passengers)
-                .Include(b => b.Flight) // ✅ NEW: Include flight details
+                .Include(b => b.Flight)
                 .Where(b => b.BookingId == id)
                 .Select(b => new GetBookingDto
                 {
@@ -125,8 +111,8 @@ namespace skyora1.Repository
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
                     Passengers = b.Passengers,
-<<<<<<< HEAD
-                    Flight = new FlightDto // ✅ Map flight details
+
+                    Flight = new FlightDto
                     {
                         FlightId = b.Flight.FlightId,
                         FlightNo = b.Flight.FlightNo,
@@ -136,13 +122,13 @@ namespace skyora1.Repository
                         ArrivalTime = b.Flight.ArrivalTime,
                         BusinessPrice = b.Flight.BusinessPrice,
                         EconomyPrice = b.Flight.EconomyPrice
-                    }
-=======
+                    }, // ✅ Fixed: Added missing comma here
+
                     BookingDate = b.BookingDate,
-                    ReturnDate = b.ReturnDate,
->>>>>>> 3e4896d93bbfc99fb3a7c31580d04cf8cadd8586
-                })
+                    ReturnDate = b.ReturnDate
+                }) // ✅ Fixed: Removed the stray '=' character
                 .FirstOrDefaultAsync();
         }
+
     }
 }

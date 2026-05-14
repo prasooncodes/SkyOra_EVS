@@ -291,9 +291,19 @@ export class BookFlight implements OnInit {
       FlightId: this.bookingData.flightId,
       NumberOfPassengers: this.passengers.length,
       TotalAmount: this.totalPrice,
-      BookingStatus: this.bookingData.status,
-      Passengers: passengersData // ✅ Include passengers with booking
+     BookingStatus: 'Pending',
+      TripType: this.bookingData.tripType,
+      BookingDate: this.bookingData.bookingDate,
+      ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
+      Passengers: this.passengers.map(p => ({
+        PassengerName: p.name.trim(),
+        PassengerAge: Number(p.age),
+        PassengerGender: p.gender.trim(),
+        SeatType: p.seatType // ✅ Include passengers with booking
+    }))
     };
+    this.bookingFlowService.setPendingBooking(bookingPayload);
+    this.router.navigate(['/booking-cart']);
 
     this.bookingService.createBooking(bookingPayload).subscribe({
       next: (bookingResponse: any) => {
@@ -317,19 +327,8 @@ export class BookFlight implements OnInit {
         alert('Unable to confirm booking. Please try again later.');
       }
     });
-      BookingStatus: 'Pending',
-      TripType: this.bookingData.tripType,
-      BookingDate: this.bookingData.bookingDate,
-      ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
-      Passengers: this.passengers.map(p => ({
-        PassengerName: p.name.trim(),
-        PassengerAge: Number(p.age),
-        PassengerGender: p.gender.trim(),
-        SeatType: p.seatType
-      }))
-    };
+     
 
-    this.bookingFlowService.setPendingBooking(bookingPayload);
-    this.router.navigate(['/booking-cart']);
+    
   }
 }
