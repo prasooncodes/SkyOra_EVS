@@ -18,13 +18,29 @@ export class UserServices {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  editUser(id: number, user: { name: string; age: number }) {
-    const payload = {
-      Name: user.name,
-      Age: user.age,
-    };
-    return this.http.put(`${this.apiUrl}/${id}`, payload);
+ editUser(
+  id: number, 
+  user: { 
+    name: string; 
+    age: number; 
+    gender: string; 
+    role: string; 
+    email: string; 
+    password?: string; // Optional field in case they do not wish to update their password
   }
+) {
+  const payload = {
+    Name: user.name,
+    Age: user.age,
+    Gender: user.gender,
+    Role: user.role,
+    Email: user.email,
+    ...(user.password && { PasswordHash: user.password }) // Keep the password field consistent with registration/login
+  };
+
+  return this.http.put(`${this.apiUrl}/${id}`, payload);
+}
+
 
   deleteUser(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);

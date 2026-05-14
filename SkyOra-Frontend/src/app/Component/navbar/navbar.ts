@@ -32,6 +32,20 @@ export class Navbar implements OnInit, OnDestroy {
     );
   }
 
+  get displayName(): string {
+    const name = this.user?.name?.trim();
+    if (name) {
+      return name;
+    }
+
+    const email = this.user?.email?.trim();
+    if (email) {
+      return email.split('@')[0];
+    }
+
+    return 'User';
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);
@@ -39,5 +53,9 @@ export class Navbar implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  manageaccount():void {
+    this.router.navigate(['/manageaccount']);
   }
 }
