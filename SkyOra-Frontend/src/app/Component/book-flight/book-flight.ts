@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlightService } from '../../services/flight';
-import { BookingService } from '../../services/booking';
 import { FlightInterface } from '../../Models/flights';
 import { AuthService } from '../../services/auth-service';
+import { BookingFlowService } from '../../services/booking-flow';
 
 @Component({
   selector: 'app-book-flight',
@@ -60,7 +60,7 @@ export class BookFlight implements OnInit {
   constructor(
     private flightService: FlightService,
     private authService: AuthService,
-    private bookingService: BookingService,
+    private bookingFlowService: BookingFlowService,
     private cdr: ChangeDetectorRef,
     private ar: ActivatedRoute,
     private router: Router
@@ -212,7 +212,14 @@ export class BookFlight implements OnInit {
   }
 
   isAllPassengersValid(): boolean {
-    return this.passengers.every(p => p.name && p.age && p.age > 0);
+    return this.passengers.every(
+      (p) =>
+        !!p.name?.trim() &&
+        !!p.gender?.trim() &&
+        !!p.seatType?.trim() &&
+        typeof p.age === 'number' &&
+        p.age > 0
+    );
   }
 
   // Format a Date to YYYY-MM-DD for use with input[type="date"] and min attr
@@ -254,7 +261,7 @@ export class BookFlight implements OnInit {
     }
 
     if (!this.isAllPassengersValid()) {
-      this.safeAlert('Please fill in all passenger details (name, age, and seat type).');
+      this.safeAlert('Please fill in all passenger details (name, age, gender, and seat type).');
       return;
     }
 
@@ -272,29 +279,21 @@ export class BookFlight implements OnInit {
     const bookingPayload = {
       UserId: this.bookingData.userId,
       FlightId: this.bookingData.flightId,
-      NumberOfPassengers: this.bookingData.numberOfPassengers,
+      NumberOfPassengers: this.passengers.length,
       TotalAmount: this.totalPrice,
-      BookingStatus: this.bookingData.status,
+      BookingStatus: 'Pending',
       TripType: this.bookingData.tripType,
       BookingDate: this.bookingData.bookingDate,
-      ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : '',
+      ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
       Passengers: this.passengers.map(p => ({
-        PassengerName: p.name,
-        PassengerAge: p.age,
-        PassengerGender:p.gender,
+        PassengerName: p.name.trim(),
+        PassengerAge: Number(p.age),
+        PassengerGender: p.gender.trim(),
         SeatType: p.seatType
       }))
     };
 
-    this.bookingService.createBooking(bookingPayload).subscribe({
-      next: () => {
-        this.safeAlert('Booking confirmed successfully!');
-        this.router.navigate(['/bookingsbyid']);
-      },
-      error: (error) => {
-        console.error('Booking failed:', error);
-        this.safeAlert('Unable to confirm booking. Please try again later.');
-      }
-    });
+    this.bookingFlowService.setPendingBooking(bookingPayload);
+    this.router.navigate(['/booking-cart']);
   }
 }

@@ -1,0 +1,160 @@
+<section class="payment-page py-5">
+  <div class="container">
+    <div class="card p-4 border-0 shadow-sm payment-hero-card mb-4">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+          <span class="payment-chip">Secure checkout</span>
+          <h3 class="fw-bold mb-1 mt-2 text-purple">Payment Gateway</h3>
+          <p class="text-muted mb-0">Choose your preferred payment method and complete your booking in a few steps.</p>
+        </div>
+        <div class="payment-total-pill">
+          <span class="small text-muted d-block">Payable amount</span>
+          <strong class="text-orange">₹{{ paymentForm.controls.amount.value || 0 }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="card p-4 border-0 shadow-sm h-100 payment-methods-card">
+            <h5 class="fw-bold text-purple mb-1">Select Payment Method</h5>
+            <p class="text-muted small mb-3">Card, UPI, net banking and wallets are available.</p>
+
+            <div class="method-grid" role="list" aria-label="Available payment methods">
+              @for (method of paymentMethods; track method.id) {
+                <button
+                  type="button"
+                  class="method-card"
+                  [class.active]="selectedMethod() === method.id"
+                  (click)="selectMethod(method.id)"
+                >
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+                    <span class="method-label">{{ method.title }}</span>
+                    <span class="method-check" [class.visible]="selectedMethod() === method.id">●</span>
+                  </div>
+                  <strong class="d-block mb-1">{{ method.subtitle }}</strong>
+                  <small>{{ method.description }}</small>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="card p-4 border-0 shadow-sm payment-form-card">
+            <h5 class="fw-bold text-purple mb-1">{{ activeMethod().title }} Details</h5>
+            <p class="text-muted small mb-3">{{ activeMethod().description }}</p>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-purple" for="amount">Amount (₹)</label>
+                <input id="amount" class="form-control" type="number" formControlName="amount" min="1" placeholder="2499" />
+              </div>
+            </div>
+
+            @if (selectedMethod() === 'card') {
+              <div class="row g-3 mt-1">
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-purple" for="cardName">Cardholder Name</label>
+                  <input id="cardName" class="form-control" type="text" formControlName="cardName" placeholder="John Doe" />
+                  @if (paymentForm.controls.cardName.touched && paymentForm.controls.cardName.invalid) {
+                    <small class="text-danger">Enter the name exactly as printed on your card.</small>
+                  }
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-purple" for="cardNumber">Card Number</label>
+                  <input id="cardNumber" class="form-control" type="text" formControlName="cardNumber" maxlength="16" placeholder="1234567890123456" />
+                  @if (paymentForm.controls.cardNumber.touched && paymentForm.controls.cardNumber.invalid) {
+                    <small class="text-danger">Enter a valid 16-digit card number.</small>
+                  }
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold text-purple" for="expiryMonth">Expiry Month</label>
+                  <input id="expiryMonth" class="form-control" type="text" formControlName="expiryMonth" maxlength="2" placeholder="MM" />
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold text-purple" for="expiryYear">Expiry Year</label>
+                  <input id="expiryYear" class="form-control" type="text" formControlName="expiryYear" maxlength="2" placeholder="YY" />
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold text-purple" for="cvv">CVV</label>
+                  <input id="cvv" class="form-control" type="password" formControlName="cvv" maxlength="4" placeholder="123" />
+                </div>
+              </div>
+            }
+
+            @if (selectedMethod() === 'upi') {
+              <div class="row g-3 mt-1">
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-purple" for="upiId">UPI ID</label>
+                  <input id="upiId" class="form-control" type="text" formControlName="upiId" placeholder="name@bank" />
+                  @if (paymentForm.controls.upiId.touched && paymentForm.controls.upiId.invalid) {
+                    <small class="text-danger">Enter a valid UPI ID like name@bank.</small>
+                  }
+                </div>
+              </div>
+              <div class="payment-info-box mt-3">Supported apps: Google Pay, PhonePe, Paytm, BHIM.</div>
+            }
+
+            @if (selectedMethod() === 'netBanking') {
+              <div class="row g-3 mt-1">
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-purple" for="bankName">Select Bank</label>
+                  <select id="bankName" class="form-select" formControlName="bankName">
+                    <option value="">Choose your bank</option>
+                    <option value="SBI">State Bank of India</option>
+                    <option value="HDFC">HDFC Bank</option>
+                    <option value="ICICI">ICICI Bank</option>
+                    <option value="Axis">Axis Bank</option>
+                    <option value="PNB">Punjab National Bank</option>
+                  </select>
+                  @if (paymentForm.controls.bankName.touched && paymentForm.controls.bankName.invalid) {
+                    <small class="text-danger">Select a bank to continue.</small>
+                  }
+                </div>
+              </div>
+              <div class="payment-info-box mt-3">You will be redirected to your bank portal for authorization.</div>
+            }
+
+            @if (selectedMethod() === 'wallet') {
+              <div class="row g-3 mt-1">
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-purple" for="walletName">Choose Wallet</label>
+                  <select id="walletName" class="form-select" formControlName="walletName">
+                    <option value="">Choose a wallet</option>
+                    <option value="Amazon Pay">Amazon Pay</option>
+                    <option value="Paytm Wallet">Paytm Wallet</option>
+                    <option value="Mobikwik">Mobikwik</option>
+                    <option value="Freecharge">Freecharge</option>
+                  </select>
+                  @if (paymentForm.controls.walletName.touched && paymentForm.controls.walletName.invalid) {
+                    <small class="text-danger">Select a wallet to continue.</small>
+                  }
+                </div>
+              </div>
+              <div class="payment-info-box mt-3">Complete payment instantly using your wallet balance.</div>
+            }
+
+            <button class="btn btn-akasa-orange w-100 mt-4 py-2" type="submit" [disabled]="isProcessing()">
+              {{ isProcessing() ? 'Processing...' : 'Pay ₹' + (paymentForm.controls.amount.value || 0) }}
+            </button>
+
+            @if (paymentSuccess()) {
+              <p class="status-success mt-3 mb-0">Payment successful. Your booking is being confirmed.</p>
+            }
+
+            @if (paymentError()) {
+              <p class="status-error mt-3 mb-0">{{ paymentError() }}</p>
+            }
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
