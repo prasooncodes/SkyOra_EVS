@@ -18,19 +18,35 @@ namespace skyora1.Repository
             var flightExists = await appDbContext.flights.AnyAsync(f => f.FlightId == booking.FlightId);
             if (!flightExists) throw new Exception("Flight with the specified ID does not exist.");
 
-
-            var book= new Booking
+            var book = new Booking
             {
                 UserId = booking.UserId,
-                FlightId=booking.FlightId,
-                NumberOfPassengers=booking.NumberOfPassengers,
-                TotalAmount=booking.TotalAmount,
-                BookingStatus=booking.BookingStatus
+                FlightId = booking.FlightId,
+                NumberOfPassengers = booking.NumberOfPassengers,
+                TotalAmount = booking.TotalAmount,
+                BookingStatus = booking.BookingStatus,
+                Passengers = new List<Passenger>() // ✅ Initialize passengers collection
             };
+
+            // ✅ Add passengers to the booking if provided
+            if (booking.Passengers != null && booking.Passengers.Count > 0)
+            {
+                foreach (var passengerDto in booking.Passengers)
+                {
+                    var passenger = new Passenger
+                    {
+                        Name = passengerDto.Name,
+                        Age = passengerDto.Age,
+                        Gender = passengerDto.Gender
+                        // ✅ Don't set BookingId - EF will set it automatically when booking is saved
+                    };
+                    book.Passengers.Add(passenger);
+                }
+            }
+
             await appDbContext.bookings.AddAsync(book);
             await appDbContext.SaveChangesAsync();
             return book.BookingId;
-
         }
 
         public async Task<int> DeleteBooking(int id)
@@ -49,25 +65,38 @@ namespace skyora1.Repository
         public async Task<List<GetBookingDto>> GetBookingAsync()
         {
             return await appDbContext.bookings
-                .Include(b => b.Passengers)
+                .Include(b => b.Passengers) // ✅ CRITICAL LINK: Tells EF Core to fetch the passengers for each booking row
+                .Include(b => b.Flight) // ✅ NEW: Include flight details
                 .Select(b => new GetBookingDto
                 {
-                    BookingId = b.BookingId,
                     UserId = b.UserId,
+                    BookingId = b.BookingId,
                     FlightId = b.FlightId,
                     NumberOfPassengers = b.NumberOfPassengers,
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
-                    Passengers = b.Passengers
-                })
-                .ToListAsync();
+                    Passengers = b.Passengers, // ✅ Maps the records cleanly into your GetBookingDto list
+                    Flight = new FlightDto // ✅ Map flight details
+                    {
+                        FlightId = b.Flight.FlightId,
+                        FlightNo = b.Flight.FlightNo,
+                        Source = b.Flight.Source,
+                        Destination = b.Flight.Destination,
+                        DepartureTime = b.Flight.DepartureTime,
+                        ArrivalTime = b.Flight.ArrivalTime,
+                        BusinessPrice = b.Flight.BusinessPrice,
+                        EconomyPrice = b.Flight.EconomyPrice
+                    }
+                }).ToListAsync();
         }
+
 
 
         public async Task<GetBookingDto> GetBookingById(int id)
         {
             return await appDbContext.bookings
                 .Include(b => b.Passengers)
+                .Include(b => b.Flight) // ✅ NEW: Include flight details
                 .Where(b => b.BookingId == id)
                 .Select(b => new GetBookingDto
                 {
@@ -77,7 +106,18 @@ namespace skyora1.Repository
                     NumberOfPassengers = b.NumberOfPassengers,
                     TotalAmount = b.TotalAmount,
                     BookingStatus = b.BookingStatus,
-                    Passengers = b.Passengers
+                    Passengers = b.Passengers,
+                    Flight = new FlightDto // ✅ Map flight details
+                    {
+                        FlightId = b.Flight.FlightId,
+                        FlightNo = b.Flight.FlightNo,
+                        Source = b.Flight.Source,
+                        Destination = b.Flight.Destination,
+                        DepartureTime = b.Flight.DepartureTime,
+                        ArrivalTime = b.Flight.ArrivalTime,
+                        BusinessPrice = b.Flight.BusinessPrice,
+                        EconomyPrice = b.Flight.EconomyPrice
+                    }
                 })
                 .FirstOrDefaultAsync();
         }

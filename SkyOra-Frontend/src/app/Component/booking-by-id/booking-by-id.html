@@ -18,16 +18,24 @@
             <!-- Main Content -->
             <div class="col-md-8 p-4">
               <div class="row align-items-center">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <small class="text-muted d-block">Booking Reference</small>
                   <!-- Match: BookingId -->
                   <span class="fw-bold text-purple fs-5">#{{ booking.BookingId }}</span>
                 </div>
-                <div class="col-sm-4 text-center">
-                  <small class="text-muted d-block">Flight</small>
-                  <!-- Match: FlightId -->
-                  <span class="fw-bold">SK-{{ booking.FlightId }}</span>
+                
+                <!-- ✅ NEW: Flight Details Display -->
+                <div class="col-sm-5">
+                  <small class="text-muted d-block">Flight Details</small>
+                  <div>
+                    <span class="fw-bold">{{ booking.Flight?.FlightNo || 'N/A' }}</span>
+                    <span class="text-muted ms-2">{{ booking.Flight?.Source || 'N/A' }} → {{ booking.Flight?.Destination || 'N/A' }}</span>
+                  </div>
+                  <div class="small text-muted mt-1">
+                    Depart: {{ booking.Flight?.DepartureTime | date:'short' }}
+                  </div>
                 </div>
+                
                 <div class="col-sm-4 text-end">
                   <small class="text-muted d-block">Passengers</small>
                   <!-- Match: NumberOfPassengers -->

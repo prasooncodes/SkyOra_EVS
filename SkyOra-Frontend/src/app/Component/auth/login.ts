@@ -44,10 +44,7 @@ export class LoginComponent {
       },
       error: (err : any) => {
         console.error('Login error response:', err);
-        this.error =
-          err?.error ||
-          err?.message ||
-          'Login failed. Please check your credentials and try again.';
+        this.router.navigate(['/error']);
       },
     });
   }

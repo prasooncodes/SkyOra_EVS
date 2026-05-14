@@ -20,6 +20,7 @@ import { DisplayFeedback } from './Component/display-feedback/display-feedback';
 import { DisplayMails } from './Component/display-mails/display-mails';
 import { PassengerDetail } from './Component/passenger-detail/passenger-detail';
 import { BookingByID } from './Component/booking-by-id/booking-by-id';
+import { Error } from './Component/error/error';
 
 export const routes: Routes = [
     { path: '', component: Welcome },
@@ -46,6 +47,7 @@ export const routes: Routes = [
     {path:'disfeedback', component:DisplayFeedback},
     {path:'dismessages', component:DisplayMails},
     {path:'passengerdetails/:id', component:PassengerDetail},
-    {path:'passengerdetails', component:PassengerDetail}
+    {path:'passengerdetails', component:PassengerDetail},
+    {path:'error', component:Error}
 
 ];

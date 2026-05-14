@@ -1,0 +1,99 @@
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+  --soft-gray: #f8f9fc;
+}
+
+.manifest-container {
+  background-color: var(--soft-gray);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+}
+
+.brand-text-purple {
+  color: var(--akasa-purple);
+  font-weight: 800;
+  font-size: 2.2rem;
+}
+
+.text-orange { color: var(--akasa-orange); }
+
+/* Passenger Manifest Cards Styles layout */
+.passenger-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #eef2f5;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.passenger-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(92, 15, 217, 0.05) !important;
+}
+
+.brand-accent-bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--akasa-orange), var(--akasa-purple));
+}
+
+/* Avatar circular asset details */
+.avatar-node {
+  background-color: #f3edff;
+  padding: 15px;
+  border-radius: 12px;
+  min-width: 80px;
+}
+
+.avatar-icon { font-size: 2rem; }
+
+.seat-badge {
+  background-color: rgba(255, 99, 0, 0.1);
+  color: var(--akasa-orange);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* Roster Metrics data items grid formatting */
+.passenger-name {
+  color: #2d3748;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.meta-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  font-size: 0.95rem;
+  color: #4a5568;
+  font-weight: 600;
+}
+
+/* Navigation button actions overrides */
+.btn-outline-purple {
+  border: 2px solid var(--akasa-purple);
+  color: var(--akasa-purple);
+  font-weight: 700;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-purple:hover {
+  background-color: var(--akasa-purple);
+  color: #ffffff;
+}
+
+.empty-card {
+  background: white;
+  border: 2px dashed #cbd5e0;
+}

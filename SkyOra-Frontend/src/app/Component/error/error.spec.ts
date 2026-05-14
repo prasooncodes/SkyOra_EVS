@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import MyNetwork from './my-network';
+import { Error } from './error';
 
-describe('MyNetwork', () => {
-  let component: MyNetwork;
-  let fixture: ComponentFixture<MyNetwork>;
+describe('Error', () => {
+  let component: Error;
+  let fixture: ComponentFixture<Error>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MyNetwork],
+      imports: [Error],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MyNetwork);
+    fixture = TestBed.createComponent(Error);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

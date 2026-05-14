@@ -1,0 +1,37 @@
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+}
+
+/* Fills the full width and remaining vertical viewport space below your navbar */
+.map-wrapper { 
+  position: relative; 
+  height: calc(100vh - 80px); 
+  width: 100%; 
+  overflow: hidden; 
+}
+
+#map { 
+  height: 100%; 
+  width: 100%; 
+  z-index: 1; 
+}
+
+/* Absolute floating overlay container badge configuration */
+.network-badge {
+  position: absolute; 
+  top: 20px; 
+  left: 20px; 
+  z-index: 1000; /* Stack on top of map tiles layers */
+  background: rgba(255, 255, 255, 0.9); 
+  backdrop-filter: blur(10px);
+  padding: 20px; 
+  border-radius: 15px; 
+  border-left: 6px solid var(--akasa-orange);
+  pointer-events: none; /* Allows user mouse interaction to bleed through onto the map */
+}
+
+.orange { 
+  color: var(--akasa-orange); 
+  font-weight: 800; 
+}

@@ -20,6 +20,11 @@ export class Booking implements OnInit {
       next: (data: any) => {
         this.bookings = data;
         console.log("Bookings fetched successfully:", this.bookings);
+        // ✅ Log flight details for debugging
+        if (this.bookings.length > 0) {
+          console.log("First booking details:", this.bookings[0]);
+          console.log("Flight object:", this.bookings[0].flight || this.bookings[0].Flight);
+        }
         this.cdr.detectChanges(); 
       },
       error: (error) => {

@@ -1,35 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth-service';
+import { Observable } from 'rxjs';
+import { PassengerInterface } from '../Models/passengers';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Passengers {
+export class PassengerService {
+  private apiurl = 'https://localhost:7169/api/Passenger';
 
-  private apiUrl = 'https://localhost:7169/api/Passengers';
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient, private authservice: AuthService) { }
-
-  getPassengers() {
-     return this.http.get(this.apiUrl, this.getAuthHeaders());
+  // Maps directly to your [HttpPost] AddPassenger controller method
+  addPassenger(passenger: PassengerInterface): Observable<any> {
+    return this.http.post<any>(this.apiurl, passenger);
   }
 
-  createPassenger(passengerData: any) {
-    return this.http.post(this.apiUrl, passengerData, this.getAuthHeaders());
-  }
-
-  deletePassenger(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`, this.getAuthHeaders());
-  }
-
-  getPassengerById(id: number) {
-    return this.http.get(`${this.apiUrl}/${id}`, this.getAuthHeaders());
-  }
-   private getAuthHeaders() {
-    const token = this.authservice.getToken();
-    return token
-      ? { headers: { Authorization: `Bearer ${token}` } }
-      : {};
+  // Maps directly to your [HttpGet("{id}")] GetPassengerByBookingId controller method
+  getPassengersByBookingId(bookingId: number): Observable<PassengerInterface[]> {
+    return this.http.get<PassengerInterface[]>(`${this.apiurl}/${bookingId}`);
   }
 }

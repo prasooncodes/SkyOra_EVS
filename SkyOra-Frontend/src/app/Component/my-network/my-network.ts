@@ -7,29 +7,8 @@ import { FlightInterface } from '../../Models/flights';
   selector: 'app-network',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="map-wrapper">
-      <div id="map"></div>
-      
-      <!-- Floating Badge -->
-      <div class="network-badge shadow">
-        <h3 class="mb-0">SkyOra <span class="orange">Network</span></h3>
-        <p class="mb-0 fw-bold">Connecting {{ cityCount }} Cities</p>
-        <small class="text-muted">Real-time Route Map</small>
-      </div>
-    </div>
-  `,
-  styles: [`
-    .map-wrapper { position: relative; height: calc(100vh - 80px); width: 100%; overflow: hidden; }
-    #map { height: 100%; width: 100%; z-index: 1; }
-    .network-badge {
-      position: absolute; top: 20px; left: 20px; z-index: 1000;
-      background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
-      padding: 20px; border-radius: 15px; border-left: 6px solid #FF6300;
-      pointer-events: none;
-    }
-    .orange { color: #FF6300; font-weight: 800; }
-  `]
+  templateUrl: './my-network.html', 
+  styleUrls: ['./my-network.css']    
 })
 export class NetworkComponent implements AfterViewInit {
   private map: any;
@@ -56,21 +35,19 @@ export class NetworkComponent implements AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private flightService: FlightService,
-    private cdr: ChangeDetectorRef // Fixed the "0 cities" issue
+    private cdr: ChangeDetectorRef
   ) {}
 
   async ngAfterViewInit(): Promise<void> {
     if (isPlatformBrowser(this.platformId)) {
       const L = await import('leaflet');
       
-      // Initialize Map
       this.map = L.map('map').setView([22.5, 82.0], 5);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; SkyOra Network'
       }).addTo(this.map);
 
-      // Fix for "grey tiles" or incorrect container sizing
       setTimeout(() => { this.map.invalidateSize(); }, 300);
 
       this.loadMarkers(L);
@@ -78,73 +55,64 @@ export class NetworkComponent implements AfterViewInit {
     }
   }
 
+  private normalize(name: string): string {
+    if (!name) return '';
+    return name.trim().charAt(0).toUpperCase() + name.trim().slice(1).toLowerCase();
+  }
+
   private loadMarkers(L: any): void {
-  this.flightService.getOperationalCities().subscribe({
-    next: (cities) => {
-      console.log('Operational Cities fetched:', cities);
-      
-      // ✅ 1. Update the count immediately
-      this.cityCount = cities.length;
+    this.flightService.getOperationalCities().subscribe({
+      next: (cities) => {
+        this.cityCount = cities.length;
 
-      cities.forEach(city => {
-        // ✅ 2. Normalize: Force "kolkata" to "Kolkata"
-        const normalizedCity = city.trim().charAt(0).toUpperCase() + city.trim().slice(1).toLowerCase();
-        
-        const coords = this.cityCoords[normalizedCity];
+        cities.forEach(city => {
+          const normalizedCity = this.normalize(city);
+          const coords = this.cityCoords[normalizedCity];
 
-        if (coords) {
-          // Hub Glow
-          L.circle(coords, {
-            radius: 35000, color: '#5C0FD9', fillColor: '#5C0FD9',
-            fillOpacity: 0.1, weight: 0
-          }).addTo(this.map);
+          if (coords) {
+            L.circle(coords, {
+              radius: 35000, color: '#5C0FD9', fillColor: '#5C0FD9', fillOpacity: 0.1, weight: 0
+            }).addTo(this.map);
 
-          // Orange Marker
-          L.circleMarker(coords, {
-            radius: 8, fillColor: "#FF6300", color: "#fff",
-            weight: 2, opacity: 1, fillOpacity: 0.8
-          }).addTo(this.map).bindPopup(`<b>SkyOra Hub: ${normalizedCity}</b>`);
-        } else {
-          console.warn(`Missing coordinates for: ${normalizedCity}`);
-        }
-      });
+            L.circleMarker(coords, {
+              radius: 8, fillColor: "#FF6300", color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.8
+            }).addTo(this.map).bindPopup(`<b>SkyOra Hub: ${normalizedCity}</b>`);
+          }
+        });
 
-      // ✅ 3. Tell Angular to refresh the UI badge
-      this.cdr.detectChanges(); 
-    },
-    error: (err) => console.error(err)
-  });
-}
-
+        this.cdr.detectChanges(); 
+      },
+      error: (err) => console.error(err)
+    });
+  }
 
   private drawFlightPaths(L: any): void {
     this.flightService.getFlights().subscribe({
       next: (flights) => {
         flights.forEach(flight => {
-          const start = this.cityCoords[flight.Source.trim()];
-          const end = this.cityCoords[flight.Destination.trim()];
+          const startKey = this.normalize(flight.Source);
+          const endKey = this.normalize(flight.Destination);
+
+          const start = this.cityCoords[startKey];
+          const end = this.cityCoords[endKey];
 
           if (start && end) {
-            // ✅ Real-time connection lines from your DB
             const flightLine = L.polyline([start, end], {
-              color: '#d63384', // Professional route-map pink/red
-              weight: 1.5,
-              opacity: 0.5,
-              smoothFactor: 1
+              color: '#d63384', weight: 1.5, opacity: 0.5, smoothFactor: 1
             }).addTo(this.map);
 
             flightLine.bindPopup(`
               <div style="text-align: center;">
-                <strong style="color: #5C0FD9;">Route: ${flight.Source} ✈ ${flight.Destination}</strong><br>
+                <strong style="color: #5C0FD9;">Route: ${startKey} ✈ ${endKey}</strong><br>
                 <small>Operated by SkyOra Air</small>
               </div>
             `);
 
-            // Interactive hover effect
             flightLine.on('mouseover', () => flightLine.setStyle({ color: '#5C0FD9', weight: 3, opacity: 1 }));
             flightLine.on('mouseout', () => flightLine.setStyle({ color: '#d63384', weight: 1.5, opacity: 0.5 }));
           }
         });
+        this.cdr.detectChanges();
       }
     });
   }

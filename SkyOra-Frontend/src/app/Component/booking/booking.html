@@ -5,8 +5,7 @@
   </div>
 
   <div class="row">
-    <!-- Match: BookingId -->
-    @for (booking of bookings; track booking.BookingId) {
+    @for (booking of bookings; track booking.BookingId || booking.bookingId) {
       <div class="col-12 mb-4 animate-slide-in">
         <div class="card ticket-card shadow-sm border-0">
           <div class="row g-0">
@@ -18,36 +17,56 @@
             <!-- Main Content -->
             <div class="col-md-8 p-4">
               <div class="row align-items-center">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                   <small class="text-muted d-block">Booking Reference</small>
-                  <!-- Match: BookingId -->
-                  <span class="fw-bold text-purple fs-5">#{{ booking.BookingId }}</span>
+                  <span class="fw-bold text-purple fs-5">#{{ booking.BookingId || booking.bookingId }}</span>
                 </div>
-                <div class="col-sm-4 text-center">
-                  <small class="text-muted d-block">Flight</small>
-                  <!-- Match: FlightId -->
-                  <span class="fw-bold">SK-{{ booking.FlightId }}</span>
+                
+                <!-- ✅ NEW: Flight Details Display -->
+                <div class="col-sm-5">
+                  <small class="text-muted d-block">Flight Details</small>
+                  <div>
+                    <span class="fw-bold">{{ booking?.flight?.flightNo || booking?.Flight?.FlightNo || 'N/A' }}</span>
+                    <span class="text-muted ms-2">{{ booking?.flight?.source || booking?.Flight?.Source || 'N/A' }} → {{ booking?.flight?.destination || booking?.Flight?.Destination || 'N/A' }}</span>
+                  </div>
+                  <div class="small text-muted mt-1">
+                    Depart: {{ (booking?.flight?.departureTime || booking?.Flight?.DepartureTime) | date:'short' }}
+                  </div>
                 </div>
+                
                 <div class="col-sm-4 text-end">
                   <small class="text-muted d-block">Passengers</small>
-                  <!-- Match: NumberOfPassengers -->
-                  <span class="badge bg-light text-purple border">{{ booking.NumberOfPassengers }} Traveler(s)</span>
+                  <span class="badge bg-light text-purple border">{{ booking.NumberOfPassengers || booking.numberOfPassengers }} Traveler(s)</span>
                 </div>
               </div>
               
               <div class="mt-3">
-                <!-- Match: BookingStatus -->
-                <span class="status-dot" [ngClass]="booking.BookingStatus?.toLowerCase()"></span>
-                <small class="fw-bold text-uppercase">{{ booking.BookingStatus }}</small>
+                <span class="status-dot" [ngClass]="(booking.BookingStatus || booking.bookingStatus)?.toLowerCase()"></span>
+                <small class="fw-bold text-uppercase">{{ booking.BookingStatus || booking.bookingStatus }}</small>
+              </div>
+
+              <!-- ✅ NEW: Dynamic Inline Passenger Manifest Panel Display -->
+              <div class="passenger-manifest-box mt-4 border-top pt-3">
+                <h6 class="text-purple small fw-bold text-uppercase tracking-wider mb-2">Linked Travelers</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  <!-- Iterates through your database relational collection payload directly -->
+                  @for (p of (booking.Passengers || booking.passengers); track p.PassengerId) {
+                    <span class="badge bg-light-purple text-purple px-3 py-2 border rounded-pill small">
+                      👤 {{ p.Name || p.name }} ({{ p.Age || p.age }} Yrs - {{ p.Gender || p.gender }})
+                    </span>
+                  } @empty {
+                    <small class="text-muted italic">Retrieving secure flyer listings record matrix...</small>
+                  }
+                </div>
               </div>
             </div>
 
             <!-- Price & Action -->
             <div class="col-md-3 p-4 bg-light-orange d-flex flex-column justify-content-center align-items-center border-start">
               <small class="text-muted">Total Paid</small>
-              <!-- Match: TotalAmount -->
-              <h4 class="fw-bold text-purple">{{ booking.TotalAmount | currency:'INR' }}</h4>
-              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" routerLink="/passengerdetails/{{ booking.BookingId }}">View Passenger Details</button>
+              <h4 class="fw-bold text-purple">{{ (booking.TotalAmount || booking.totalAmount) | currency:'INR' }}</h4>
+              <!-- Keeping your fallback link completely operational to handle custom independent page redirections -->
+              <button class="btn btn-purple btn-sm mt-3 px-4 rounded-pill shadow-sm" routerLink="/passengerdetails/{{ booking.BookingId || booking.bookingId }}">Manage Ticket</button>
             </div>
           </div>
         </div>

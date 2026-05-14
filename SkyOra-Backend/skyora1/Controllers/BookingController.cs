@@ -63,17 +63,18 @@ public class BookingController : ControllerBase
 
         try
         {
-            // 4. Call Repository to save
-            var result = await _booking.AddBooking(bookingDto);
+            var resultId = await _booking.AddBooking(bookingDto);
 
-            if (result == 0) return BadRequest(new { message = "Failed to create booking." });
+            if (resultId == 0) return BadRequest(new { message = "Failed to create booking." });
 
-            // 5. Return 201 Created with the new ID
-            return CreatedAtAction(nameof(GetBookingById), new { id = result }, bookingDto);
+            // ✅ FIX: Fetch the complete booking with passengers from database
+            var savedBooking = await _booking.GetBookingById(resultId);
+
+            // ✅ Return the complete GetBookingDto containing BookingId, Passengers, and all data
+            return CreatedAtAction(nameof(GetBookingById), new { id = resultId }, savedBooking);
         }
         catch (Exception ex)
         {
-            // Log the error (e.g., to console)
             return StatusCode(500, new { message = "Internal server error during booking.", detail = ex.Message });
         }
     }

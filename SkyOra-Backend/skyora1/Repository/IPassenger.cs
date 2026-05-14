@@ -8,5 +8,7 @@ namespace skyora1.Repository
         Task<List<Passenger>> GetAllPassengerAsync();
         Task<int> AddPassengersAsync(PassengerDTO passenger);
 
+        Task<List<Passenger>> GetPassengersByBookingIdAsync(int bookingId);
+
     }
 }

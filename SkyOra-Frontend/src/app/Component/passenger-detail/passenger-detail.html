@@ -1,1 +1,73 @@
-<p>passenger-detail works!</p>
+<div class="manifest-container py-5">
+  <div class="container">
+    
+    <!-- Top Header Navigation Header -->
+    <div class="manifest-header d-flex justify-content-between align-items-center mb-5">
+      <div>
+        <h2 class="brand-text-purple mb-1">Passenger Manifest</h2>
+        <p class="text-muted mb-0">Booking Reference: <span class="fw-bold text-orange">#{{ bookingId }}</span></p>
+      </div>
+      <button class="btn btn-outline-purple rounded-pill px-4" [routerLink]="['/user']">
+        ← Back to Trips
+      </button>
+    </div>
+
+    <!-- Loading Skeleton Frame State -->
+    @if (isLoading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-orange" role="status"></div>
+        <p class="text-muted mt-3">Retrieving secure flyer manifests...</p>
+      </div>
+    } @else {
+      
+      <!-- Main Content Grid Structure -->
+      <div class="row g-4">
+        @for (p of passengers; track p.PassengerId) {
+          <div class="col-lg-6">
+            <div class="passenger-card shadow-sm">
+              <div class="brand-accent-bar"></div>
+              
+              <div class="card-body-wrapper p-4 d-flex align-items-center">
+                <!-- Visual Seat Avatar Node -->
+                <div class="avatar-node me-4 text-center">
+                  <span class="avatar-icon">👤</span>
+                  <span class="seat-badge mt-2 d-block">Verified</span>
+                </div>
+
+                <!-- Personal Information Rows -->
+                <div class="passenger-meta flex-grow-1">
+                  <h4 class="passenger-name mb-2">{{ p.Name || p.name }}</h4>
+                  
+                  <div class="details-grid d-flex gap-4 border-top pt-3">
+                    <div class="meta-item">
+                      <span class="meta-label">Age</span>
+                      <span class="meta-value">{{ p.Age || p.age }} yrs</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Gender</span>
+                      <span class="meta-value fw-bold">{{ (p.Gender || p.gender || 'N/A').toUpperCase() }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Pax ID</span>
+                      <span class="meta-value text-muted">#{{ p.PassengerId || p.passengerId }}</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <!-- Empty Manifest State -->
+          <div class="col-12 text-center py-5 empty-card rounded-4">
+            <div class="fs-1 mb-3">🎫</div>
+            <h4 class="text-muted">No Passengers Linked</h4>
+            <p class="text-muted small">No traveler profiles match this booking reference record on our servers.</p>
+          </div>
+        }
+      </div>
+
+    }
+
+  </div>
+</div>

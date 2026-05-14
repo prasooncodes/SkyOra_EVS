@@ -196,23 +196,38 @@ export class BookFlight implements OnInit {
       return;
     }
 
+    // ✅ Map passenger objects to match backend PassengerDTO
+    const passengersData = this.passengers.map(p => ({
+      name: p.name.trim(),
+      age: Number(p.age),
+      gender: p.gender || 'Male',
+      bookingId: 0 // Backend will assign this
+    }));
+
     const bookingPayload = {
       UserId: this.bookingData.userId,
       FlightId: this.bookingData.flightId,
       NumberOfPassengers: this.bookingData.numberOfPassengers,
       TotalAmount: this.totalPrice,
       BookingStatus: this.bookingData.status,
-      Passengers: this.passengers.map(p => ({
-        PassengerName: p.name,
-        PassengerAge: p.age,
-        PassengerGender:p.gender,
-        SeatType: p.seatType
-      }))
+      Passengers: passengersData // ✅ Include passengers with booking
     };
 
     this.bookingService.createBooking(bookingPayload).subscribe({
-      next: () => {
-        alert('Booking confirmed successfully!');
+      next: (bookingResponse: any) => {
+        console.log('Booking with passengers saved successfully:', bookingResponse);
+        
+        // Extract the booking ID from response
+        const bookingId = bookingResponse.bookingId ?? bookingResponse.BookingId ?? bookingResponse.id;
+
+        if (!bookingId || bookingId === 0) {
+          console.error('Booking created but ID was not returned:', bookingResponse);
+          alert('Booking created successfully!');
+          this.router.navigate(['/bookingsbyid']); 
+          return;
+        }
+
+        alert('Booking confirmed successfully with all passenger details!');
         this.router.navigate(['/bookingsbyid']);
       },
       error: (error) => {
