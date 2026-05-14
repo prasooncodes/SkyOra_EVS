@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 export interface PendingPassenger {
   PassengerName: string;
   PassengerAge: number;
-  PassengerGender: string;
+  Gender: string;
   SeatType: string;
 }
 
