@@ -291,14 +291,14 @@ export class BookFlight implements OnInit {
       FlightId: this.bookingData.flightId,
       NumberOfPassengers: this.passengers.length,
       TotalAmount: this.totalPrice,
-     BookingStatus: 'Pending',
+      BookingStatus: 'Pending',
       TripType: this.bookingData.tripType,
       BookingDate: this.bookingData.bookingDate,
       ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
       Passengers: this.passengers.map(p => ({
         PassengerName: p.name.trim(),
         PassengerAge: Number(p.age),
-        PassengerGender: p.gender.trim(),
+        Gender: p.gender.trim(),
         SeatType: p.seatType // ✅ Include passengers with booking
     }))
     };
