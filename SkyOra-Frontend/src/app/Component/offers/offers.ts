@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 interface Offer {
   icon: string;
@@ -35,8 +36,6 @@ export class   Offers implements OnInit {
     ]
   };
 
-  constructor() { }
-
   ngOnInit(): void { }
 
   // टैब बदलने का फंक्शन
@@ -47,5 +46,11 @@ export class   Offers implements OnInit {
   // वर्तमान में एक्टिव ऑफर्स प्राप्त करें
   get currentOffers(): Offer[] {
     return this.allOffers[this.activeTab];
+  }
+
+  constructor(private readonly router: Router) { }
+
+  openDetails(category: string): void {
+    this.router.navigate(['/offers', category]);
   }
 }

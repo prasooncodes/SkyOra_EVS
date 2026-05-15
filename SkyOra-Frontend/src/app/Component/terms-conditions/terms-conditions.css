@@ -1,0 +1,129 @@
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+  --bg-soft: #f4f7f9;
+  --text-dark: #1a1a1a;
+  --text-light: #666;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--akasa-purple) 0%, var(--akasa-orange) 100%);
+  color: white;
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  font-weight: 300;
+  opacity: 0.95;
+  line-height: 1.6;
+}
+
+/* Container & Spacing */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Terms Section */
+.terms-section {
+  background-color: white;
+  padding: 60px 0;
+}
+
+.terms-content {
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.terms-intro {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.terms-article {
+  margin-bottom: 30px;
+}
+
+.article-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--akasa-purple);
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--akasa-orange);
+  padding-bottom: 8px;
+}
+
+.terms-article p {
+  color: var(--text-dark);
+  text-align: justify;
+  margin-bottom: 15px;
+}
+
+.terms-contact {
+  background-color: var(--bg-soft);
+  padding: 30px;
+  border-radius: 8px;
+  margin-top: 40px;
+  border-left: 4px solid var(--akasa-orange);
+}
+
+.terms-contact p {
+  margin-bottom: 10px;
+}
+
+.terms-contact strong {
+  color: var(--akasa-purple);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .terms-content {
+    padding: 0 20px;
+  }
+
+  .article-title {
+    font-size: 1.3rem;
+  }
+}

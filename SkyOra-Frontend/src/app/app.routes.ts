@@ -13,6 +13,7 @@ import { Aboutus } from './Component/aboutus/aboutus';
 import { Contactus } from './Component/contactus/contactus';
 import { NetworkComponent } from './Component/my-network/my-network';
 import { Offers } from './Component/offers/offers';
+import { OfferDetails } from './Component/offers/offers-details';
 import { Addons } from './Component/addons/addons';
 import { Feedback } from './Component/feedback/feedback';
 import { Home1 } from './Component/home1/home1';
@@ -23,6 +24,7 @@ import { BookingByID } from './Component/booking-by-id/booking-by-id';
 import { PaymentGateway } from './Component/payment-gateway/payment-gateway';
 import { BookingCart } from './Component/booking-cart/booking-cart';
 import { ManageAccount } from './Component/manage-account/manage-account';
+import { TermsConditions } from './Component/terms-conditions/terms-conditions';
 import { AdminRegistration } from './Component/admin-registration/admin-registration';
 import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
@@ -46,6 +48,7 @@ export const routes: Routes = [
     {path:'contact',component:Contactus},
     {path:'network',component:NetworkComponent},
     {path:'offers',component:Offers},
+    {path:'offers/:category', component: OfferDetails},
     {path:'addons',component:Addons},
     {path:'feedback', component:Feedback},
     {path:'contact',component:Contactus},
