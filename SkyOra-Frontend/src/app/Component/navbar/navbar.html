@@ -1,160 +1,163 @@
-<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top shadow-sm">
-  <div class="container-fluid">
-    <!-- Logo/Brand -->
-    <a class="navbar-brand navbar-brand-custom" routerLink="/">
-      <i class="bi bi-airplane-fill me-2"></i>
-      <span class="fw-bold">SkyOra</span>
+<nav class="navbar navbar-expand-lg sticky-top akasa-navbar-portal">
+  <div class="container-fluid container-max-limit px-4">
+    
+    <!-- ✅ Brand Architecture: Custom Typography & Moving Vector Core -->
+    <a class="navbar-brand-akasa" routerLink="/home1">
+      <div class="logo-wrapper">
+        <span class="logo-icon">✈️</span>
+        <span class="brand-text-main">Sky<span class="brand-text-accent">Ora</span></span>
+      </div>
+      <span class="tagline">Sky is the limit</span>
     </a>
 
-    <!-- Mobile Toggle -->
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    <!-- ✅ Mobile Interactive Controller Switch Toggle -->
+    <button class="navbar-toggler-akasa border-0" type="button" data-bs-toggle="collapse" data-bs-target="#skyoraNavbarContent" aria-controls="skyoraNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </button>
 
-    <!-- Navbar Content -->
-    <div class="collapse navbar-collapse" id="navbarText">
-      <!-- Center Navigation Links -->
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+    <!-- ✅ Menu Content Controller Link Wrapper Matrix -->
+    <div class="collapse navbar-collapse" id="skyoraNavbarContent">
+      
+      <!-- Central Nav Anchor List Element Group -->
+      <ul class="navbar-nav mx-auto central-links-pool">
+        
+        <!-- Guest View Only Links -->
         <li class="nav-item" *ngIf="!isLoggedIn">
-          <a class="nav-link nav-link-custom" routerLink="/" routerLinkActive="active nav-link-active" [routerLinkActiveOptions]="{ exact: true }">
-            <i class="bi bi-house-fill me-1"></i>Home
+          <a class="akasa-nav-link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="bi bi-house-door-fill"></i><span>Home</span>
           </a>
         </li>
 
+        <!-- Standard Registered Flyer User Views Link Lists -->
         <ng-container *ngIf="isLoggedIn && role === 'user'">
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/home1" routerLinkActive="active nav-link-active">
-              <i class="bi bi-ticket-fill me-1"></i>Home Page
+            <a class="akasa-nav-link" routerLink="/home1" routerLinkActive="active-link">
+              <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/bookflight" routerLinkActive="active nav-link-active">
-              <i class="bi bi-ticket-fill me-1"></i>Book Flight
+            <a class="akasa-nav-link" routerLink="/bookflight" routerLinkActive="active-link">
+              <i class="bi bi-airplane-engines-fill"></i><span>Book Flight</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/bookingsbyid" routerLinkActive="active nav-link-active">
-              <i class="bi bi-calendar-check-fill me-1"></i>My Bookings
+            <a class="akasa-nav-link" routerLink="/bookingsbyid" routerLinkActive="active-link">
+              <i class="bi bi-pass-fill"></i><span>My Trips</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/offers" routerLinkActive="active nav-link-active">
-              <i class="bi bi-gift-fill me-1"></i>Offers
+            <a class="akasa-nav-link" routerLink="/offers" routerLinkActive="active-link">
+              <i class="bi bi-tags-fill"></i><span>Offers</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/addons" routerLinkActive="active nav-link-active">
-              <i class="bi bi-bag-fill me-1"></i>Addons
+            <a class="akasa-nav-link" routerLink="/addons" routerLinkActive="active-link">
+              <i class="bi bi-bag-plus-fill"></i><span>Addons</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/network" routerLinkActive="active nav-link-active">
-              <i class="bi bi-share-fill me-1"></i>Networks
+            <a class="akasa-nav-link" routerLink="/network" routerLinkActive="active-link">
+              <i class="bi bi-map-fill"></i><span>Route Map</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/about" routerLinkActive="active nav-link-active">
-              <i class="bi bi-info-circle-fill me-1"></i>About Us
+            <a class="akasa-nav-link" routerLink="/about" routerLinkActive="active-link">
+              <i class="bi bi-info-square-fill"></i><span>About</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/contact" routerLinkActive="active nav-link-active">
-              <i class="bi bi-telephone-fill me-1"></i>Contact Us
+            <a class="akasa-nav-link" routerLink="/contact" routerLinkActive="active-link">
+              <i class="bi bi-chat-left-text-fill"></i><span>Contact</span>
             </a>
           </li>
         </ng-container>
 
+        <!-- Fleet Administrator Privileged View Link Lists -->
         <ng-container *ngIf="isLoggedIn && role === 'admin'">
-           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/home1" routerLinkActive="active nav-link-active">
-              <i class="bi bi-ticket-fill me-1"></i>Home Page
+          <li class="nav-item">
+            <a class="akasa-nav-link" routerLink="/home1" routerLinkActive="active-link">
+              <i class="bi bi-speedometer"></i><span>Admin Panel</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/users" routerLinkActive="active nav-link-active">
-              <i class="bi bi-people-fill me-1"></i>Users
+            <a class="akasa-nav-link" routerLink="/users" routerLinkActive="active-link">
+              <i class="bi bi-people-fill"></i><span>Flyers</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/flights" routerLinkActive="active nav-link-active">
-              <i class="bi bi-airplane-fill me-1"></i>Flights
+            <a class="akasa-nav-link" routerLink="/flights" routerLinkActive="active-link">
+              <i class="bi bi-database-fill-gear"></i><span>Manage Flights</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/bookings" routerLinkActive="active nav-link-active">
-              <i class="bi bi-calendar-check-fill me-1"></i>All Bookings
+            <a class="akasa-nav-link" routerLink="/bookings" routerLinkActive="active-link">
+              <i class="bi bi-journal-text"></i><span>All Bookings</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/disfeedback" routerLinkActive="active nav-link-active">
-              <i class="bi bi-airplane-fill me-1"></i>FeedBacks 
+            <a class="akasa-nav-link" routerLink="/disfeedback" routerLinkActive="active-link">
+              <i class="bi bi-chat-heart-fill"></i><span>Feedbacks</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/dismessages" routerLinkActive="active nav-link-active">
-              <i class="bi bi-airplane-fill me-1"></i>Mails
+            <a class="akasa-nav-link" routerLink="/dismessages" routerLinkActive="active-link">
+              <i class="bi bi-envelope-paper-fill"></i><span>Mails</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-custom" routerLink="/network" routerLinkActive="active nav-link-active">
-              <i class="bi bi-share-fill me-1"></i>Networks
+            <a class="akasa-nav-link" routerLink="/network" routerLinkActive="active-link">
+              <i class="bi bi-globe-central-south"></i><span>Network Control</span>
             </a>
           </li>
         </ng-container>
       </ul>
 
-      <!-- Right Side: Auth Buttons -->
-     <div class="d-flex align-items-center gap-2 navbar-auth-actions">
-  <!-- Guest Actions -->
-  <div class="d-flex align-items-center auth-toggle-group border border-light border-2 rounded-pill p-1">
-  <!-- Login Tab -->
-  <a *ngIf="!isLoggedIn" 
-     class="btn btn-sm px-4 rounded-pill fw-600 toggle-btn-login text-white" 
-     routerLink="/login" 
-     routerLinkActive="active btn-light text-dark shadow-sm">
-    <i class="bi bi-box-arrow-in-right me-1"></i>Login
-  </a>
-
-  <!-- Register Tab -->
-  <a *ngIf="!isLoggedIn" 
-     class="btn btn-sm px-4 rounded-pill fw-600 toggle-btn-register text-white-50" 
-     routerLink="/register" 
-     routerLinkActive="active btn-nav-orange text-white shadow-sm">
-    <i class="bi bi-person-plus-fill me-1"></i>Register
-  </a>
-</div>
-
-
-  <!-- Authenticated User Dropdown Menu -->
-  <div *ngIf="isLoggedIn" class="dropdown user-profile-menu">
-    <button class="btn btn-outline-light btn-sm px-3 py-1.5 rounded-pill border-2 fw-600 dropdown-toggle d-flex align-items-center gap-2 nav-btn-outline" 
-            type="button" 
-            id="userMenuButton" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false">
-      <i class="bi bi-person-circle fs-5"></i>
-      <span class="text-truncate max-w-150">Hi, {{ displayName }}</span>
-    </button>
-    
-    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-2 rounded-3" aria-labelledby="userMenuButton">
-      <li>
-        <div class="dropdown-header px-3 py-2 text-muted small border-bottom mb-1">
-          Logged in as <strong class="text-dark d-block text-truncate">{{ displayName }}</strong>
+      <!-- ✅ Right Authentication Dashboard Actions Interface Dropdowns -->
+      <div class="d-flex align-items-center auth-section-container">
+        
+        <!-- Guest View Authentication Toggle Layout Tabs Box -->
+        <div *ngIf="!isLoggedIn" class="auth-segmented-pill shadow-sm">
+          <a class="auth-segment-btn login-tab" routerLink="/login" routerLinkActive="segment-active">
+            Login
+          </a>
+          <a class="auth-segment-btn register-tab" routerLink="/register" routerLinkActive="segment-active">
+            Register
+          </a>
         </div>
-      </li>
-      <li>
-        <button class="dropdown-item text-success d-flex align-items-center gap-2 rounded-2 py-2" (click)="manageaccount()">
-          <i class="bi bi-box-arrow-left"></i>Manage Account
-        </button>
-      </li>
-      <li>
-        <button class="dropdown-item text-danger d-flex align-items-center gap-2 rounded-2 py-2" (click)="logout()">
-          <i class="bi bi-box-arrow-left"></i>Logout
-        </button>
-      </li>
-    </ul>
-  </div>
-</div>
+
+        <!-- Authenticated Logged In Member Profile Options Group Menu -->
+        <div *ngIf="isLoggedIn" class="dropdown user-session-card">
+          <button class="btn user-trigger-pill dropdown-toggle shadow-sm" type="button" id="skyoraUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-avatar-initials">
+              {{ displayName?.substring(0,1)?.toUpperCase() || 'U' }}
+            </div>
+            <span class="user-greeting">Hi, {{ displayName }}</span>
+          </button>
+          
+          <ul class="dropdown-menu dropdown-menu-end session-menu-list shadow border-0" aria-labelledby="skyoraUserDropdown">
+            <li class="menu-account-header">
+              <span class="meta-label">Account Profile</span>
+              <span class="meta-value text-truncate">{{ displayName }}</span>
+            </li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li>
+              <button class="dropdown-item item-link-action" (click)="manageaccount()">
+                <i class="bi bi-person-gear text-purple"></i>Manage Account
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item item-link-action logout-trigger" (click)="logout()">
+                <i class="bi bi-power text-danger"></i>Logout Flight
+              </button>
+            </li>
+          </ul>
+        </div>
+
+      </div>
 
     </div>
   </div>

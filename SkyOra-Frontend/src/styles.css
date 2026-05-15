@@ -1,1 +1,196 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --ba-navy: #072b54;
+  --ba-red: #c8102e;
+  --ba-sky: #f2f5fb;
+  --ba-surface: #ffffff;
+  --ba-muted: #5f6f7a;
+  --ba-border: rgba(7, 43, 84, 0.12);
+  --ba-shadow: 0 24px 80px rgba(7, 43, 84, 0.08);
+  --ba-radius: 20px;
+  --ba-text: #10203a;
+  --ba-heading: #09192f;
+  --ba-accent: #6f8bca;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top center, rgba(8, 38, 83, 0.06), transparent 30%), linear-gradient(180deg, #eef4fb 0%, #f8fafc 100%);
+  color: var(--ba-text);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+a {
+  color: var(--ba-navy);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.card,
+.card-body,
+.card-header,
+.card-footer {
+  background: var(--ba-surface);
+  border: 1px solid var(--ba-border);
+  border-radius: var(--ba-radius);
+  box-shadow: var(--ba-shadow);
+}
+
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-outline-primary,
+.btn-outline-light {
+  border-radius: 999px;
+}
+
+.btn-primary,
+.btn-nav-orange,
+.btn-akasa-orange {
+  background-color: var(--ba-red) !important;
+  border-color: var(--ba-red) !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-nav-orange:hover,
+.btn-akasa-orange:hover {
+  background-color: #ae0f27 !important;
+  border-color: #ae0f27 !important;
+}
+
+.btn-secondary,
+.btn-purple,
+.btn-outline-primary {
+  background-color: var(--ba-navy) !important;
+  border-color: var(--ba-navy) !important;
+  color: #fff !important;
+}
+
+.btn-secondary:hover,
+.btn-purple:hover,
+.btn-outline-primary:hover {
+  background-color: #071f41 !important;
+  border-color: #071f41 !important;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid rgba(7, 43, 84, 0.16);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ba-text);
+  box-shadow: inset 0 1px 2px rgba(7, 43, 84, 0.04);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--ba-red);
+  box-shadow: 0 0 0 0.2rem rgba(200, 16, 46, 0.16);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ba-heading);
+  letter-spacing: -0.03em;
+}
+
+h1 {
+  font-weight: 800;
+}
+
+h2,
+h3 {
+  font-weight: 700;
+}
+
+p,
+small,
+label,
+span {
+  color: var(--ba-muted);
+}
+
+.section-title {
+  color: var(--ba-heading);
+  font-weight: 700;
+}
+
+.section-subtitle {
+  color: var(--ba-muted);
+}
+
+.hero-card,
+.summary-panel,
+.booking-summary,
+.flight-card,
+.passenger-card {
+  border-radius: 24px;
+}
+
+.bg-orange {
+  background-color: var(--ba-red) !important;
+}
+
+.bg-purple,
+.bg-light-purple {
+  background-color: var(--ba-navy) !important;
+}
+
+.text-purple {
+  color: var(--ba-navy) !important;
+}
+
+.text-orange {
+  color: var(--ba-red) !important;
+}
+
+.border-orange {
+  border-color: var(--ba-red) !important;
+}
+
+.border-purple {
+  border-color: var(--ba-navy) !important;
+}
+
+.btn-outline-secondary,
+.btn-outline-light {
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-light:hover {
+  color: var(--ba-red) !important;
+  border-color: var(--ba-red) !important;
+  background-color: rgba(200, 16, 46, 0.08) !important;
+}
+
+.navbar-custom {
+  background: linear-gradient(90deg, rgba(7, 43, 84, 1) 0%, rgba(13, 27, 55, 0.98) 100%);
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}

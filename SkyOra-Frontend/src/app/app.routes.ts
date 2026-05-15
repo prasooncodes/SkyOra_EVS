@@ -28,6 +28,7 @@ import { TermsConditions } from './Component/terms-conditions/terms-conditions';
 import { AdminRegistration } from './Component/admin-registration/admin-registration';
 import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
+import { Error } from './Component/error/error';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -61,6 +62,7 @@ export const routes: Routes = [
     {path:'manageaccount', component: ManageAccount},
     {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
-    {path:'travel',component:TravelCertificate}
+    {path:'travel',component:TravelCertificate},
+    {path:'error', component: Error}
 
 ];

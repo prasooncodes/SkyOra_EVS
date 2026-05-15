@@ -49,8 +49,8 @@
             @for (passenger of pendingBooking()?.Passengers || []; track $index) {
               <div class="col-md-6">
                 <div class="passenger-item">
-                  <strong>{{ passenger.PassengerName }}</strong>
-                  <span>Age {{ passenger.PassengerAge }} | {{ passenger.Gender }} | {{ passenger.SeatType }}</span>
+                  <strong>{{ passenger.Name }}</strong>
+                  <span>Age {{ passenger.Age }} | {{ passenger.Gender }} | {{ passenger.SeatType }}</span>
                 </div>
               </div>
             }
