@@ -278,14 +278,6 @@ export class BookFlight implements OnInit {
       return;
     }
 
-    // ✅ Map passenger objects to match backend PassengerDTO
-    const passengersData = this.passengers.map(p => ({
-      name: p.name.trim(),
-      age: Number(p.age),
-      gender: p.gender || 'Male',
-      bookingId: 0 // Backend will assign this
-    }));
-
     const bookingPayload = {
       UserId: this.bookingData.userId,
       FlightId: this.bookingData.flightId,
@@ -296,11 +288,11 @@ export class BookFlight implements OnInit {
       BookingDate: this.bookingData.bookingDate,
       ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
       Passengers: this.passengers.map(p => ({
-        PassengerName: p.name.trim(),
-        PassengerAge: Number(p.age),
+        Name: p.name.trim(),
+        Age: Number(p.age),
         Gender: p.gender.trim(),
         SeatType: p.seatType // ✅ Include passengers with booking
-    }))
+      }))
     };
     this.bookingFlowService.setPendingBooking(bookingPayload);
     this.router.navigate(['/booking-cart']); 

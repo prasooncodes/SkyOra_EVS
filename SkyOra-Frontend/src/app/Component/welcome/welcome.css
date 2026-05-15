@@ -1,5 +1,6 @@
 :host {
-  --akasa-orange: #FF6300;
+  --akasa-orange: #FF7A15;
+  --akasa-orange-dark: #E56900;
   --akasa-purple: #5C0FD9;
 }
 
@@ -60,19 +61,27 @@
 }
 
 /* Akasa Style Buttons */
+.btn.btn-akasa-orange,
 .btn-akasa-orange {
-  background-color: var(--akasa-orange);
-  color: white;
+  background-color: var(--akasa-orange) !important;
+  color: white !important;
   padding: 14px 40px;
   border-radius: 30px;
   font-weight: 700;
-  border: none;
-  transition: transform 0.2s ease;
+  border: 1px solid transparent !important;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
+.btn.btn-akasa-orange:hover,
 .btn-akasa-orange:hover {
   transform: scale(1.05);
-  background-color: #e55900;
+  background-color: var(--akasa-orange-dark) !important;
+  border-color: var(--akasa-orange-dark) !important;
+}
+
+.btn.btn-akasa-orange:focus,
+.btn-akasa-orange:focus {
+  box-shadow: 0 0 0 0.25rem rgba(255, 122, 21, 0.25);
 }
 
 .btn-outline-white {
@@ -90,12 +99,19 @@
 }
 
 .glass-content-box {
-  background: rgba(0, 0, 0, 0.15); /* Very subtle dark tint */
-  backdrop-filter: blur(8px);       /* Blurs the plane behind the text */
-  -webkit-backdrop-filter: blur(8px);
-  padding: 30px;
-  border-radius: 20px;
-  border-left: 5px solid var(--akasa-orange); /* Adds an Akasa brand accent */
+  /* Use a nearly transparent overlay so the hero image remains visible */
+  background: rgba(255, 255, 255, 0.00) !important;
+  background-image: none !important;
+  
+  /* Minimal blur for a clear view of the background image */
+  backdrop-filter: blur(2px) !important;       
+  -webkit-backdrop-filter: blur(2px) !important;
+  
+  /* Ultra-subtle white outline for structure without overpowering the image */
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-left: 6px solid var(--akasa-orange) !important; /* Bold Akasa brand accent edge */
+  
+  padding: 40px;
+  border-radius: 24px;
   display: inline-block;
 }
-
