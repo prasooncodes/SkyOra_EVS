@@ -1,32 +1,57 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { UserServices } from '../../services/user';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
-  templateUrl: './register.html',
-  styleUrls: ['./register.css'],
+  selector: 'app-admin-registration',
+  imports: [CommonModule, RouterLink, FormsModule],
+  templateUrl: './admin-registration.html',
+  styleUrl: './admin-registration.css',
 })
-export class RegisterComponent {
+export class AdminRegistration {
   name = '';
   age = '';
   gender = '';
-  role = 'User';
+  role = 'Admin';
   email = '';
   password = '';
   confirmPassword = '';
+  adminCode = '';
+  private readonly validAdminCode = '12345';
+  isAdminCodeVerified = false;
   error = '';
   success = '';
 
   constructor(private userService: UserServices, private router: Router) {}
 
+  verifyAdminCode() {
+    this.error = '';
+    this.success = '';
+
+    if (!this.adminCode) {
+      this.error = 'Admin code is required.';
+      return;
+    }
+
+    if (this.adminCode !== this.validAdminCode) {
+      this.error = 'Invalid admin code. Please try again.';
+      this.isAdminCodeVerified = false;
+      return;
+    }
+
+    this.isAdminCodeVerified = true;
+  }
+
   onSubmit() {
     this.error = '';
     this.success = '';
+
+    if (!this.isAdminCodeVerified) {
+      this.error = 'Please verify the admin code before registering.';
+      return;
+    }
 
     if (!this.name || !this.age || !this.gender || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'All fields are required.';
@@ -37,7 +62,7 @@ export class RegisterComponent {
       this.error = 'Password and confirm password do not match.';
       return;
     }
-    if(this.password.length < 6) {
+    if (this.password.length < 6) {
       this.error = 'Password must be at least 6 characters long.';
       return;
     }
@@ -46,7 +71,7 @@ export class RegisterComponent {
       name: this.name,
       age: parseInt(this.age),
       gender: this.gender,
-      role: 'User',
+      role: 'Admin',
       email: this.email,
       password: this.password,
     }).subscribe({
@@ -54,13 +79,9 @@ export class RegisterComponent {
         this.success = 'Registration successful. Redirecting to login...';
         setTimeout(() => this.router.navigate(['/login']), 1500);
       },
-      error: (err : any) => {
+      error: (err: any) => {
         this.error = err?.error || 'Registration failed. Please try again.';
       },
     });
-  }
-
-  onAdminRegister() {
-    this.router.navigate(['/admin-register']); 
   }
 }

@@ -1,0 +1,174 @@
+/* Base Container & Theme Variables */
+:host {
+  --primary-cosmic: #1a1a3a;
+  --secondary-sky: #4a90e2;
+  --accent-gold: #f5a623;
+  --text-dark: #2c3e50;
+  --text-light: #666;
+  --bg-card: #ffffff;
+  --font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  display: block;
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.skyora-menu-container {
+  font-family: var(--font-family);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Header Styling */
+.menu-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.cafe-logo {
+  font-size: 3rem;
+  color: var(--primary-cosmic);
+  margin: 0 0 10px 0;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.cafe-tagline {
+  font-size: 1.1rem;
+  color: var(--secondary-sky);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Category Navigation */
+.category-nav {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 2px solid var(--secondary-sky);
+  color: var(--secondary-sky);
+  padding: 10px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  background-color: var(--secondary-sky);
+  color: white;
+}
+
+/* Menu Layout Grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Menu Item Card */
+.menu-card {
+  background-color: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Assets Configured with Creative Commons Asset Links */
+.item-image {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.blue-latte-img { background-image: url('https://unsplash.com'); }
+.croissant-img { background-image: url('https://unsplash.com'); }
+.iced-tea-img { background-image: url('https://unsplash.com'); }
+.velvet-cake-img { background-image: url('https://unsplash.com'); }
+.mocha-img { background-image: url('https://unsplash.com'); }
+.paneer-wrap-img { background-image: url('https://unsplash.com'); }
+.frappe-img { background-image: url('https://unsplash.com'); }
+.burger-img { background-image: url('https://unsplash.com'); }
+.pasta-img { background-image: url('https://unsplash.com'); }
+.fries-img { background-image: url('https://unsplash.com'); }
+.cold-brew-img { background-image: url('https://unsplash.com'); }
+.brownie-img { background-image: url('https://unsplash.com'); }
+
+/* Item Typography & Details */
+.item-details {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.item-title {
+  font-size: 1.25rem;
+  color: var(--primary-cosmic);
+  margin: 0;
+  font-weight: 600;
+  padding-right: 10px;
+}
+
+.item-price {
+  font-size: 1.25rem;
+  color: var(--accent-gold);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.item-description {
+  font-size: 0.95rem;
+  color: var(--text-light);
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+  flex-grow: 1;
+}
+
+/* Interactive Button */
+.add-btn {
+  background-color: var(--primary-cosmic);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.add-btn:hover {
+  background-color: #2a2a5a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .cafe-logo { font-size: 2.2rem; }
+  .skyora-menu-container { padding: 20px 15px; }
+  .menu-grid { grid-template-columns: 1fr; }
+}
