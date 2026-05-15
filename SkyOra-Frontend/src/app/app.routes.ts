@@ -13,6 +13,7 @@ import { Aboutus } from './Component/aboutus/aboutus';
 import { Contactus } from './Component/contactus/contactus';
 import { NetworkComponent } from './Component/my-network/my-network';
 import { Offers } from './Component/offers/offers';
+import { OfferDetails } from './Component/offers/offers-details';
 import { Addons } from './Component/addons/addons';
 import { Feedback } from './Component/feedback/feedback';
 import { Home1 } from './Component/home1/home1';
@@ -23,6 +24,7 @@ import { BookingByID } from './Component/booking-by-id/booking-by-id';
 import { PaymentGateway } from './Component/payment-gateway/payment-gateway';
 import { BookingCart } from './Component/booking-cart/booking-cart';
 import { ManageAccount } from './Component/manage-account/manage-account';
+import { TermsConditions } from './Component/terms-conditions/terms-conditions';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -43,6 +45,7 @@ export const routes: Routes = [
     {path:'contact',component:Contactus},
     {path:'network',component:NetworkComponent},
     {path:'offers',component:Offers},
+    {path:'offers/:category', component: OfferDetails},
     {path:'addons',component:Addons},
     {path:'feedback', component:Feedback},
     {path:'contact',component:Contactus},
@@ -52,6 +55,6 @@ export const routes: Routes = [
     {path:'passengerdetails', component:PassengerDetail},
     {path:'booking-cart', component: BookingCart},
     {path:'payment',component:PaymentGateway},
-    {path:'manageaccount', component: ManageAccount}
+    {path:'manageaccount', component: ManageAccount},
 
 ];

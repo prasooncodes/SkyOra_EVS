@@ -1,0 +1,43 @@
+<section class="offers-details-page">
+  <div class="details-hero">
+    <div>
+      <span class="eyebrow">Coupon collection</span>
+      <h2>{{ displayCategory }} offers</h2>
+      <p>Unlock the best {{ displayCategory.toLowerCase() }} deals and copy promo codes instantly for checkout.</p>
+    </div>
+    <a routerLink="/offers" class="back-link">← Back to offers</a>
+  </div>
+
+  <div class="coupons-list" *ngIf="coupons.length; else noCoupons">
+    <div class="coupon-card" *ngFor="let coupon of coupons">
+      <div class="coupon-top">
+        <div class="coupon-icon">{{ coupon.icon }}</div>
+        <span class="coupon-type">{{ displayCategory }} Coupon</span>
+      </div>
+      <h3>{{ coupon.title }}</h3>
+      <p>{{ coupon.description }}</p>
+      <div class="coupon-footer">
+        <div class="code-copy-group">
+          <div class="code-chip">{{ coupon.code }}</div>
+          <button type="button" class="code-copy-btn" (click)="copyCouponCode(coupon.code)"
+              aria-label="Copy coupon code">
+            <svg class="copy-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 2H9c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H9V4h10v16zM5 6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-2h-2v2H3V8h2V6z" fill="orange"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noCoupons>
+    <div class="empty-state">
+      <p>No coupons found for this category.</p>
+      <a routerLink="/offers" class="btn btn-outline-secondary">Return to offers</a>
+    </div>
+  </ng-template>
+
+  <div class="toast-banner" *ngIf="showToast">
+    Copied {{ copiedCode }} to clipboard
+  </div>
+</section>
