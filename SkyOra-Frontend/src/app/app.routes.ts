@@ -23,6 +23,9 @@ import { BookingByID } from './Component/booking-by-id/booking-by-id';
 import { PaymentGateway } from './Component/payment-gateway/payment-gateway';
 import { BookingCart } from './Component/booking-cart/booking-cart';
 import { ManageAccount } from './Component/manage-account/manage-account';
+import { AdminRegistration } from './Component/admin-registration/admin-registration';
+import { Menu } from './Component/menu/menu';
+import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -52,6 +55,9 @@ export const routes: Routes = [
     {path:'passengerdetails', component:PassengerDetail},
     {path:'booking-cart', component: BookingCart},
     {path:'payment',component:PaymentGateway},
-    {path:'manageaccount', component: ManageAccount}
+    {path:'manageaccount', component: ManageAccount},
+    {path:'admin-register', component: AdminRegistration},
+    {path:'menu',component:Menu},
+    {path:'travel',component:TravelCertificate}
 
 ];
