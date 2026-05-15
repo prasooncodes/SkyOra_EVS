@@ -63,6 +63,7 @@ export const routes: Routes = [
     {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
     {path:'travel',component:TravelCertificate},
-    {path:'error', component: Error}
+    {path:'error', component: Error},
+    {path:'terms', component: TermsConditions},
 
 ];
