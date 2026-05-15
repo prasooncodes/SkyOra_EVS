@@ -1,0 +1,375 @@
+/* Core Layout Architecture */
+:host {
+  --navy-skyora: #0d1e3d;
+  --gold-skyora: #c5a059;
+  --blue-skyora: #22427c;
+  --bg-light: #f4f7fc;
+  --text-main: #333333;
+  --text-muted: #777777;
+  --border-radius: 12px;
+  display: block;
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.certificate-page-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* Page Title Headers */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.airline-logo {
+  font-size: 2.8rem;
+  color: var(--navy-skyora);
+  margin: 0 0 8px 0;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.page-tagline {
+  font-size: 1.1rem;
+  color: var(--gold-skyora);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Main Screen Split Grid */
+.content-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* User Form Container Styling */
+.card-wrapper {
+  background: #ffffff;
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(13, 30, 61, 0.05);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: var(--navy-skyora);
+  margin: 0 0 6px 0;
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0 0 25px 0;
+  line-height: 1.4;
+}
+
+/* Strict Form Structure */
+.certificate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--navy-skyora);
+}
+
+.form-group input {
+  padding: 12px;
+  border: 1.5px solid #e1e8f5;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--blue-skyora);
+}
+
+/* Interactive Submission Element */
+.primary-btn {
+  background-color: var(--navy-skyora);
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.primary-btn:hover {
+  background-color: var(--blue-skyora);
+}
+
+/* Right Section Preview Control Bar */
+.preview-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--blue-skyora);
+  background-color: #e2ecf8;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.icon-btn {
+  background-color: #ffffff;
+  border: 1.5px solid #e1e8f5;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--navy-skyora);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.icon-btn:hover {
+  background-color: #f8fafd;
+}
+
+/* Classic Travel Certificate Main Presentation Frame */
+.certificate-border {
+  background: #ffffff;
+  padding: 24px;
+  border: 8px double var(--gold-skyora);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  position: relative;
+  background-color: #fdfdfa; /* Warm paper tone */
+}
+
+.certificate-inner {
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Traditional Corner Geometry Ornaments */
+.corner-design {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid var(--navy-skyora);
+}
+.top-left { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+.top-right { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+.bottom-right { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+/* Document Header Semantics */
+.cert-header {
+  margin-bottom: 30px;
+}
+
+.cert-logo-mark {
+  font-size: 2.2rem;
+  color: var(--navy-skyora);
+  transform: rotate(45deg);
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.cert-airline-name {
+  font-size: 1.4rem;
+  color: var(--navy-skyora);
+  letter-spacing: 4px;
+  margin: 0 0 6px 0;
+  font-weight: 700;
+}
+
+.cert-doc-type {
+  font-size: 0.85rem;
+  color: var(--gold-skyora);
+  letter-spacing: 2px;
+  font-weight: 700;
+  border-top: 1px solid var(--gold-skyora);
+  border-bottom: 1px solid var(--gold-skyora);
+  padding: 3px 15px;
+}
+
+/* Main Text Content Blocks */
+.cert-body {
+  width: 100%;
+}
+
+.cert-salutation {
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.cert-passenger-name {
+  font-size: 2.2rem;
+  color: var(--navy-skyora);
+  font-family: 'Georgia', serif;
+  margin: 0 0 15px 0;
+  font-weight: 400;
+}
+
+.cert-statement {
+  font-size: 0.95rem;
+  color: #444444;
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 30px auto;
+}
+
+/* Flight Details Blueprint Grid Layout */
+.cert-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background-color: rgba(197, 160, 89, 0.2);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  max-width: 550px;
+  margin: 0 auto 40px auto;
+  background-color: #fcfbfa;
+}
+
+.data-cell {
+  padding: 12px 15px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid rgba(197, 160, 89, 0.15);
+}
+
+.grid-span-2 {
+  grid-column: span 2;
+  border-top: 1px solid rgba(197, 160, 89, 0.3);
+}
+
+.cell-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.cell-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy-skyora);
+}
+
+/* Footer & Validation Elements */
+.cert-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 550px;
+  margin-top: auto;
+}
+
+.signature-block {
+  text-align: left;
+}
+
+.signature-font {
+  font-family: 'Brush Script MT', 'cursive', sans-serif;
+  font-size: 1.6rem;
+  color: var(--blue-skyora);
+}
+
+.signature-line {
+  border-bottom: 1.5px solid rgba(13, 30, 61, 0.3);
+  width: 180px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.signature-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.verification-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.qr-code-placeholder {
+  width: 65px;
+  height: 65px;
+  border: 2px solid var(--navy-skyora);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background-color: white;
+}
+
+.qr-text {
+  font-size: 0.55rem;
+  font-weight: 900;
+  color: var(--navy-skyora);
+  text-align: center;
+  line-height: 1;
+}
+
+/* Responsive Adaptive Viewports */
+@media (max-width: 900px) {
+  .content-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .airline-logo { font-size: 2.2rem; }
+  .form-row { flex-direction: column; gap: 20px; }
+  .certificate-inner { padding: 20px 10px; }
+  .cert-passenger-name { font-size: 1.7rem; }
+  .cert-data-grid { grid-template-columns: 1fr; }
+  .grid-span-2 { grid-column: auto; }
+  .cert-footer { flex-direction: column; align-items: center; gap: 30px; }
+  .signature-block { text-align: center; }
+}

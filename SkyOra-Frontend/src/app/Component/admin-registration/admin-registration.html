@@ -1,0 +1,157 @@
+<div class="auth-page">
+  <div class="auth-overlay"></div>
+
+  <div class="container auth-shell">
+    <div class="auth-copy">
+      <span class="auth-chip">Admin Registration</span>
+      <h1>Welcome, Admin!</h1>
+      <p>
+        Create your admin account to manage the SkyOra platform. As an admin, you will have access to powerful
+        tools to oversee bookings, manage users, and ensure a seamless experience for our customers.
+      </p>
+
+      <div class="auth-highlights">
+        <div class="auth-highlight-card">
+          <strong>Dashboard Access</strong>
+          <span>Monitor and manage all aspects of the platform from a centralized dashboard.</span>
+        </div>
+        <div class="auth-highlight-card">
+          <strong>User Management</strong>
+          <span>Oversee user accounts, handle support requests, and maintain a safe environment.</span>
+        </div>
+        <div class="auth-highlight-card">
+          <strong>Booking Oversight</strong>
+          <span>Review and manage all bookings to ensure smooth operations.</span>
+        </div>
+      </div>
+    </div>
+
+    @if (!isAdminCodeVerified) {
+      <div class="auth-card auth-card-register">
+        <div class="auth-brand">
+          <span class="brand-mark"></span>
+          <div>
+            <strong>SkyOra</strong>
+            <p>Fly bold. Fly bright.</p>
+          </div>
+        </div>
+
+        <h2>Admin Verification</h2>
+        <p class="subtitle">Enter the admin registration code to unlock the registration form.</p>
+
+        <form (ngSubmit)="verifyAdminCode()" novalidate>
+          <label>
+            Admin Code
+            <input
+              type="password"
+              [(ngModel)]="adminCode"
+              name="adminCode"
+              autocomplete="off"
+              required
+            />
+          </label>
+
+          <button type="submit">Verify Code</button>
+
+          @if (error) {
+            <p class="error">{{ error }}</p>
+          }
+
+          <p class="hint">
+            Enter the code provided by SkyOra administration to continue.
+          </p>
+        </form>
+      </div>
+    } @else {
+      <div class="auth-card auth-card-register">
+        <div class="auth-brand">
+          <span class="brand-mark"></span>
+          <div>
+            <strong>SkyOra</strong>
+            <p>Fly bold. Fly bright.</p>
+          </div>
+        </div>
+
+        <h2>Register</h2>
+        <p class="subtitle">Admin code verified. Complete your secure admin account setup.</p>
+
+        <form (ngSubmit)="onSubmit()" novalidate>
+          <label>
+            Name
+            <input type="text" [(ngModel)]="name" name="name" autocomplete="name" required />
+          </label>
+
+          <div class="form-grid-two">
+            <label>
+              Age
+              <input type="number" [(ngModel)]="age" name="age" autocomplete="off" min="1" required />
+            </label>
+
+            <label>
+              Gender
+              <input type="text" [(ngModel)]="gender" name="gender" autocomplete="sex" required />
+            </label>
+          </div>
+
+          <label>
+            Email
+            <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+          </label>
+
+          <div class="form-grid-two">
+            <label>
+              Password
+              <input
+                type="password"
+                [(ngModel)]="password"
+                name="password"
+                #passwordModel="ngModel"
+                minlength="6"
+                autocomplete="new-password"
+                required
+              />
+              @if (passwordModel.invalid && (passwordModel.dirty || passwordModel.touched)) {
+                @if (passwordModel.errors?.['minlength']) {
+                  <small class="text-danger d-block mt-1 validation-error">
+                    <i class="bi bi-exclamation-circle me-1"></i>Password must be at least 6 characters.
+                  </small>
+                }
+              }
+            </label>
+
+            <label>
+              Confirm Password
+              <input
+                type="password"
+                [(ngModel)]="confirmPassword"
+                name="confirmPassword"
+                #confirmPasswordModel="ngModel"
+                autocomplete="new-password"
+                required
+              />
+              @if (confirmPassword && password !== confirmPassword && (confirmPasswordModel.dirty || confirmPasswordModel.touched)) {
+                <small class="text-danger d-block mt-1 validation-error">
+                  <i class="bi bi-exclamation-circle me-1"></i>Passwords do not match.
+                </small>
+              }
+            </label>
+          </div>
+
+          <button type="submit">Register</button>
+
+          @if (error) {
+            <p class="error">{{ error }}</p>
+          }
+
+          @if (success) {
+            <p class="success">{{ success }}</p>
+          }
+
+          <p class="hint">
+            Already have an account? <a routerLink="/login">Login here</a>.
+          </p>
+        </form>
+      </div>
+    }
+  </div>
+</div>
