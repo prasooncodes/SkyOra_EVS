@@ -1,287 +1,275 @@
-/* Navbar Theme Styling */
-.navbar-custom {
-  background: linear-gradient(135deg, #6f42c1 0%, #5a38a5 100%);
-  backdrop-filter: blur(10px);
-  padding: 0.75rem 0;
-  border-bottom: 3px solid #ff6b35;
+:host {
+  --akasa-orange: #FF6300;
+  --akasa-purple: #5C0FD9;
+  --glass-white: rgba(255, 255, 255, 0.85);
+  --text-dark: #1e1e2f;
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Brand/Logo Styling */
-.navbar-brand-custom {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff !important;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
+/* ✅ Main Navbar Layout Structure glassmorphism profile constraints */
+.akasa-navbar-portal {
+  background: var(--glass-white);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(92, 15, 217, 0.08);
+  padding: 12px 0;
+  width: 100%;
+  z-index: 1050;
+}
+
+.container-max-limit {
+  max-width: 1400px;
+}
+
+/* ✅ Brand Logo Configuration Layer Styles */
+.navbar-brand-akasa {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.logo-wrapper {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
-.navbar-brand-custom:hover {
-  transform: scale(1.05);
-  color: #ffd699 !important;
-  text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+.logo-icon {
+  font-size: 1.5rem;
+  transform: rotate(45deg);
+  display: inline-block;
 }
 
-.navbar-brand-custom i {
-  font-size: 1.8rem;
-  color: #ff6b35;
+.brand-text-main {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--akasa-purple);
+  letter-spacing: -0.5px;
 }
 
-/* Navigation Links */
-.nav-link-custom {
-  color: rgba(255, 255, 255, 0.85) !important;
-  font-weight: 500;
+.brand-text-accent {
+  color: var(--akasa-orange);
+}
+
+.navbar-brand-akasa .tagline {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #718096;
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+/* ✅ Central Menu Link Vectors Items Styling and Layout Formatting */
+.central-links-pool {
+  gap: 6px;
+}
+
+.akasa-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px !important;
+  color: #4a5568 !important;
+  font-weight: 600;
   font-size: 0.95rem;
-  padding: 0.5rem 1rem !important;
-  margin: 0 0.25rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  position: relative;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: var(--transition-smooth);
 }
 
-.nav-link-custom:hover {
-  color: #fff !important;
-  background-color: rgba(255, 107, 53, 0.15);
-  transform: translateY(-2px);
+.akasa-nav-link i {
+  font-size: 1.1rem;
+  color: #a0aec0;
+  transition: var(--transition-smooth);
 }
 
-.nav-link-custom::after {
-  content: '';
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: #ff6b35;
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+/* Interactive Hover state layers */
+.akasa-nav-link:hover {
+  background: rgba(92, 15, 217, 0.05);
+  color: var(--akasa-purple) !important;
 }
 
-.nav-link-custom:hover::after {
-  width: 80%;
-}
-
-.nav-link-custom i {
-  transition: transform 0.3s ease;
-}
-
-.nav-link-custom:hover i {
-  transform: scale(1.2);
-  color: #ff6b35;
-}
-
-/* Navbar Buttons */
-.nav-btn-outline {
-  color: #fff !important;
-  border-color: rgba(255, 255, 255, 0.7) !important;
-  transition: all 0.3s ease;
-  font-weight: 600;
-}
-
-.nav-btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: #ff6b35 !important;
-  color: #ff6b35 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
-}
-
-.btn-nav-orange {
-  background-color: #ff6b35;
-  border: none;
-  color: white !important;
-  transition: all 0.3s ease;
-  font-weight: 600;
-}
-
-.btn-nav-orange:hover {
-  background-color: #e55a24;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-}
-
-.btn-nav-orange:active {
+.akasa-nav-link:hover i {
+  color: var(--akasa-purple);
   transform: translateY(-1px);
 }
 
-.navbar-auth-actions {
+/* Active Page Route Highlight styles */
+.active-link {
+  background: rgba(92, 15, 217, 0.08) !important;
+  color: var(--akasa-purple) !important;
+}
+
+.active-link i {
+  color: var(--akasa-purple) !important;
+}
+
+/* ✅ Segmented Auth Controller Toggle Layout Pill Styles */
+.auth-segmented-pill {
+  display: flex;
+  background: #edf2f7;
+  padding: 4px;
+  border-radius: 50px;
+}
+
+.auth-segment-btn {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 50px;
+  color: #4a5568;
+  transition: var(--transition-smooth);
+}
+
+.login-tab.segment-active {
+  background: white;
+  color: var(--akasa-purple);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.register-tab.segment-active {
+  background: var(--akasa-orange);
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 99, 0, 0.2);
+}
+
+/* ✅ Member Context Profile Dropdown Menu Layout */
+.user-trigger-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 50px;
+  padding: 6px 16px 6px 6px !important;
+  transition: var(--transition-smooth);
+}
+
+.user-trigger-pill:hover {
+  border-color: var(--akasa-purple);
+  background: #fcfaff;
+}
+
+.user-avatar-initials {
+  width: 32px;
+  height: 32px;
+  background: var(--akasa-purple);
+  color: white;
+  font-weight: 800;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-greeting {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Session Dropdown Item Box list wrappers styling overlay modifications */
+.session-menu-list {
+  border-radius: 16px !important;
+  padding: 8px !important;
+  min-width: 220px;
+  margin-top: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.menu-account-header {
+  padding: 10px 14px;
+  display: flex;
   flex-direction: column;
-  align-items: flex-end;
 }
 
-.logged-in-greeting {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.82rem;
-  font-weight: 600;
-  line-height: 1.1;
-}
-
-/* Mobile Toggler */
-.navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  padding: 0.25rem 0.5rem;
-}
-
-.navbar-toggler:focus {
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 53, 0.4);
-  outline: none;
-}
-
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 24'%3e%3cpath stroke='rgba(255,255,255,0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-/* Sticky Navbar Shadow on Scroll */
-.navbar-custom.sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 1030;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 991.98px) {
-  .navbar-brand-custom {
-    font-size: 1.3rem;
-  }
-
-  .nav-link-custom {
-    padding: 0.75rem 0 !important;
-    margin: 0.25rem 0;
-    font-size: 1rem;
-  }
-
-  .nav-link-custom::after {
-    display: none;
-  }
-
-  .d-flex {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .nav-btn-outline,
-  .btn-nav-orange {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 0.5rem;
-  }
-
-  .navbar-auth-actions {
-    align-items: stretch;
-  }
-
-  .user-quick-panel {
-    width: 100%;
-    align-items: stretch;
-  }
-
-  .logged-in-greeting {
-    text-align: center;
-  }
-}
-
-@media (max-width: 576px) {
-  .navbar-brand-custom {
-    font-size: 1.1rem;
-  }
-
-  .navbar-brand-custom i {
-    font-size: 1.4rem;
-  }
-
-  .nav-link-custom {
-    font-size: 0.9rem;
-    padding: 0.5rem 0.5rem !important;
-  }
-
-  .nav-link-custom i {
-    font-size: 0.9rem;
-  }
-}
-
-/* Active Link Styling */
-.nav-link-custom.active {
-  color: #ff6b35 !important;
-  background-color: rgba(255, 107, 53, 0.2);
-  border-radius: 6px;
-}
-
-/* Smooth Transitions */
-.navbar-collapse {
-  transition: all 0.3s ease;
-}
-
-/* Animation for navbar items */
-@keyframes slideInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.navbar-nav .nav-item {
-  animation: slideInDown 0.5s ease backwards;
-}
-
-.navbar-nav .nav-item:nth-child(1) {
-  animation-delay: 0.05s;
-}
-
-.navbar-nav .nav-item:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.navbar-nav .nav-item:nth-child(3) {
-  animation-delay: 0.15s;
-}
-
-.navbar-nav .nav-item:nth-child(4) {
-  animation-delay: 0.2s;
-}
-
-.navbar-nav .nav-item:nth-child(5) {
-  animation-delay: 0.25s;
-}
-
-.navbar-nav .nav-item:nth-child(6) {
-  animation-delay: 0.3s;
-}
-
-.navbar-nav .nav-item:nth-child(7) {
-  animation-delay: 0.35s;
-}
-
-/* Icon color variations */
-.nav-link-custom i {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.nav-link-custom:hover i {
-  color: #ff6b35;
-}
-
-/* Home icon */
-.nav-link-custom:nth-child(1) i {
-  color: #ffd699;
-}
-
-/* Book Flight icon */
-.nav-link-custom:nth-child(2) i {
-  color: #ff9500;
-}
-
-/* Typography enhancements */
-.navbar-custom {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.navbar-brand-custom {
+.menu-account-header .meta-label {
+  font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  color: #a0aec0;
+  font-weight: 700;
+}
+
+.menu-account-header .meta-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.item-link-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  color: #4a5568;
+}
+
+.item-link-action:hover {
+  background: #f7fafc !important;
+  color: var(--akasa-purple);
+}
+
+.logout-trigger:hover {
+  background: #fff5f5 !important;
+  color: #e53e3e;
+}
+
+/* ✅ Mobile View Hamburger Controller Styling configurations */
+.navbar-toggler-akasa {
+  background: transparent;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 22px;
+}
+
+.hamburger-menu span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background-color: var(--akasa-purple);
+  border-radius: 4px;
+}
+
+/* Mobile Layout Responsive Adaptations styling queries rules */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+    border: 1px solid #edf2f7;
+  }
+  
+  .central-links-pool {
+    margin-bottom: 20px;
+  }
+  
+  .auth-section-container {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .auth-segmented-pill {
+    width: 100%;
+  }
+  
+  .auth-segment-btn {
+    flex: 1;
+    text-align: center;
+  }
 }

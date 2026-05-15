@@ -11,21 +11,23 @@
 }
 
 /* Central Card Wrapper Container Configuration */
+/* 1. Expand the card width to fit a larger image */
 .error-container {
   background: #ffffff;
   border-radius: 24px;
-  max-width: 580px;
+  max-width: 750px; /* Increased from 580px */
   width: 100%;
   border-top: 6px solid var(--akasa-orange);
   transition: transform 0.3s ease;
 }
 
-/* Sizing constraints for the illustration asset placeholder space */
+/* 2. Increase the image height */
 .error-graphic {
-  max-height: 220px;
+  max-height: 400px; /* Increased from 220px */
   width: auto;
   object-fit: contain;
 }
+
 
 /* Scented Brand Highlights and Typography styles */
 .error-code {
