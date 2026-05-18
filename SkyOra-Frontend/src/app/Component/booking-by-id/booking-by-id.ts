@@ -36,24 +36,4 @@ export class BookingByID implements OnInit {
       }
     });
   }
-
-  onDeleteBooking(id: number): void {
-    if (!id) {
-      alert('Invalid booking selected for deletion.');
-      return;
-    }
-
-    this.bookingService.deleteBooking(id).subscribe({
-      next: () => {
-        this.bookings = this.bookings.filter(
-          (booking: any) => (booking.BookingId || booking.bookingId) !== id
-        );
-        alert('Booking deleted successfully.');
-      },
-      error: (error) => {
-        console.error('Error deleting booking:', error);
-        alert('Failed to delete booking. Please try again.');
-      },
-    });
-  }
 }

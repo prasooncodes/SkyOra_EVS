@@ -32,6 +32,8 @@ import { PetPolicy } from './Component/pet-policy/pet-policy';
 import { ExcessBaggage } from './Component/excess-baggage/excess-baggage';
 import { Error } from './Component/error/error';
 import { MenuCart } from './Component/menu-cart/menu-cart';
+import { ManageBooking } from './Component/manage-booking/manage-booking';
+import { EditBooking } from './Component/edit-booking/edit-booking';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -70,6 +72,8 @@ export const routes: Routes = [
     {path:'excess-baggage', component: ExcessBaggage},
     {path:'error', component: Error},
     {path:'terms', component: TermsConditions},
-    {path:'menu-cart',component:MenuCart}
+    {path:'menu-cart',component:MenuCart},
+    {path:'manage-bookings', component: ManageBooking},
+    {path:'edit-booking/:id', component: EditBooking},
 
 ];

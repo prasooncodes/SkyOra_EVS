@@ -32,7 +32,7 @@
                     <span class="text-muted ms-2">{{ booking.Flight?.Source || 'N/A' }} → {{ booking.Flight?.Destination || 'N/A' }}</span>
                   </div>
                   <div class="small text-muted mt-1">
-                    Depart: {{ booking.BookingDate | date:'short' }}
+                    Depart: {{ booking.Flight?.DepartureTime | date:'short' }}
                   </div>
                 </div>
                 
@@ -55,7 +55,9 @@
               <small class="text-muted">Total Paid</small>
               <!-- Match: TotalAmount -->
               <h4 class="fw-bold text-purple">{{ booking.TotalAmount | currency:'INR' }}</h4>
-              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" routerLink="/passengerdetails/{{ booking.BookingId }}">View Passenger Details</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onDeleteBooking(booking.BookingId || booking.bookingId)">Delete Booking</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onEditBooking(booking.BookingId || booking.bookingId)">Edit Booking</button>
+             
             </div>
           </div>
         </div>
@@ -70,3 +72,4 @@
     }
   </div>
 </div>
+

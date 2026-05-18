@@ -1,0 +1,147 @@
+<section class="edit-booking-page py-5">
+	<div class="container">
+		<div class="page-hero mb-4">
+			<div>
+				<h2 class="fw-bold mb-1">Edit Booking</h2>
+				<p class="mb-0 text-muted">Refine your trip details, add travel options, and confirm updated terms.</p>
+			</div>
+			<span class="booking-ref">Booking #{{ bookingId }}</span>
+		</div>
+
+		@if (isLoading()) {
+			<div class="card border-0 shadow-sm p-4 text-center">
+				<p class="mb-0">Loading booking details...</p>
+			</div>
+		} @else if (loadError()) {
+			<div class="card border-0 shadow-sm p-4 text-center">
+				<p class="text-danger mb-3">{{ loadError() }}</p>
+				<button type="button" class="btn btn-outline-secondary" (click)="goBack()">Back to Manage Bookings</button>
+			</div>
+		} @else {
+			<form [formGroup]="editForm" (ngSubmit)="saveBooking()" novalidate>
+				<div class="row g-4">
+					<div class="col-lg-8">
+						<div class="card border-0 shadow-sm p-4 section-card">
+							<h5 class="fw-bold section-title">Travel Details</h5>
+
+							<div class="row g-3">
+								<div class="col-md-6">
+									<label class="form-label">Trip Type</label>
+									<select class="form-select" formControlName="tripType">
+										<option value="oneway">One-way</option>
+										<option value="roundtrip">Round-trip</option>
+									</select>
+								</div>
+
+								<div class="col-md-6">
+									<label class="form-label">Departure Date</label>
+									<input class="form-control" type="date" formControlName="bookingDate" />
+								</div>
+
+								@if (editForm.value.tripType === 'roundtrip') {
+									<div class="col-md-6">
+										<label class="form-label">Return Date</label>
+										<input class="form-control" type="date" formControlName="returnDate" />
+										@if (editForm.controls.returnDate.touched && editForm.controls.returnDate.invalid) {
+											<small class="text-danger">Return date is required for round-trip.</small>
+										}
+									</div>
+								}
+							</div>
+						</div>
+
+						<div class="card border-0 shadow-sm p-4 section-card mt-4">
+							<h5 class="fw-bold section-title">Travel Options</h5>
+							<div class="row g-3">
+								<div class="col-md-6">
+									<label class="form-label">Seat Preference</label>
+									<select class="form-select" formControlName="seatPreference">
+										<option value="Window">Window</option>
+										<option value="Aisle">Aisle</option>
+										<option value="Middle">Middle</option>
+									</select>
+								</div>
+
+								<div class="col-md-6">
+									<label class="form-label">Meal Preference</label>
+									<select class="form-select" formControlName="mealPreference">
+										<option value="Vegetarian">Vegetarian</option>
+										<option value="Non-Vegetarian">Non-Vegetarian</option>
+										<option value="Vegan">Vegan</option>
+										<option value="No Meal">No Meal</option>
+									</select>
+								</div>
+
+								<div class="col-12">
+									<div class="addons-grid">
+										<label class="addon-item">
+											<input type="checkbox" formControlName="addInsurance" />
+											<span>Travel Insurance (+₹499)</span>
+										</label>
+										<label class="addon-item">
+											<input type="checkbox" formControlName="priorityBoarding" />
+											<span>Priority Boarding (+₹299)</span>
+										</label>
+										<label class="addon-item">
+											<input type="checkbox" formControlName="airportLounge" />
+											<span>Airport Lounge Access (+₹899)</span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card border-0 shadow-sm p-4 section-card mt-4">
+							<h5 class="fw-bold section-title">Terms and Conditions</h5>
+							<ul class="terms-list mb-3">
+								<li>Fare difference may apply for date or passenger updates.</li>
+								<li>Reschedule or cancellation penalties depend on airline policy.</li>
+								<li>Add-on services are non-refundable after check-in closure.</li>
+								<li>Please verify traveler details before saving changes.</li>
+							</ul>
+
+							<div class="form-check">
+								<input class="form-check-input" id="agreeEditTerms" type="checkbox" formControlName="agreedToTerms" />
+								<label class="form-check-label" for="agreeEditTerms">
+									I have read and agree to the latest terms and conditions.
+								</label>
+							</div>
+							@if (editForm.controls.agreedToTerms.touched && editForm.controls.agreedToTerms.invalid) {
+								<small class="text-danger d-block mt-1">You must accept terms to save booking changes.</small>
+							}
+						</div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="card border-0 shadow-sm p-4 fare-card sticky-top">
+							<h5 class="fw-bold mb-3">Updated Fare Summary</h5>
+
+							<div class="summary-row">
+								<span>Existing Fare</span>
+								<strong>{{ baseAmount | currency:'INR':'symbol':'1.0-0' }}</strong>
+							</div>
+							<div class="summary-row">
+								<span>Selected Add-ons</span>
+								<strong>{{ optionsAmount() | currency:'INR':'symbol':'1.0-0' }}</strong>
+							</div>
+
+							<hr />
+
+							<div class="summary-row final-row">
+								<span>Total Payable</span>
+								<strong>{{ revisedAmount() | currency:'INR':'symbol':'1.0-0' }}</strong>
+							</div>
+
+							<button type="submit" class="btn btn-akasa-orange w-100 mt-3" [disabled]="isSaving() || editForm.invalid">
+								{{ isSaving() ? 'Saving...' : 'Save Booking Changes' }}
+							</button>
+							<button type="button" class="btn btn-outline-secondary w-100 mt-2" (click)="goBack()">
+								Cancel
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		}
+	</div>
+</section>

@@ -18,6 +18,10 @@ export class BookingService {
     return this.http.post(this.apiUrl, bookingData, this.getAuthHeaders());
   }
 
+  updateBooking(id: number, bookingData: any) {
+    return this.http.put(`${this.apiUrl}/${id}`, bookingData, this.getAuthHeaders());
+  }
+
   deleteBooking(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`, {
       ...this.getAuthHeaders(),
