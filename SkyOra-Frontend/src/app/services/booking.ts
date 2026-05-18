@@ -19,7 +19,10 @@ export class BookingService {
   }
 
   deleteBooking(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`, this.getAuthHeaders());
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      ...this.getAuthHeaders(),
+      responseType: 'text',
+    });
   }
 
   private getAuthHeaders() {
