@@ -320,7 +320,7 @@
               (click)="processBooking()"
               [disabled]="!flight || !isAllPassengersValid() || !isBookingDateValid(bookingData.bookingDate) || (bookingData.tripType === 'roundtrip' && !isReturnDateValid(bookingData.returnDate))"
             >
-              Confirm Booking
+              Check Out
             </button>
           </div>
         } @else {

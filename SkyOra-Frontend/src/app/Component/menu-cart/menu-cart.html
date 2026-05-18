@@ -1,0 +1,69 @@
+<div class="cart-container">
+  <!-- Header -->
+  <div class="cart-header">
+    <button class="back-btn" (click)="goBack()">🔙 Back to Menu</button>
+    <h2> Your Cart ({{ cartItems().length }} Items)</h2>
+  </div>
+
+  <!-- Empty State Condition -->
+  @if (cartItems().length === 0) {
+    <div class="empty-cart">
+      <p>Your cart is empty! Head back to the menu to add delicious food.</p>
+    </div>
+  } @else {
+    <!-- Scrollable Item List -->
+    <div class="cart-items-list">
+      @for (item of cartItems(); track item.id) {
+        <div class="cart-item">
+          <img [src]="item.image" [alt]="item.name" class="item-img">
+          
+          <div class="item-details">
+            <h3>{{ item.name }}</h3>
+            <p class="item-price">{{ item.price | currency:'INR':'symbol':'1.0-0' }} each</p>
+          </div>
+
+          <!-- Quantity Control Panel -->
+          <div class="quantity-controls">
+            <button (click)="decrementQuantity(item.id)">-</button>
+            <span class="qty-count">{{ item.quantity }}</span>
+            <button (click)="incrementQuantity(item.id)">+</button>
+          </div>
+
+          <!-- Line Subtotal and Delete Action -->
+          <div class="item-total-actions">
+            <p class="line-total">{{ (item.price * item.quantity) | currency:'INR':'symbol':'1.0-0' }}</p>
+            <button class="delete-btn" (click)="removeItem(item.id)">🗑️</button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Bill Details Breakdown Box -->
+    <div class="bill-breakdown">
+      <h3>Bill Details</h3>
+      <div class="bill-row">
+        <span>Item Subtotal</span>
+        <span>{{ subtotal() | currency:'INR':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="bill-row">
+        <span>Delivery Fee & Taxes</span>
+        <span>{{ deliveryFee() | currency:'INR':'symbol':'1.0-0' }}</span>
+      </div>
+      <div class="bill-row discount">
+        <span>Coupon Discount</span>
+        <span>-{{ discount() | currency:'INR':'symbol':'1.0-0' }}</span>
+      </div>
+      <hr>
+      <div class="bill-row final-payable">
+        <strong>Total Amount Payable</strong>
+        <strong>{{ totalPayable() | currency:'INR':'symbol':'1.0-0' }}</strong>
+      </div>
+    </div>
+
+    <!-- Primary Sticky Action Button -->
+    <button class="checkout-btn" (click)="checkout()">
+      PROCEED TO CHECKOUT — {{ totalPayable() | currency:'INR':'symbol':'1.0-0' }}
+    </button>
+  }
+</div>
+
