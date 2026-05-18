@@ -30,6 +30,7 @@ import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
 import { PetPolicy } from './Component/pet-policy/pet-policy';
 import { ExcessBaggage } from './Component/excess-baggage/excess-baggage';
+import { PaymentSuccess } from './Component/payment-success/payment-success';
 import { Error } from './Component/error/error';
 import { MenuCart } from './Component/menu-cart/menu-cart';
 import { ManageBooking } from './Component/manage-booking/manage-booking';
@@ -64,8 +65,8 @@ export const routes: Routes = [
     {path:'passengerdetails', component:PassengerDetail},
     {path:'booking-cart', component: BookingCart},
     {path:'payment',component:PaymentGateway},
+    {path:'payment-success', component: PaymentSuccess},
     {path:'manageaccount', component: ManageAccount},
-    {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
     {path:'travel',component:TravelCertificate},
     {path:'pet-policy', component: PetPolicy},

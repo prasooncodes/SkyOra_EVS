@@ -8,6 +8,7 @@ export interface PendingPassenger {
 }
 
 export interface PendingBookingPayload {
+  BookingId?: number;
   UserId: number;
   FlightId: number;
   NumberOfPassengers: number;
@@ -27,6 +28,9 @@ export class BookingFlowService {
 
   readonly pendingBooking = this.pendingBookingState.asReadonly();
 
+  private readonly lastConfirmedBookingState = signal<PendingBookingPayload | null>(null);
+  readonly lastConfirmedBooking = this.lastConfirmedBookingState.asReadonly();
+
   setPendingBooking(payload: PendingBookingPayload): void {
     this.pendingBookingState.set({
       ...payload,
@@ -35,8 +39,20 @@ export class BookingFlowService {
     });
   }
 
+  setLastConfirmedBooking(payload: PendingBookingPayload): void {
+    this.lastConfirmedBookingState.set({
+      ...payload,
+      NumberOfPassengers: payload.Passengers.length,
+      Passengers: payload.Passengers.map((passenger) => ({ ...passenger }))
+    });
+  }
+
   getPendingBooking(): PendingBookingPayload | null {
     return this.pendingBookingState();
+  }
+
+  getLastConfirmedBooking(): PendingBookingPayload | null {
+    return this.lastConfirmedBookingState();
   }
 
   updatePendingAmount(amount: number): void {

@@ -144,14 +144,30 @@ export class PaymentGateway {
       };
 
       this.bookingService.createBooking(confirmedBookingPayload).subscribe({
-        next: () => {
+        next: (savedBooking: any) => {
           this.isProcessing.set(false);
           this.paymentSuccess.set(true);
           this.paymentForm.reset({ amount: enteredAmount });
           this.applyMethodValidators(this.selectedMethod());
+
+          // Persist the booking with backend-assigned BookingId
+          const enhancedBooking = { ...confirmedBookingPayload, BookingId: savedBooking?.BookingId };
+          this.bookingFlowService.setLastConfirmedBooking(enhancedBooking);
           this.bookingFlowService.clearPendingBooking();
+
+          // Attempt to email ticket via backend and notify the user if it fails.
+          if (savedBooking?.BookingId) {
+            this.bookingService.sendTicket(savedBooking.BookingId).subscribe({
+              next: () => console.log('Ticket email request sent.'),
+              error: (e) => {
+                console.warn('Ticket email failed:', e);
+                this.safeAlert('Payment succeeded, but sending the ticket email failed. Please contact support or check your email settings.');
+              }
+            });
+          }
+
           this.safeAlert('Payment successful and booking confirmed!');
-          this.router.navigate(['/bookingsbyid']);
+          this.router.navigate(['/payment-success']);
         },
         error: (error: HttpErrorResponse) => {
           console.error('Booking confirmation failed after payment:', error);

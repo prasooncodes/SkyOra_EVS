@@ -4,6 +4,10 @@ using skyora1.DTO;
 using skyora1.Models;
 using skyora1.Repository;
 using System.Security.Claims;
+using System.Net.Mail;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using skyora1.DAL;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -11,10 +15,14 @@ using System.Security.Claims;
 public class BookingController : ControllerBase
 {
     private readonly IBooking _booking;
+    private readonly AppDbContext _db;
+    private readonly IConfiguration _config;
 
-    public BookingController(IBooking booking)
+    public BookingController(IBooking booking, AppDbContext db, IConfiguration config)
     {
         _booking = booking;
+        _db = db;
+        _config = config;
     }
 
     // ✅ GET ALL
@@ -102,6 +110,87 @@ public class BookingController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, new { message = "Internal server error during booking update.", detail = ex.Message });
+        }
+    }
+
+    // POST: api/Booking/{id}/sendticket
+    [HttpPost("{id}/sendticket")]
+    public async Task<IActionResult> SendTicket(int id)
+    {
+        try
+        {
+            var booking = await _booking.GetBookingById(id);
+            if (booking == null) return NotFound("Booking not found");
+
+            var user = await _db.users.FindAsync(booking.UserId);
+            if (user == null || string.IsNullOrEmpty(user.Email))
+                return BadRequest(new { message = "User or user email not found." });
+
+            // Read SMTP configuration
+            var host = _config["Smtp:Host"];
+            var portStr = _config["Smtp:Port"];
+            var enableSslStr = _config["Smtp:EnableSsl"];
+            var username = _config["Smtp:Username"];
+            var password = _config["Smtp:Password"];
+            var from = _config["Smtp:From"] ?? username ?? "no-reply@skyora.com";
+
+            if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(portStr))
+            {
+                return StatusCode(500, new { message = "SMTP configuration is missing. Please configure Smtp settings in appsettings.json or appsettings.Development.json." });
+            }
+
+            if (!int.TryParse(portStr, out int port)) port = 25;
+            var enableSsl = bool.TryParse(enableSslStr, out var es) && es;
+
+            // Build simple HTML email with booking summary
+            var sb = new StringBuilder();
+            sb.AppendLine($"<h2>SkyOra Ticket - Booking #{booking.BookingId}</h2>");
+            sb.AppendLine($"<p>Passenger Count: {booking.NumberOfPassengers}</p>");
+            sb.AppendLine($"<p>Total Amount: {booking.TotalAmount:C}</p>");
+            if (booking.Flight != null)
+            {
+                sb.AppendLine($"<p>Flight: {booking.Flight.FlightNo} - {booking.Flight.Source} to {booking.Flight.Destination}</p>");
+                sb.AppendLine($"<p>Departure: {booking.Flight.DepartureTime}</p>");
+            }
+            if (booking.Passengers != null && booking.Passengers.Any())
+            {
+                sb.AppendLine("<h3>Passengers</h3>");
+                sb.AppendLine("<ul>");
+                foreach (var p in booking.Passengers)
+                {
+                    // `Passenger` model does not have a SeatType property in the schema.
+                    // Avoid referencing it to prevent compile errors.
+                    sb.AppendLine($"<li>{p.Name} ({p.Age}) - {p.Gender}</li>");
+                }
+                sb.AppendLine("</ul>");
+            }
+
+            var message = new MailMessage();
+            message.From = new MailAddress(from);
+            message.To.Add(user.Email);
+            message.Subject = $"SkyOra Ticket - Booking #{booking.BookingId}";
+            message.Body = sb.ToString();
+            message.IsBodyHtml = true;
+
+            using (var client = new SmtpClient(host, port))
+            {
+                client.EnableSsl = enableSsl;
+                if (!string.IsNullOrEmpty(username))
+                {
+                    client.Credentials = new System.Net.NetworkCredential(username, password);
+                }
+                client.Send(message);
+            }
+
+            return Ok(new { message = "Ticket emailed successfully." });
+        }
+        catch (SmtpException sx)
+        {
+            return StatusCode(500, new { message = "Failed to send email.", detail = sx.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Internal server error while sending ticket.", detail = ex.Message });
         }
     }
 }

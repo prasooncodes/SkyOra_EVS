@@ -1,0 +1,191 @@
+<div class="ticket-page-container">
+  <header class="ticket-page-header">
+    <div>
+      <h1 class="airline-logo">SkyOra Airlines</h1>
+      <p class="page-tagline">Professional flight ticket preview and download.</p>
+    </div>
+  </header>
+
+  <div class="ticket-content-layout">
+    <section class="form-section">
+      <div class="card-wrapper">
+        <h2 class="section-title">Create Your Flight Ticket</h2>
+        <p class="section-subtitle">Enter passenger and flight details, then download a polished boarding pass.</p>
+
+        <form class="ticket-form" (ngSubmit)="onGenerateTicket()">
+          <div class="form-row">
+            <label>
+              Passenger Name
+              <input type="text" name="passengerName" required [(ngModel)]="ticket.passengerName" placeholder="Aarav Sharma" />
+            </label>
+            <label>
+              PNR / Booking Ref
+              <input type="text" name="pnr" required [(ngModel)]="ticket.pnr" placeholder="SK8492" />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Flight Number
+              <input type="text" name="flightNumber" required [(ngModel)]="ticket.flightNumber" placeholder="SO-102" />
+            </label>
+            <label>
+              Travel Class
+              <select name="travelClass" [(ngModel)]="ticket.travelClass">
+                <option>Economy</option>
+                <option>Premium Economy</option>
+                <option>Business</option>
+                <option>First</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Origin
+              <input type="text" name="origin" required [(ngModel)]="ticket.origin" placeholder="New Delhi (DEL)" />
+            </label>
+            <label>
+              Destination
+              <input type="text" name="destination" required [(ngModel)]="ticket.destination" placeholder="Mumbai (BOM)" />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Travel Date
+              <input type="date" name="travelDate" required [(ngModel)]="ticket.travelDate" />
+            </label>
+            <label>
+              Boarding Group
+              <input type="text" name="boardingGroup" [(ngModel)]="ticket.boardingGroup" placeholder="A" />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Gate
+              <input type="text" name="gate" [(ngModel)]="ticket.gate" placeholder="G12" />
+            </label>
+            <label>
+              Seat
+              <input type="text" name="seat" [(ngModel)]="ticket.seat" placeholder="12C" />
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              Boarding Time
+              <input type="time" name="boardingTime" [(ngModel)]="ticket.boardingTime" />
+            </label>
+            <label>
+              Departure Time
+              <input type="time" name="departureTime" [(ngModel)]="ticket.departureTime" />
+            </label>
+            <label>
+              Arrival Time
+              <input type="time" name="arrivalTime" [(ngModel)]="ticket.arrivalTime" />
+            </label>
+          </div>
+
+          <button class="primary-btn" type="submit">Generate Ticket Preview</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="preview-section">
+      <div class="preview-header">
+        <span class="preview-badge">Live Ticket Preview</span>
+        <button class="download-btn" [disabled]="!showTicket" (click)="downloadTicket()">Download Ticket</button>
+      </div>
+
+      <div class="ticket-shell" id="ticketPreview" *ngIf="showTicket; else placeholder">
+        <div class="ticket-header">
+          <div>
+            <p class="ticket-brand">SkyOra Airlines</p>
+            <span class="ticket-doc">Flight Ticket</span>
+          </div>
+          <span class="ticket-status">CONFIRMED</span>
+        </div>
+
+        <div class="ticket-body">
+          <div class="route-section">
+            <div class="route-card">
+              <h2>{{ ticket.origin }}</h2>
+              <p>Departure</p>
+            </div>
+            <div class="route-card route-center">
+              <h2>{{ ticket.flightNumber }}</h2>
+              <p>Flight</p>
+            </div>
+            <div class="route-card">
+              <h2>{{ ticket.destination }}</h2>
+              <p>Arrival</p>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <div class="detail-panel">
+              <span class="detail-label">Passenger</span>
+              <span class="detail-value">{{ ticket.passengerName }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">PNR</span>
+              <span class="detail-value">{{ ticket.pnr }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Class</span>
+              <span class="detail-value">{{ ticket.travelClass }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Travel Date</span>
+              <span class="detail-value">{{ ticket.formattedDate }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Gate</span>
+              <span class="detail-value">{{ ticket.gate || 'TBD' }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Seat</span>
+              <span class="detail-value">{{ ticket.seat || 'TBA' }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Boarding</span>
+              <span class="detail-value">{{ ticket.boardingTime || '--:--' }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Departure</span>
+              <span class="detail-value">{{ ticket.departureTime || '--:--' }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Arrival</span>
+              <span class="detail-value">{{ ticket.arrivalTime || '--:--' }}</span>
+            </div>
+            <div class="detail-panel">
+              <span class="detail-label">Boarding Group</span>
+              <span class="detail-value">{{ ticket.boardingGroup }}</span>
+            </div>
+          </div>
+
+          <div class="passenger-strip">
+            <p class="passenger-name">{{ ticket.passengerName }}</p>
+            <p class="passenger-meta">{{ ticket.origin }} → {{ ticket.destination }} • Gate {{ ticket.gate || 'TBD' }}</p>
+          </div>
+
+          <div class="ticket-footer">
+            <div class="ticket-notes">
+              Please arrive at the boarding gate at least 45 minutes before departure. Keep your boarding pass and ID ready.
+            </div>
+            <div class="barcode">BOARDING READY</div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #placeholder>
+        <div class="ticket-placeholder">
+          <p>Enter ticket details and generate the preview to download a professional flight ticket.</p>
+        </div>
+      </ng-template>
+    </section>
+  </div>
+</div>
