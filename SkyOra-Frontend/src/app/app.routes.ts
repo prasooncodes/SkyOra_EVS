@@ -28,6 +28,8 @@ import { TermsConditions } from './Component/terms-conditions/terms-conditions';
 import { AdminRegistration } from './Component/admin-registration/admin-registration';
 import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
+import { PetPolicy } from './Component/pet-policy/pet-policy';
+import { ExcessBaggage } from './Component/excess-baggage/excess-baggage';
 import { Error } from './Component/error/error';
 
 export const routes: Routes = [
@@ -63,6 +65,8 @@ export const routes: Routes = [
     {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
     {path:'travel',component:TravelCertificate},
+    {path:'pet-policy', component: PetPolicy},
+    {path:'excess-baggage', component: ExcessBaggage},
     {path:'error', component: Error},
     {path:'terms', component: TermsConditions},
 
