@@ -1,5 +1,5 @@
 :host {
-  --akasa-orange: #FF6300;
+  --akasa-orange: #ffa724;  
   --akasa-purple: #5C0FD9;
 }
 
@@ -72,7 +72,7 @@
 
 .btn-akasa-orange:hover {
   transform: scale(1.05);
-  background-color: #e55900;
+  background-color: #ff7f2f;
 }
 
 .btn-outline-white {

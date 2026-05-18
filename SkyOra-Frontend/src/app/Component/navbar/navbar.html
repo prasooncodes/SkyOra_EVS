@@ -133,7 +133,7 @@
         <div *ngIf="isLoggedIn" class="dropdown user-session-card">
           <button class="btn user-trigger-pill dropdown-toggle shadow-sm" type="button" id="skyoraUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="user-avatar-initials">
-              {{ displayName?.substring(0,1)?.toUpperCase() || 'U' }}
+              {{ displayName.substring(0,1).toUpperCase() || 'U' }}
             </div>
             <span class="user-greeting">Hi, {{ displayName }}</span>
           </button>
