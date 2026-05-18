@@ -45,11 +45,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="akasa-nav-link" routerLink="/bookingsbyid" routerLinkActive="active-link">
-              <i class="bi bi-pass-fill"></i><span>My Trips</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="akasa-nav-link" routerLink="/offers" routerLinkActive="active-link">
               <i class="bi bi-tags-fill"></i><span>Offers</span>
             </a>
@@ -66,7 +61,7 @@
           </li>
           <li class="nav-item">
             <a class="akasa-nav-link" routerLink="/about" routerLinkActive="active-link">
-              <i class="bi bi-info-square-fill"></i><span>About</span>
+              <i class="bi bi-info-square-fill"></i><span>About Us</span>
             </a>
           </li>
           <li class="nav-item">
@@ -150,8 +145,14 @@
               </button>
             </li>
             <li>
+              <button class="dropdown-item item-link-action" (click)="mytrips()">
+                <i class="bi bi-person-gear text-purple"></i>My Trips
+              </button>
+            </li>
+
+            <li>
               <button class="dropdown-item item-link-action logout-trigger" (click)="logout()">
-                <i class="bi bi-power text-danger"></i>Logout Flight
+                <i class="bi bi-power text-danger"></i>Logout 
               </button>
             </li>
           </ul>

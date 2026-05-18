@@ -29,6 +29,7 @@ import { AdminRegistration } from './Component/admin-registration/admin-registra
 import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
 import { Error } from './Component/error/error';
+import { MenuCart } from './Component/menu-cart/menu-cart';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -65,5 +66,6 @@ export const routes: Routes = [
     {path:'travel',component:TravelCertificate},
     {path:'error', component: Error},
     {path:'terms', component: TermsConditions},
+    {path:'menu-cart',component:MenuCart}
 
 ];
