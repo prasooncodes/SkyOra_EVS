@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface Offer {
   icon: string;
@@ -18,7 +18,7 @@ interface Offer {
 export class   Offers implements OnInit {
    activeTab: string = 'flights';
 
-  // ऑफर्स का डेटा ऑब्जेक्ट
+  
   allOffers: { [key: string]: Offer[] } = {
     flights: [
       { icon: '✈️', title: 'Travel Sale', desc: 'Up to 20% off with code:', code: 'TRAVEL20' },
@@ -38,12 +38,11 @@ export class   Offers implements OnInit {
 
   ngOnInit(): void { }
 
-  // टैब बदलने का फंक्शन
   setActiveTab(tabName: string): void {
     this.activeTab = tabName;
   }
 
-  // वर्तमान में एक्टिव ऑफर्स प्राप्त करें
+  
   get currentOffers(): Offer[] {
     return this.allOffers[this.activeTab];
   }
@@ -52,5 +51,9 @@ export class   Offers implements OnInit {
 
   openDetails(category: string): void {
     this.router.navigate(['/offers', category]);
+  }
+
+  onclick(){
+    this.router.navigate(['/bookflight']);
   }
 }
