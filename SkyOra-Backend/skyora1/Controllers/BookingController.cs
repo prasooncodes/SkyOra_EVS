@@ -89,4 +89,19 @@ public class BookingController : ControllerBase
 
         return Ok("Booking Deleted Successfully");
     }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBooking(int id, [FromBody] EditBookingDto bookingDto)
+    {
+        try
+        {
+            var updatedBooking = await _booking.UpdateBooking(id, bookingDto);
+            if (updatedBooking == null)
+                return NotFound("Booking Not Found");
+            return Ok(updatedBooking);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Internal server error during booking update.", detail = ex.Message });
+        }
+    }
 }

@@ -93,6 +93,21 @@ namespace skyora1.Repository
                 }).ToListAsync();
                    
         }
+        public async Task<int> UpdateBooking(int id, EditBookingDto booking)
+        {
+            var bookingelement = await appDbContext.bookings.FirstOrDefaultAsync(x => x.BookingId == id);
+            if (bookingelement != null)
+            {
+                bookingelement.TotalAmount = booking.TotalAmount;
+                bookingelement.BookingDate=booking.BookingDate;
+                bookingelement.ReturnDate=booking.ReturnDate;
+                appDbContext.bookings.Update(bookingelement);
+                appDbContext.SaveChanges();
+                return bookingelement.BookingId;
+            }
+            else
+                return 404;
+        }
 
 
 

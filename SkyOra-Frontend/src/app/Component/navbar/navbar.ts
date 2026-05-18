@@ -61,4 +61,7 @@ export class Navbar implements OnInit, OnDestroy {
   mytrips():void {
     this.router.navigate(['/bookingsbyid']);
   }
+  managebookings():void {
+    this.router.navigate(['/manage-bookings']);
+  }
 }

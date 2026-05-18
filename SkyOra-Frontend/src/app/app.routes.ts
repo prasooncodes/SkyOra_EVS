@@ -30,6 +30,8 @@ import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
 import { Error } from './Component/error/error';
 import { MenuCart } from './Component/menu-cart/menu-cart';
+import { ManageBooking } from './Component/manage-booking/manage-booking';
+import { EditBooking } from './Component/edit-booking/edit-booking';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -66,6 +68,8 @@ export const routes: Routes = [
     {path:'travel',component:TravelCertificate},
     {path:'error', component: Error},
     {path:'terms', component: TermsConditions},
-    {path:'menu-cart',component:MenuCart}
+    {path:'menu-cart',component:MenuCart},
+    {path:'manage-bookings', component: ManageBooking},
+    {path:'edit-booking/:id', component: EditBooking},
 
 ];

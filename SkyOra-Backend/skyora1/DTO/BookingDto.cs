@@ -35,4 +35,10 @@ namespace skyora1.DTO
         // ✅ NEW: Include Flight details for displaying flight information in booking view
         public FlightDto Flight { get; set; }
     }
+    public class EditBookingDto
+    {
+        public decimal TotalAmount { get; set; }
+        public DateOnly BookingDate { get; set; }
+        public DateOnly ReturnDate { get; set; }
+    }
 }
