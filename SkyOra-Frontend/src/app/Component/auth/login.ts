@@ -17,18 +17,29 @@ export class LoginComponent {
   password = '';
   confirmPassword = '';
   error = '';
+  captchaError = '';
+  captchaQuestion = 'Type the characters shown below to verify you are human';
+  captchaInput = '';
+  captchaText = '';
 
   constructor(
     private userService: UserServices,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.resetCaptcha();
+  }
 
   onSubmit() {
     this.error = '';
+    this.captchaError = '';
 
     if (!this.email || !this.password) {
       this.error = 'Email and password are required.';
+      return;
+    }
+
+    if (!this.validateCaptcha()) {
       return;
     }
 
@@ -42,10 +53,36 @@ export class LoginComponent {
         this.authService.setToken(cleanToken);
         this.router.navigate(['/home1']);
       },
-      error: (err : any) => {
+      error: (err: any) => {
         console.error('Login error response:', err);
         this.router.navigate(['/error']);
       },
     });
+  }
+
+  resetCaptcha(): void {
+    this.captchaText = this.generateCaptchaText(6);
+    this.captchaInput = '';
+    this.captchaError = '';
+  }
+
+  validateCaptcha(): boolean {
+    if (!this.captchaInput?.trim()) {
+      this.captchaError = 'Please type the text shown in the verification box.';
+      return false;
+    }
+
+    if (this.captchaInput.trim().toLowerCase() !== this.captchaText.toLowerCase()) {
+      this.captchaError = 'Text verification failed. Please try again.';
+      this.resetCaptcha();
+      return false;
+    }
+
+    return true;
+  }
+
+  private generateCaptchaText(length: number): string {
+    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
   }
 }

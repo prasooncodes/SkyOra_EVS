@@ -81,6 +81,21 @@
           </label>
         </div>
 
+        <div class="captcha-block">
+          <span class="captcha-label">{{ captchaQuestion }}</span>
+          <div class="captcha-box">
+            <span class="captcha-box-text">{{ captchaText }}</span>
+          </div>
+          <label>
+            Enter the text shown above
+            <input type="text" [(ngModel)]="captchaInput" name="captchaInput" autocomplete="off" required />
+          </label>
+          <div class="captcha-actions">
+            <button type="button" class="captcha-refresh" (click)="resetCaptcha()">Refresh captcha</button>
+          </div>
+          <p class="error" *ngIf="captchaError">{{ captchaError }}</p>
+        </div>
+
         <button type="submit">Register</button>
 
         <p class="error" *ngIf="error">{{ error }}</p>

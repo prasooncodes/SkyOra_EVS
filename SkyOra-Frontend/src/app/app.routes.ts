@@ -67,6 +67,7 @@ export const routes: Routes = [
     {path:'payment',component:PaymentGateway},
     {path:'payment-success', component: PaymentSuccess},
     {path:'manageaccount', component: ManageAccount},
+    {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
     {path:'travel',component:TravelCertificate},
     {path:'pet-policy', component: PetPolicy},
