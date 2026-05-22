@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 import { UserServices } from '../../services/user';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, RecaptchaModule],
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
 })
@@ -22,13 +23,10 @@ export class RegisterComponent {
   error = '';
   success = '';
   captchaError = '';
-  captchaQuestion = 'Type the characters shown below to verify you are human';
-  captchaInput = '';
-  captchaText = '';
+  recaptchaToken = '';
+  recaptchaSiteKey = '6Ld81_YsAAAAAEPiFnVCXhZvVyQ3Xrcl4ykaDRi6';
 
-  constructor(private userService: UserServices, private router: Router) {
-    this.resetCaptcha();
-  }
+  constructor(private userService: UserServices, private router: Router) {}
 
   onSubmit() {
     this.error = '';
@@ -50,7 +48,8 @@ export class RegisterComponent {
       return;
     }
 
-    if (!this.validateCaptcha()) {
+    if (!this.recaptchaToken) {
+      this.captchaError = 'Please complete the captcha verification.';
       return;
     }
 
@@ -61,6 +60,7 @@ export class RegisterComponent {
       role: 'User',
       email: this.email,
       password: this.password,
+      captchaToken: this.recaptchaToken,
     }).subscribe({
       next: () => {
         this.success = 'Registration successful. Redirecting to login...';
@@ -76,29 +76,18 @@ export class RegisterComponent {
     this.router.navigate(['/admin-register']);
   }
 
-  resetCaptcha(): void {
-    this.captchaText = this.generateCaptchaText(6);
-    this.captchaInput = '';
+  onCaptchaResolved(token: string | null): void {
+    this.recaptchaToken = token ?? '';
     this.captchaError = '';
   }
 
-  validateCaptcha(): boolean {
-    if (!this.captchaInput?.trim()) {
-      this.captchaError = 'Please type the text shown in the verification box.';
-      return false;
-    }
-
-    if (this.captchaInput.trim().toLowerCase() !== this.captchaText.toLowerCase()) {
-      this.captchaError = 'Text verification failed. Please try again.';
-      this.resetCaptcha();
-      return false;
-    }
-
-    return true;
+  onCaptchaExpired(): void {
+    this.recaptchaToken = '';
+    this.captchaError = 'Captcha has expired. Please verify again.';
   }
 
-  private generateCaptchaText(length: number): string {
-    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-    return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  onCaptchaError(): void {
+    this.recaptchaToken = '';
+    this.captchaError = 'Captcha failed to load. Please refresh the page and try again.';
   }
 }
