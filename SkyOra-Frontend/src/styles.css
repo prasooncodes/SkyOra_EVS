@@ -96,6 +96,8 @@ a:hover {
 
 .form-control,
 .form-select {
+  width: 100%;
+  padding: 0.95rem 1.05rem;
   border: 1px solid rgba(7, 43, 84, 0.16);
   border-radius: 14px;
   background: #fff;
