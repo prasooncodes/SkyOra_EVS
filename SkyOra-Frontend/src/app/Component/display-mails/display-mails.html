@@ -8,7 +8,7 @@
 		<div *ngIf="messages.length === 0" class="muted">No messages yet.</div>
 
 		<ul class="mails-list" *ngIf="messages.length > 0">
-			<li *ngFor="let m of messages" class="mail-item card-sm">
+			<li *ngFor="let m of pagedMessages" class="mail-item card-sm">
 				<div class="mail-top">
 					<div class="mail-from">
 						<strong>{{ m.Name || m.name || m.From || 'Unknown' }}</strong>
@@ -19,5 +19,11 @@
 				<div class="mail-body">{{ m.Message || m.message || m.Body }}</div>
 			</li>
 		</ul>
+
+		<div class="pagination-controls mt-4" *ngIf="totalPages > 1">
+			<button class="btn btn-outline-secondary me-2" type="button" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+			<span class="pagination-summary">Page {{ currentPage }} of {{ totalPages }}</span>
+			<button class="btn btn-outline-secondary ms-2" type="button" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+		</div>
 	</div>
 </div>

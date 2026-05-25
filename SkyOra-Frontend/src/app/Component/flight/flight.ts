@@ -1,18 +1,24 @@
 import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { FlightService } from '../../services/flight';
 
 @Component({
   selector: 'app-flight',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './flight.html',
   styleUrls: ['./flight.css'],
 })
 export class Flight implements OnInit {
-
   flights: any[] = [];
+  filteredFlights: any[] = [];
+  searchTerm = '';
+  pagedFlights: any[] = [];
+  itemsPerPage = 10;
+  currentPage = 1;
+  totalPages = 1;
   private cdr=inject(ChangeDetectorRef);
 
   constructor(private flightService: FlightService) {}
@@ -23,9 +29,41 @@ export class Flight implements OnInit {
 
   loadFlights() {
     this.flightService.getFlights().subscribe((data: any[]) => {
-      this.flights = data;
-      this.cdr.detectChanges(); //
+      this.flights = data || [];
+      this.applyFilter();
+      this.cdr.detectChanges();
     });
+  }
+
+  applyFilter(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      this.filteredFlights = [...this.flights];
+    } else {
+      this.filteredFlights = this.flights.filter(flight => {
+        const flightNo = (flight.FlightNo || flight.flightNo || '').toString().toLowerCase();
+        const source = (flight.Source || flight.source || '').toString().toLowerCase();
+        const dest = (flight.Destination || flight.destination || '').toString().toLowerCase();
+        return flightNo.includes(term) || source.includes(term) || dest.includes(term);
+      });
+    }
+
+    this.totalPages = Math.max(1, Math.ceil(this.filteredFlights.length / this.itemsPerPage));
+    this.currentPage = 1;
+    this.updatePagedFlights();
+  }
+
+  private updatePagedFlights(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    this.pagedFlights = this.filteredFlights.slice(start, start + this.itemsPerPage);
+  }
+
+  changePage(page: number): void {
+    if (page < 1 || page > this.totalPages) {
+      return;
+    }
+    this.currentPage = page;
+    this.updatePagedFlights();
   }
 
   trackByFlightId(_: number, flight: any): number {

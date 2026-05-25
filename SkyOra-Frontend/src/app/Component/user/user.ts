@@ -9,10 +9,12 @@ import { FormsModule } from '@angular/forms'; // ✅ Ensure FormsModule is impor
   standalone: true,
   imports: [CommonModule, FormsModule], // ✅ Add FormsModule here
   templateUrl: './user.html',
-  styleUrl: './user.css',
+  styleUrls: ['./user.css'],
 })
 export class User implements OnInit {
   users: any[] = [];
+  filteredUsers: any[] = [];
+  searchTerm = '';
   editingUser: any = null; // Stores the user currently being edited
 
   constructor(private userService: UserServices, private cdr: ChangeDetectorRef) {}
@@ -24,10 +26,26 @@ export class User implements OnInit {
   loadUsers() {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        this.users = data;
+        this.users = data || [];
+        this.applyFilter();
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error:', error)
+    });
+  }
+
+  applyFilter(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      this.filteredUsers = [...this.users];
+      return;
+    }
+
+    this.filteredUsers = this.users.filter(user => {
+      const name = (user.UserName || user.Name || '').toString().toLowerCase();
+      const email = (user.Email || user.email || '').toString().toLowerCase();
+      const role = (user.Role || '').toString().toLowerCase();
+      return name.includes(term) || email.includes(term) || role.includes(term);
     });
   }
 
