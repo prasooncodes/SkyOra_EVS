@@ -4,8 +4,18 @@
     <p>Manage and view all passenger profiles in the system.</p>
   </header>
 
+  <div class="user-toolbar mb-4">
+    <input
+      type="search"
+      class="search-input"
+      placeholder="Search travelers by name, email or role..."
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="applyFilter()"
+    />
+  </div>
+
   <div class="user-grid">
-    @for (user of users; track $index) {
+    @for (user of filteredUsers; track user.UserId || user.userId) {
       <div class="user-card">
         <div class="card-accent"></div>
         <div class="card-body">
