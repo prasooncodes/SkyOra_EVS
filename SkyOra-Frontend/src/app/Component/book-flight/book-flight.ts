@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FlightService } from '../../services/flight';
 import { FlightInterface } from '../../Models/flights';
 import { AuthService } from '../../services/auth-service';
@@ -11,7 +11,7 @@ import { BookingService } from '../../services/booking';
 @Component({
   selector: 'app-book-flight',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   templateUrl: './book-flight.html',
   styleUrls: ['./book-flight.css'],
 })
