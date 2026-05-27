@@ -23,8 +23,22 @@ export class AdminRegistration {
   isAdminCodeVerified = false;
   error = '';
   success = '';
+  emailError = '';
 
   constructor(private userService: UserServices, private router: Router) {}
+
+  private isValidEmail(email: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  validateEmail() {
+    if (!this.email) {
+      this.emailError = 'Email is required.';
+      return;
+    }
+
+    this.emailError = this.isValidEmail(this.email) ? '' : 'Please enter a valid email address.';
+  }
 
   verifyAdminCode() {
     this.error = '';
@@ -47,6 +61,7 @@ export class AdminRegistration {
   onSubmit() {
     this.error = '';
     this.success = '';
+    this.validateEmail();
 
     if (!this.isAdminCodeVerified) {
       this.error = 'Please verify the admin code before registering.';
@@ -55,6 +70,11 @@ export class AdminRegistration {
 
     if (!this.name || !this.age || !this.gender || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'All fields are required.';
+      return;
+    }
+
+    if (this.emailError) {
+      this.error = 'Please enter a valid email address.';
       return;
     }
 

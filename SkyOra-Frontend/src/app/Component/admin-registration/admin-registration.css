@@ -158,7 +158,8 @@
   font-size: 0.95rem;
 }
 
-.auth-card input {
+.auth-card input,
+.auth-card select {
   width: 100%;
   margin-top: 0.5rem;
   padding: 0.95rem 1.05rem;
@@ -171,7 +172,8 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.auth-card input:focus {
+.auth-card input:focus,
+.auth-card select:focus {
   border-color: #ff6b35;
   box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.16);
 }
