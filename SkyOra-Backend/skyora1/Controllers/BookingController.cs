@@ -89,4 +89,15 @@ public class BookingController : ControllerBase
 
         return Ok("Booking Deleted Successfully");
     }
+
+    // ✅ CANCEL BOOKING
+    [HttpPut("cancel/{id}")]
+    public async Task<IActionResult> CancelBooking(int id)
+    {
+        var result = await _booking.CancelBooking(id);
+        if (result == 404)
+            return NotFound("Booking Not Found");
+
+        return Ok("Booking Cancelled Successfully. 50% refund will be processed.");
+    }
 }

@@ -130,5 +130,18 @@ namespace skyora1.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<int> CancelBooking(int id)
+        {
+            var booking = await appDbContext.bookings.FirstOrDefaultAsync(x => x.BookingId == id);
+            if (booking != null)
+            {
+                booking.BookingStatus = "Cancelled";
+                await appDbContext.SaveChangesAsync();
+                return id;
+            }
+            else
+                return 404;
+        }
+
     }
 }
