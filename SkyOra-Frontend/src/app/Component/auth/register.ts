@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { RecaptchaModule } from 'ng-recaptcha';
+import {  RecaptchaModule } from 'ng-recaptcha'; 
 import { UserServices } from '../../services/user';
 
 @Component({
@@ -22,13 +22,15 @@ export class RegisterComponent {
   confirmPassword = '';
   error = '';
   success = '';
-<<<<<<< HEAD
+
   emailError = '';
-=======
+
   captchaError = '';
   recaptchaToken = '';
   recaptchaSiteKey = '6Ld81_YsAAAAAEPiFnVCXhZvVyQ3Xrcl4ykaDRi6';
->>>>>>> aed1832d71a332892361131fe92b900369f67cd5
+
+ 
+
 
   constructor(private userService: UserServices, private router: Router) {}
 
@@ -48,11 +50,11 @@ export class RegisterComponent {
   onSubmit() {
     this.error = '';
     this.success = '';
-<<<<<<< HEAD
+
     this.validateEmail();
-=======
+
     this.captchaError = '';
->>>>>>> aed1832d71a332892361131fe92b900369f67cd5
+ 
 
     if (!this.name || !this.age || !this.gender || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'All fields are required.';
