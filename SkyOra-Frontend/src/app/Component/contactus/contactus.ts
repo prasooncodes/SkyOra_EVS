@@ -8,13 +8,37 @@ import { MessageService } from '../../services/messages';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './contactus.html',
-  styleUrl: './contactus.css',
+  styleUrls: ['./contactus.css'],
 })
 export class Contactus {
   selectedCity: string = 'Delhi';
   phoneNumber: string = '+91 9606 11 21 31';
   statusMessage = '';
   isSubmitting = false;
+  selectedFaqIndex = -1;
+
+  faqs = [
+    {
+      question: "1. How can I book a flight on SkyOra's website and app?",
+      answer: "Simply enter your origin, destination, and travel dates on our homepage. Select your preferred flight, enter passenger details, and proceed to payment to confirm your booking."
+    },
+    {
+      question: '2. Do I need to create an account to book a flight?',
+      answer: 'Yes, you need to create an account to book a flight. However, you can check the flight network as a guest without logging in.'
+    },
+    {
+      question: '3. Which payment modes are accepted for online bookings?',
+      answer: 'We accept all major Credit/Debit cards, Net Banking, UPI, and popular digital wallets.'
+    },
+    {
+      question: '4. Where can I view and manage my bookings?',
+      answer: 'Go to the Manage Booking section on our website or app and enter your PNR/Booking Reference and last name.'
+    },
+    {
+      question: '5. Can I book a flight at the airport?',
+      answer: 'Yes, you can visit the SkyOra ticket counter at the airport to book tickets directly, subject to availability.'
+    }
+  ];
 
   contactForm = {
     name: '',
@@ -22,6 +46,10 @@ export class Contactus {
     subject: '',
     message: ''
   };
+
+  selectFaq(index: number) {
+    this.selectedFaqIndex = this.selectedFaqIndex === index ? -1 : index;
+  }
 
   constructor(private messageService: MessageService) {}
 

@@ -113,13 +113,16 @@
   color: #000;
 }
 
+.faq-question.open .arrow::after {
+  content: '\2303';
+}
+
 .arrow::after {
   content: '\2304'; /* Downward chevron */
   font-size: 1.2rem;
 }
 
 .faq-answer {
-  display: none; /* Hidden by default */
   padding-bottom: 15px;
   color: #666;
   font-size: 0.95rem;

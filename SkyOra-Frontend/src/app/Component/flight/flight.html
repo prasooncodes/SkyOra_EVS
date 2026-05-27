@@ -1,18 +1,30 @@
 <div class="flight-portal-wrapper">
   <!-- ✅ Top Header Row -->
-  <div class="portal-header d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h2 class="brand-text">Active Flight Routes</h2>
-      <p class="subtitle text-muted">Manage your fleet and scheduled departures.</p>
+  <div class="portal-header mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+      <div>
+        <h2 class="brand-text">Active Flight Routes</h2>
+        <p class="subtitle text-muted">Manage your fleet and scheduled departures.</p>
+      </div>
+      <a class="btn btn-akasa-orange shadow-sm" [routerLink]="['/addflight']">
+        + Add New Flight
+      </a>
     </div>
-    <a class="btn btn-akasa-orange shadow-sm" [routerLink]="['/addflight']">
-      + Add New Flight
-    </a>
+
+    <div class="mt-3">
+      <input
+        type="search"
+        class="form-control search-input"
+        placeholder="Search flights by number, source or destination..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilter()"
+      />
+    </div>
   </div>
 
   <!-- ✅ Flight List Container -->
   <div class="flight-list">
-    @for (flight of flights; track flight.FlightId) {
+    @for (flight of pagedFlights; track flight.FlightId) {
       <div class="flight-ticket-card shadow-sm">
         <!-- Brand accent line at the top -->
         <div class="accent-line"></div>
@@ -77,5 +89,11 @@
         <p>No flights currently scheduled.</p>
       </div>
     }
+  </div>
+
+  <div class="pagination-controls" *ngIf="totalPages > 1">
+    <button class="btn btn-outline-secondary me-2" type="button" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span class="pagination-summary">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="btn btn-outline-secondary ms-2" type="button" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
   </div>
 </div>

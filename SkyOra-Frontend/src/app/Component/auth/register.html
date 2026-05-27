@@ -49,7 +49,7 @@
 
           <label>
             Gender
-            <select [(ngModel)]="gender" name="gender" required>
+            <select class="form-select" [(ngModel)]="gender" name="gender" required>
               <option value="" disabled>Select gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
@@ -88,6 +88,17 @@
               </small>
             </ng-container>
           </label>
+        </div>
+
+        <div class="captcha-block">
+          <span class="captcha-label">Please verify you are human</span>
+          <re-captcha
+            [siteKey]="recaptchaSiteKey"
+            (resolved)="onCaptchaResolved($event)"
+            (error)="onCaptchaError()"
+            (expired)="onCaptchaExpired()"
+          ></re-captcha>
+          <p class="error" *ngIf="captchaError">{{ captchaError }}</p>
         </div>
 
         <button type="submit">Register</button>

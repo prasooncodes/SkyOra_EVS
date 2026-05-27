@@ -44,6 +44,17 @@
           <input type="password" [(ngModel)]="password" name="password" required />
         </label>
 
+        <div class="captcha-block">
+          <span class="captcha-label">Please verify you are human</span>
+          <re-captcha
+            [siteKey]="recaptchaSiteKey"
+            (resolved)="onCaptchaResolved($event)"
+            (error)="onCaptchaError()"
+            (expired)="onCaptchaExpired()"
+          ></re-captcha>
+          <p class="error" *ngIf="captchaError">{{ captchaError }}</p>
+        </div>
+
         <button type="submit">Login</button>
 
         <p class="error" *ngIf="error">{{ error }}</p>
