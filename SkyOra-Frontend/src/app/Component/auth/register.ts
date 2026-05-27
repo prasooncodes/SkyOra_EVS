@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { RecaptchaModule } from 'ng-recaptcha';
+import { Router } from '@angular/router';
+import {  RecaptchaModule } from 'ng-recaptcha'; 
 import { UserServices } from '../../services/user';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RecaptchaModule],
+  imports: [CommonModule, FormsModule, RecaptchaModule],
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
 })
@@ -22,9 +22,15 @@ export class RegisterComponent {
   confirmPassword = '';
   error = '';
   success = '';
+
+  emailError = '';
+
   captchaError = '';
   recaptchaToken = '';
   recaptchaSiteKey = '6Ld81_YsAAAAAEPiFnVCXhZvVyQ3Xrcl4ykaDRi6';
+
+ 
+
 
   constructor(private userService: UserServices, private router: Router) {}
 
@@ -44,7 +50,11 @@ export class RegisterComponent {
   onSubmit() {
     this.error = '';
     this.success = '';
+
+    this.validateEmail();
+
     this.captchaError = '';
+ 
 
     if (!this.name || !this.age || !this.gender || !this.email || !this.password || !this.confirmPassword) {
       this.error = 'All fields are required.';

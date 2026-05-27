@@ -218,7 +218,7 @@
   color: #6c757d;
 }
 
-..auth-card a {
+.auth-card a {
   color: #6f42c1;
   text-decoration: underline;
   font-weight: 700;

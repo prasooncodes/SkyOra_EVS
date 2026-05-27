@@ -89,11 +89,16 @@
 
             <label>
               Gender
-              <select class="form-select" [(ngModel)]="gender" name="gender" required>
+
+              <select class="form-select" [(ngModel)]="gender" name="gender" autocomplete="sex" required>
+
                 <option value="" disabled>Select gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
+
+                <option value="Prefer not to say">Prefer not to say</option>
+
               </select>
             </label>
           </div>
