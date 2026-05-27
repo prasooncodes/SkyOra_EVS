@@ -77,5 +77,6 @@ export const routes: Routes = [
     {path:'menu-cart',component:MenuCart},
     {path:'manage-bookings', component: ManageBooking},
     {path:'edit-booking/:id', component: EditBooking},
+    {path:'admin-register', component: AdminRegistration},
 
 ];

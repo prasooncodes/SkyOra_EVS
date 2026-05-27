@@ -100,7 +100,12 @@
 
           <label>
             Email
-            <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+            <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required (ngModelChange)="validateEmail()" />
+            @if (emailError) {
+              <small class="text-danger d-block mt-1 validation-error">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ emailError }}
+              </small>
+            }
           </label>
 
           <div class="form-grid-two">

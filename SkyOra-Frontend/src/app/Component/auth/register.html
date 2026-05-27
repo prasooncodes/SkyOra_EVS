@@ -35,7 +35,7 @@
       <h2>Register</h2>
       <p class="subtitle">Create your account and start booking flights instantly.</p>
 
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" novalidate>
         <label>
           Name
           <input type="text" [(ngModel)]="name" name="name" required />
@@ -54,13 +54,17 @@
               <option value="Male">Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
             </select>
           </label>
         </div>
 
         <label>
           Email
-          <input type="email" [(ngModel)]="email" name="email" required />
+          <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required (ngModelChange)="validateEmail()" />
+          <small *ngIf="emailError" class="text-danger d-block mt-1 validation-error">
+            <i class="bi bi-exclamation-circle me-1"></i>{{ emailError }}
+          </small>
         </label>
 
         <div class="form-grid-two">
