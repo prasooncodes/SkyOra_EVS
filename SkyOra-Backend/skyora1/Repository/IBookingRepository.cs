@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using skyora1.DAL;
 using skyora1.DTO;
 using skyora1.Models;
@@ -31,6 +32,30 @@ namespace skyora1.Repository
                 ReturnDate=booking.ReturnDate,
             };
 
+            // Validate seat selections to prevent double-booking
+            var incomingSeats = booking.Passengers?.Where(p => !string.IsNullOrWhiteSpace(p.SeatNumber)).Select(p => p.SeatNumber).ToList() ?? new List<string>();
+
+            // Check duplicates within the incoming request
+            var duplicateInRequest = incomingSeats.GroupBy(s => s).FirstOrDefault(g => g.Count() > 1)?.Key;
+            if (!string.IsNullOrEmpty(duplicateInRequest))
+            {
+                throw new Exception($"Duplicate seat selection in request: {duplicateInRequest}");
+            }
+
+            // Check seats already reserved for this flight
+            var existingSeats = await appDbContext.bookings
+                .Where(b => b.FlightId == booking.FlightId)
+                .SelectMany(b => b.Passengers)
+                .Select(p => p.SeatNumber)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToListAsync();
+
+            var conflictingSeat = incomingSeats.Intersect(existingSeats).FirstOrDefault();
+            if (!string.IsNullOrEmpty(conflictingSeat))
+            {
+                throw new Exception($"Seat {conflictingSeat} is already reserved. Please choose a different seat.");
+            }
+
             // ✅ Add passengers to the booking if provided
             if (booking.Passengers != null && booking.Passengers.Count > 0)
             {
@@ -40,7 +65,9 @@ namespace skyora1.Repository
                     {
                         Name = passengerDto.Name,
                         Age = passengerDto.Age,
-                        Gender = passengerDto.Gender
+                        Gender = passengerDto.Gender,
+                        SeatNumber = passengerDto.SeatNumber,
+                        SeatType = passengerDto.SeatType
                         // ✅ Don't set BookingId - EF will set it automatically when booking is saved
                     };
                     book.Passengers.Add(passenger);

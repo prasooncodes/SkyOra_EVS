@@ -51,6 +51,10 @@
                       <span class="meta-label">Pax ID</span>
                       <span class="meta-value text-muted">#{{ p.PassengerId || p.passengerId }}</span>
                     </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Seat</span>
+                      <span class="meta-value text-muted">{{ p.SeatNumber || p.seatNumber || 'N/A' }} • {{ p.SeatType || p.seatType || '—' }}</span>
+                    </div>
                   </div>
                 </div>
 

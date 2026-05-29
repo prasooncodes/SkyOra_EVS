@@ -41,7 +41,9 @@ namespace skyora1.Repository
                 BookingId = passenger.BookingId,
                 Name = passenger.Name,
                 Age = passenger.Age,
-                Gender = passenger.Gender
+                Gender = passenger.Gender,
+                SeatNumber = passenger.SeatNumber,
+                SeatType = passenger.SeatType
             };
 
             await _context.passengers.AddAsync(newPassenger);

@@ -4,7 +4,7 @@ import { RouterLink, RouterOutlet,Router } from '@angular/router';
 
 @Component({
   selector: 'app-inprogress',
-  imports: [RouterOutlet, RouterLink, CommonModule],
+  imports: [ CommonModule],
   templateUrl: './inprogress.html',
   styleUrl: './inprogress.css',
 })
