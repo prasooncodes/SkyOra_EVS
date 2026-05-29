@@ -7,6 +7,7 @@ import { FlightInterface } from '../../Models/flights';
 import { AuthService } from '../../services/auth-service';
 import { BookingFlowService } from '../../services/booking-flow';
 import { BookingService } from '../../services/booking';
+import { GoogleAnalyticsService } from '../../services/google-analytics';
 
 @Component({
   selector: 'app-book-flight',
@@ -88,7 +89,8 @@ export class BookFlight implements OnInit {
     private bookingService: BookingService,
     private cdr: ChangeDetectorRef,
     private ar: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private googleAnalyticsService: GoogleAnalyticsService
   ) {}
 
   // Use this instead of calling `alert()` directly so SSR won't crash
@@ -109,6 +111,9 @@ export class BookFlight implements OnInit {
   }
 
   ngOnInit(): void {
+    // Track page view
+    this.googleAnalyticsService.trackPageView('Book Flight', '/book-flight');
+
     const currentUserId = this.authService.getUserId();
 
     if (currentUserId === 0) {
@@ -329,6 +334,9 @@ export class BookFlight implements OnInit {
     this.seatMap.forEach(s => s.assignedTo = null);
     this.passengers.forEach(p => p.seatNumber = '');
     this.selectedPassengerIndex = null;
+    
+    // Track passenger count change
+    this.googleAnalyticsService.trackPassengerCountChange(count);
   }
 
   loadFlightById(id: number): void {
@@ -362,18 +370,34 @@ export class BookFlight implements OnInit {
     }
 
     this.bookingData.flightId = id;
+
+    // Track flight selection
+    this.googleAnalyticsService.trackFlightSelection(
+      id,
+      this.searchCriteria.source,
+      this.searchCriteria.destination
+    );
   }
 
   searchFlights(): void {
     if (!this.searchCriteria.source || !this.searchCriteria.destination) {
       this.safeAlert('Please select both source and destination cities.');
+      this.googleAnalyticsService.trackValidationError('Missing source or destination city');
       return;
     }
 
     if (this.searchCriteria.source === this.searchCriteria.destination) {
       this.safeAlert('Source and destination cities must be different.');
+      this.googleAnalyticsService.trackValidationError('Source and destination cities are same');
       return;
     }
+
+    // Track flight search
+    this.googleAnalyticsService.trackFlightSearch(
+      this.searchCriteria.source,
+      this.searchCriteria.destination,
+      this.bookingData.tripType
+    );
 
     this.isSearching = true;
     this.flightService.searchFlights(this.searchCriteria.source, this.searchCriteria.destination).subscribe({
@@ -381,6 +405,10 @@ export class BookFlight implements OnInit {
         this.searchedFlights = data;
         if (this.searchedFlights.length === 0) {
             this.safeAlert('No flights found for the selected route.');
+            this.googleAnalyticsService.trackEvent('flight_search_no_results', {
+              source_city: this.searchCriteria.source,
+              destination_city: this.searchCriteria.destination
+            });
         } else if (this.searchedFlights.length === 1) {
           const flightId = this.searchedFlights[0].FlightId || this.searchedFlights[0].flightId || 0;
           this.selectFlightById(flightId);
@@ -391,6 +419,7 @@ export class BookFlight implements OnInit {
       error: (error) => {
         console.error('Flight search failed:', error);
         this.safeAlert('Unable to search flights. Please try again later.');
+        this.googleAnalyticsService.trackError('flight_search_error', error?.message || 'Unknown error');
         this.isSearching = false;
       }
     });
@@ -467,24 +496,36 @@ export class BookFlight implements OnInit {
   processBooking(): void {
     if (!this.flight) {
       this.safeAlert('Please select a flight before confirming booking.');
+      this.googleAnalyticsService.trackValidationError('No flight selected');
       return;
     }
 
     if (!this.isAllPassengersValid()) {
       this.safeAlert('Please fill in all passenger details and assign a seat to each passenger.');
+      this.safeAlert('Please fill in all passenger details (name, age, gender, and seat type).');
+      this.googleAnalyticsService.trackValidationError('Invalid passenger details');
       return;
     }
 
     // Validate booking date
     if (!this.bookingData.bookingDate || !this.isBookingDateValid(this.bookingData.bookingDate)) {
       this.safeAlert('Please choose a valid booking date. Date cannot be earlier than today.');
+      this.googleAnalyticsService.trackValidationError('Invalid booking date');
       return;
     }
 
     if (this.bookingData.tripType === 'roundtrip' && !this.isReturnDateValid(this.bookingData.returnDate)) {
       this.safeAlert('Please choose a valid return date. It cannot be earlier than the booking date.');
+      this.googleAnalyticsService.trackValidationError('Invalid return date');
       return;
     }
+
+    // Track booking initiated
+    this.googleAnalyticsService.trackBookingInitiated(
+      this.totalPrice,
+      this.passengers.length,
+      this.bookingData.flightId
+    );
 
     const bookingPayload = {
       UserId: this.bookingData.userId,
@@ -504,6 +545,48 @@ export class BookFlight implements OnInit {
       }))
     };
     this.bookingFlowService.setPendingBooking(bookingPayload);
+
+    // Track booking completed
+    this.googleAnalyticsService.trackBookingCompleted(
+      this.totalPrice,
+      this.passengers.length,
+      this.bookingData.flightId
+    );
+
     this.router.navigate(['/booking-cart']); 
   }
+
+    /**
+     * Track trip type change
+     */
+    onTripTypeChange(tripType: string): void {
+      this.bookingData.tripType = tripType;
+      this.googleAnalyticsService.trackTripTypeSelection(tripType);
+    }
+
+    /**
+     * Track booking date change
+     */
+    onBookingDateChange(date: string): void {
+      this.bookingData.bookingDate = date;
+      this.googleAnalyticsService.trackDateSelection('booking_date', date);
+    }
+
+    /**
+     * Track return date change
+     */
+    onReturnDateChange(date: string): void {
+      this.bookingData.returnDate = date;
+      this.googleAnalyticsService.trackDateSelection('return_date', date);
+    }
+
+    /**
+     * Track seat type change for a passenger
+     */
+    onSeatTypeChange(seatType: string, passengerIndex: number): void {
+      if (this.passengers[passengerIndex]) {
+        this.passengers[passengerIndex].seatType = seatType;
+        this.googleAnalyticsService.trackSeatTypeSelection(seatType, passengerIndex);
+      }
+    }
 }

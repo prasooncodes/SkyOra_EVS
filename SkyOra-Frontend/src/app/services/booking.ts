@@ -6,7 +6,7 @@ import { AuthService } from './auth-service';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = 'https://localhost:7169/api/Booking';
+  private apiUrl = 'http://localhost:5084/api/Booking';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -46,5 +46,9 @@ export class BookingService {
 
   getReservedSeats(flightId: number) {
     return this.http.get<string[]>(`${this.apiUrl}/flight/${flightId}/reserved-seats`, this.getAuthHeaders());
+  }
+
+  cancelBooking(id: number) {
+    return this.http.put(`${this.apiUrl}/cancel/${id}`, {}, this.getAuthHeaders());
   }
 }
