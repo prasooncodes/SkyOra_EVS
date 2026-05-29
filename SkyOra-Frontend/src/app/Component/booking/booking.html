@@ -64,6 +64,7 @@
                   @for (p of (booking.Passengers || booking.passengers); track p.PassengerId) {
                     <span class="badge bg-light-purple text-purple px-3 py-2 border rounded-pill small">
                       👤 {{ p.Name || p.name }} ({{ p.Age || p.age }} Yrs - {{ p.Gender || p.gender }})
+                      <div class="small text-muted">Seat: {{ p.SeatNumber || p.seatNumber || 'N/A' }} • {{ p.SeatType || p.seatType || '—' }}</div>
                     </span>
                   } @empty {
                     <small class="text-muted italic">Retrieving secure flyer listings record matrix...</small>

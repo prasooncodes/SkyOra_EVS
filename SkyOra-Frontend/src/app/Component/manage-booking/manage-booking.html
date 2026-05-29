@@ -48,6 +48,18 @@
                 <span class="status-dot" [ngClass]="booking.BookingStatus?.toLowerCase()"></span>
                 <small class="fw-bold text-uppercase">{{ booking.BookingStatus }}</small>
               </div>
+
+              <div class="mt-3">
+                <small class="text-muted d-block">Assigned Seats</small>
+                <div class="d-flex flex-wrap gap-2 mt-2">
+                  @for (p of booking.Passengers || []; track p.PassengerId) {
+                    <div class="badge bg-white border text-muted px-3 py-2">
+                      <strong class="text-purple">{{ p.Name }}</strong>
+                      <div class="small">Seat: {{ p.SeatNumber || 'N/A' }} • {{ p.SeatType || '—' }}</div>
+                    </div>
+                  }
+                </div>
+              </div>
             </div>
 
             <!-- Price & Action -->
@@ -55,7 +67,7 @@
               <small class="text-muted">Total Paid</small>
               <!-- Match: TotalAmount -->
               <h4 class="fw-bold text-purple">{{ booking.TotalAmount | currency:'INR' }}</h4>
-              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onDeleteBooking(booking.BookingId || booking.bookingId)">Delete Booking</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onDeleteBooking(booking.BookingId || booking.bookingId)">Cancel Booking</button>
               <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onEditBooking(booking.BookingId || booking.bookingId)">Edit Booking</button>
              
             </div>

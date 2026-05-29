@@ -43,4 +43,8 @@ export class BookingService {
   getBookingById(id: number) {
     return this.http.get(`${this.apiUrl}/${id}`, this.getAuthHeaders());
   } 
+
+  getReservedSeats(flightId: number) {
+    return this.http.get<string[]>(`${this.apiUrl}/flight/${flightId}/reserved-seats`, this.getAuthHeaders());
+  }
 }

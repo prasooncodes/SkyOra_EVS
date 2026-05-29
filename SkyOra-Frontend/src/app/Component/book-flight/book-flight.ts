@@ -21,12 +21,16 @@ export class BookFlight implements OnInit {
   searchedFlights: FlightInterface[] = [];
   isSearching: boolean = false;
 
+  private readonly businessSeatLabels = ['A', 'B', 'C', 'D'];
+  private readonly economySeatLabels = ['A', 'B', 'C', 'D', 'E', 'F'];
+
   // Passenger interface
   passengers: Array<{
     name: string;
     age: number | null;
     gender: string;
     seatType: string;
+    seatNumber?: string;
   }> = [];
 
   // Indian cities list
@@ -55,6 +59,24 @@ export class BookFlight implements OnInit {
     tripType: 'oneway',
     agreedToTerms: false
   };
+
+  // Seat map state
+  seatMap: Array<{ id: string; type: string; assignedTo: number | null; taken?: boolean; rowNumber: number; seatLabel: string; position: string }> = [];
+  seatCabinRows: Array<{
+    rowNumber: number;
+    cabinClass: 'Business' | 'Economy';
+    gridTemplate: string;
+    seats: Array<{
+      id: string;
+      type: string;
+      assignedTo: number | null;
+      taken?: boolean;
+      rowNumber: number;
+      seatLabel: string;
+      position: string;
+    } | null>;
+  }> = [];
+  selectedPassengerIndex: number | null = null;
 
   // Minimum selectable booking date (YYYY-MM-DD) - cannot be before today
   minBookingDate: string = '';
@@ -121,7 +143,8 @@ export class BookFlight implements OnInit {
           name: '',
           age: null,
           gender: '',
-          seatType: 'Economy'
+          seatType: 'Economy',
+          seatNumber: ''
         });
       }
     } else if (count < currentLength) {
@@ -129,12 +152,191 @@ export class BookFlight implements OnInit {
       this.passengers = this.passengers.slice(0, count);
     }
     this.bookingData.numberOfPassengers = count;
+    // Reset seat selections when count changes
+    this.clearSeatAssignments();
+  }
+
+  private createSeatRow(
+    rowNumber: number,
+    cabinClass: 'Business' | 'Economy',
+    seatCount: number,
+    seatLabels: string[],
+    seatsPerSide: number,
+    aisleGap: number
+  ): { rowNumber: number; cabinClass: 'Business' | 'Economy'; gridTemplate: string; seats: Array<{ id: string; type: string; assignedTo: number | null; taken?: boolean; rowNumber: number; seatLabel: string; position: string } | null> } {
+    const columns: Array<{ id: string; type: string; assignedTo: number | null; taken?: boolean; rowNumber: number; seatLabel: string; position: string } | null> = [];
+    const totalColumns = seatsPerSide * 2 + aisleGap;
+    const templateParts = Array.from({ length: totalColumns }, (_, index) => index === seatsPerSide ? '56px' : '1fr');
+    const availableSeats = Math.min(seatCount, seatsPerSide * 2);
+
+    for (let i = 0; i < totalColumns; i++) {
+      if (i === seatsPerSide) {
+        columns.push(null);
+        continue;
+      }
+
+      const leftSide = i < seatsPerSide;
+      const seatIndex = leftSide ? i : i - aisleGap;
+      if (seatIndex >= availableSeats) {
+        columns.push(null);
+        continue;
+      }
+
+      const seatLabel = seatLabels[seatIndex] || String.fromCharCode(65 + seatIndex);
+      const seatId = `${rowNumber}${seatLabel}`;
+      columns.push({
+        id: seatId,
+        type: cabinClass,
+        assignedTo: null,
+        taken: false,
+        rowNumber,
+        seatLabel,
+        position: this.getSeatPosition(seatIndex, availableSeats)
+      });
+    }
+
+    return {
+      rowNumber,
+      cabinClass,
+      gridTemplate: templateParts.join(' '),
+      seats: columns
+    };
+  }
+
+  private getSeatPosition(seatIndex: number, totalSeats: number): string {
+    if (seatIndex === 0 || seatIndex === totalSeats - 1) {
+      return 'window';
+    }
+    if (seatIndex === 1 || seatIndex === totalSeats - 2) {
+      return 'middle';
+    }
+    return 'aisle';
+  }
+
+  // Generate a 2D cockpit-style seat map based on flight totals
+  generateSeatMap(): void {
+    this.seatMap = [];
+    this.seatCabinRows = [];
+    if (!this.flight) return;
+
+    const business = Number(this.flight.TotalBusinessSeats || 0) || 0;
+    const economy = Number(this.flight.TotalEconomySeats || 0) || 0;
+
+    const businessRows = business > 0 ? Math.ceil(business / 4) : 0;
+    const economyRows = economy > 0 ? Math.ceil(economy / 6) : 0;
+
+    let rowNumber = 1;
+    for (let i = 0; i < businessRows; i++) {
+      const rowSeatCount = Math.min(4, business - i * 4);
+      const row = this.createSeatRow(rowNumber++, 'Business', rowSeatCount, this.businessSeatLabels, 2, 1);
+      this.seatCabinRows.push(row);
+      this.seatMap.push(...row.seats.filter((seat): seat is NonNullable<typeof seat> => seat !== null));
+    }
+
+    for (let i = 0; i < economyRows; i++) {
+      const rowSeatCount = Math.min(6, economy - i * 6);
+      const row = this.createSeatRow(rowNumber++, 'Economy', rowSeatCount, this.economySeatLabels, 3, 1);
+      this.seatCabinRows.push(row);
+      this.seatMap.push(...row.seats.filter((seat): seat is NonNullable<typeof seat> => seat !== null));
+    }
+    // After generating seats, fetch already reserved seats for this flight
+    const flightId = Number(this.flight?.FlightId || this.bookingData.flightId || 0);
+    if (flightId > 0) {
+      this.fetchReservedSeats(flightId);
+    }
+  }
+
+  // Select passenger to assign seats
+  selectPassenger(index: number): void {
+    this.selectedPassengerIndex = index;
+  }
+
+  // Assign or unassign seat for selected passenger
+  toggleSeatAssignment(seatId: string): void {
+    const idx = this.seatMap.findIndex(s => s.id === seatId);
+    if (idx === -1) return;
+    const seat = this.seatMap[idx];
+
+    if (this.selectedPassengerIndex === null) {
+      this.safeAlert('Please select a passenger to assign this seat.');
+      return;
+    }
+
+    // Prevent selecting a seat that's already reserved
+    if (seat.taken) {
+      this.safeAlert('This seat is reserved and cannot be selected.');
+      return;
+    }
+
+    const passenger = this.passengers[this.selectedPassengerIndex];
+    if (!passenger) return;
+
+    // Prevent seating mismatch
+    if (passenger.seatType !== seat.type) {
+      this.safeAlert(`Selected seat is ${seat.type}. Change passenger class or pick a matching seat.`);
+      return;
+    }
+
+    // If seat already assigned to someone else, do nothing
+    if (seat.assignedTo !== null && seat.assignedTo !== this.selectedPassengerIndex) {
+      this.safeAlert('This seat is already assigned to another passenger.');
+      return;
+    }
+
+    // Toggle assignment
+    if (seat.assignedTo === this.selectedPassengerIndex) {
+      // unassign
+      seat.assignedTo = null;
+      passenger.seatNumber = '';
+    } else {
+      // free any seat currently assigned to this passenger
+      const prev = this.seatMap.find(s => s.assignedTo === this.selectedPassengerIndex);
+      if (prev) prev.assignedTo = null;
+      seat.assignedTo = this.selectedPassengerIndex;
+      passenger.seatNumber = seat.id;
+    }
+  }
+
+  // Fetch seats already reserved for the selected flight and mark them
+  fetchReservedSeats(flightId: number): void {
+    if (!flightId) return;
+    this.bookingService.getReservedSeats(flightId).subscribe({
+      next: (data: any) => {
+        const reserved: string[] = data || [];
+        // reset taken flags
+        this.seatMap.forEach(s => s.taken = false);
+        reserved.forEach(seatId => {
+          const s = this.seatMap.find(x => x.id === seatId);
+          if (s) {
+            s.taken = true;
+            // if it's taken and assigned locally, unassign
+            if (s.assignedTo !== null) {
+              const p = this.passengers[s.assignedTo];
+              if (p) p.seatNumber = '';
+              s.assignedTo = null;
+            }
+          }
+        });
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to fetch reserved seats:', err);
+      }
+    });
+  }
+
+  clearSeatAssignments(): void {
+    this.seatMap.forEach(s => s.assignedTo = null);
+    this.passengers.forEach(p => p.seatNumber = '');
+    this.selectedPassengerIndex = null;
   }
 
   loadFlightById(id: number): void {
     this.flightService.getFlightById(id).subscribe({
       next: (data) => {
         this.flight = data;
+        // regenerate seat map for the selected flight
+        this.generateSeatMap();
         this.cdr.detectChanges();
       },
       error: (error) => console.error('Error loading flight:', error)
@@ -151,6 +353,10 @@ export class BookFlight implements OnInit {
     const matchedFlight = this.searchedFlights.find(f => (f.FlightId || f.flightId) === flightId);
     if (matchedFlight) {
       this.flight = matchedFlight;
+      // regenerate seat map when selecting from search results
+      this.generateSeatMap();
+      this.clearSeatAssignments();
+      this.cdr.detectChanges();
     } else {
       this.loadFlightById(id);
     }
@@ -220,6 +426,7 @@ export class BookFlight implements OnInit {
         !!p.name?.trim() &&
         !!p.gender?.trim() &&
         !!p.seatType?.trim() &&
+        !!p.seatNumber?.trim() &&
         typeof p.age === 'number' &&
         p.age > 0
     );
@@ -264,7 +471,7 @@ export class BookFlight implements OnInit {
     }
 
     if (!this.isAllPassengersValid()) {
-      this.safeAlert('Please fill in all passenger details (name, age, gender, and seat type).');
+      this.safeAlert('Please fill in all passenger details and assign a seat to each passenger.');
       return;
     }
 
@@ -292,7 +499,8 @@ export class BookFlight implements OnInit {
         Name: p.name.trim(),
         Age: Number(p.age),
         Gender: p.gender.trim(),
-        SeatType: p.seatType // ✅ Include passengers with booking
+        SeatType: p.seatType,
+        SeatNumber: p.seatNumber || ''
       }))
     };
     this.bookingFlowService.setPendingBooking(bookingPayload);

@@ -5,6 +5,7 @@ export interface PendingPassenger {
   Age: number;
   Gender: string;
   SeatType: string;
+  SeatNumber?: string;
 }
 
 export interface PendingBookingPayload {
