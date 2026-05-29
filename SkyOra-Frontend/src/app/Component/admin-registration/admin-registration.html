@@ -89,13 +89,23 @@
 
             <label>
               Gender
-              <input type="text" [(ngModel)]="gender" name="gender" autocomplete="sex" required />
+              <select class="form-select" [(ngModel)]="gender" name="gender" required>
+                <option value="" disabled>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
             </label>
           </div>
 
           <label>
             Email
-            <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required />
+            <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required (ngModelChange)="validateEmail()" />
+            @if (emailError) {
+              <small class="text-danger d-block mt-1 validation-error">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ emailError }}
+              </small>
+            }
           </label>
 
           <div class="form-grid-two">

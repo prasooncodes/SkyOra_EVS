@@ -58,4 +58,10 @@ export class Navbar implements OnInit, OnDestroy {
   manageaccount():void {
     this.router.navigate(['/manageaccount']);
   }
+  mytrips():void {
+    this.router.navigate(['/bookingsbyid']);
+  }
+  managebookings():void {
+    this.router.navigate(['/manage-bookings']);
+  }
 }

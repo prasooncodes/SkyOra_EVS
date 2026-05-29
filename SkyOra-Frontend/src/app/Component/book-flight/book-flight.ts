@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FlightService } from '../../services/flight';
 import { FlightInterface } from '../../Models/flights';
 import { AuthService } from '../../services/auth-service';
@@ -12,7 +12,7 @@ import { GoogleAnalyticsService } from '../../services/google-analytics';
 @Component({
   selector: 'app-book-flight',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './book-flight.html',
   styleUrls: ['./book-flight.css'],
 })
@@ -53,7 +53,8 @@ export class BookFlight implements OnInit {
     bookingDate: '',
     returnDate: '',
     status: 'Confirmed',
-    tripType: 'oneway'
+    tripType: 'oneway',
+    agreedToTerms: false
   };
 
   // Minimum selectable booking date (YYYY-MM-DD) - cannot be before today

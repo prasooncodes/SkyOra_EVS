@@ -9,6 +9,6 @@ namespace skyora1.Repository
         Task<GetBookingDto> GetBookingById(int id);
         Task<int> DeleteBooking(int  id);
         Task<int> AddBooking(BookingDto booking);
-        Task<int> CancelBooking(int id);
+        Task<int> UpdateBooking(int id, EditBookingDto booking);
     }
 }

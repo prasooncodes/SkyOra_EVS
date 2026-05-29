@@ -35,7 +35,7 @@
       <h2>Register</h2>
       <p class="subtitle">Create your account and start booking flights instantly.</p>
 
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" novalidate>
         <label>
           Name
           <input type="text" [(ngModel)]="name" name="name" required />
@@ -49,13 +49,22 @@
 
           <label>
             Gender
-            <input type="text" [(ngModel)]="gender" name="gender" required />
+            <select class="form-select" [(ngModel)]="gender" name="gender" required>
+              <option value="" disabled>Select gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
           </label>
         </div>
 
         <label>
           Email
-          <input type="email" [(ngModel)]="email" name="email" required />
+          <input type="email" [(ngModel)]="email" name="email" autocomplete="email" required (ngModelChange)="validateEmail()" />
+          <small *ngIf="emailError" class="text-danger d-block mt-1 validation-error">
+            <i class="bi bi-exclamation-circle me-1"></i>{{ emailError }}
+          </small>
         </label>
 
         <div class="form-grid-two">
@@ -79,6 +88,17 @@
               </small>
             </ng-container>
           </label>
+        </div>
+
+        <div class="captcha-block">
+          <span class="captcha-label">Please verify you are human</span>
+          <re-captcha
+            [siteKey]="recaptchaSiteKey"
+            (resolved)="onCaptchaResolved($event)"
+            (error)="onCaptchaError()"
+            (expired)="onCaptchaExpired()"
+          ></re-captcha>
+          <p class="error" *ngIf="captchaError">{{ captchaError }}</p>
         </div>
 
         <button type="submit">Register</button>

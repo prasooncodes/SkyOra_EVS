@@ -18,8 +18,19 @@ export class BookingService {
     return this.http.post(this.apiUrl, bookingData, this.getAuthHeaders());
   }
 
+  sendTicket(bookingId: number) {
+    return this.http.post(`${this.apiUrl}/${bookingId}/sendticket`, {}, this.getAuthHeaders());
+  }
+
+  updateBooking(id: number, bookingData: any) {
+    return this.http.put(`${this.apiUrl}/${id}`, bookingData, this.getAuthHeaders());
+  }
+
   deleteBooking(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`, this.getAuthHeaders());
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      ...this.getAuthHeaders(),
+      responseType: 'text',
+    });
   }
 
   private getAuthHeaders() {

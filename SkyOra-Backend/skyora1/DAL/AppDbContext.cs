@@ -18,6 +18,7 @@ namespace skyora1.DAL
         public DbSet<Passenger> passengers { get; set; }
         public DbSet<Feedback> feedbacks { get; set; }
         public DbSet<Messages> messages { get; set; }
+        public DbSet<PageView> pageViews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

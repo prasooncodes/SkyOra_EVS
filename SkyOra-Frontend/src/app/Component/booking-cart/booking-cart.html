@@ -58,6 +58,20 @@
         </div>
 
         <div class="d-flex gap-2 justify-content-end flex-wrap mt-4">
+          <div class="d-flex align-items-center gap-2 me-auto">
+            <input #couponInput type="text" class="form-control" placeholder="Enter coupon code" style="min-width:220px;" />
+            <button type="button" class="btn btn-outline-primary" (click)="applyCoupon(couponInput.value)">Apply</button>
+            <button *ngIf="appliedCoupon" type="button" class="btn btn-outline-danger" (click)="removeCoupon()">Remove</button>
+          </div>
+
+          <div class="text-end me-2">
+            @if (appliedCoupon) {
+              <div class="small text-success">Applied: {{ appliedCoupon }} — Saved ₹{{ discountAmount }}</div>
+            }
+            <div class="small text-muted">Original: ₹{{ originalTotal }}</div>
+            <div class="fw-bold fs-4 text-orange">Payable: ₹{{ pendingBooking()?.TotalAmount }}</div>
+          </div>
+
           <button type="button" class="btn btn-outline-secondary" (click)="backToBookFlight()">Edit Booking</button>
           <button type="button" class="btn btn-akasa-orange px-4" (click)="goToPayment()">Proceed to Payment</button>
         </div>

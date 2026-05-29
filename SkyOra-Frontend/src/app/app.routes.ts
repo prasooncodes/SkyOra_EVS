@@ -28,7 +28,13 @@ import { TermsConditions } from './Component/terms-conditions/terms-conditions';
 import { AdminRegistration } from './Component/admin-registration/admin-registration';
 import { Menu } from './Component/menu/menu';
 import { TravelCertificate } from './Component/travel-certificate/travel-certificate';
+import { PetPolicy } from './Component/pet-policy/pet-policy';
+import { ExcessBaggage } from './Component/excess-baggage/excess-baggage';
+import { PaymentSuccess } from './Component/payment-success/payment-success';
 import { Error } from './Component/error/error';
+import { MenuCart } from './Component/menu-cart/menu-cart';
+import { ManageBooking } from './Component/manage-booking/manage-booking';
+import { EditBooking } from './Component/edit-booking/edit-booking';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -59,10 +65,18 @@ export const routes: Routes = [
     {path:'passengerdetails', component:PassengerDetail},
     {path:'booking-cart', component: BookingCart},
     {path:'payment',component:PaymentGateway},
+    {path:'payment-success', component: PaymentSuccess},
     {path:'manageaccount', component: ManageAccount},
     {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
     {path:'travel',component:TravelCertificate},
-    {path:'error', component: Error}
+    {path:'pet-policy', component: PetPolicy},
+    {path:'excess-baggage', component: ExcessBaggage},
+    {path:'error', component: Error},
+    {path:'terms', component: TermsConditions},
+    {path:'menu-cart',component:MenuCart},
+    {path:'manage-bookings', component: ManageBooking},
+    {path:'edit-booking/:id', component: EditBooking},
+    {path:'admin-register', component: AdminRegistration},
 
 ];

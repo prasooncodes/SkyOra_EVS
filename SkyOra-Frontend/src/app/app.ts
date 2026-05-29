@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import { Component, signal } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 // import { Navbar } from "./Component/navbar/navbar";
@@ -19,8 +20,15 @@ import { filter } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { AnalyticsService } from './services/google_analytics';
 import { Navbar } from './Component/navbar/navbar';
+=======
+import { Component, inject, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Navbar } from "./Component/navbar/navbar";
+import { AnalyticsService } from './services/analytics';
+>>>>>>> cc5786bdb58674bac3bc54da713b60a160c45eb4
 
 @Component({
+  standalone: true,
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, Navbar],
@@ -29,6 +37,7 @@ import { Navbar } from './Component/navbar/navbar';
   <router-outlet></router-outlet>`, // This renders your whole app
 })
 export class App {
+<<<<<<< HEAD
   constructor(
     private router: Router, 
     private analytics: AnalyticsService
@@ -44,4 +53,8 @@ export class App {
       });
     }
   }
+=======
+  protected readonly title = signal('SkyOra-Frontend');
+  private readonly analyticsService = inject(AnalyticsService);
+>>>>>>> cc5786bdb58674bac3bc54da713b60a160c45eb4
 }

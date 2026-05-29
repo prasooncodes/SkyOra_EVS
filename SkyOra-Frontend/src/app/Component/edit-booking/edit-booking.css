@@ -1,0 +1,114 @@
+.edit-booking-page {
+	--edit-purple: #4b1f8f;
+	--edit-purple-soft: #efe8ff;
+	--edit-orange: #ff7b2c;
+	--edit-bg: #f7f7fb;
+	background: radial-gradient(circle at top left, #f4ecff 0%, #ffffff 45%, #fff6ed 100%);
+	min-height: calc(100vh - 80px);
+}
+
+.page-hero {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.page-hero h2 {
+	color: var(--edit-purple);
+}
+
+.booking-ref {
+	padding: 0.45rem 0.9rem;
+	border-radius: 999px;
+	background: var(--edit-purple-soft);
+	color: var(--edit-purple);
+	font-weight: 700;
+	border: 1px solid #dac9ff;
+}
+
+.section-card {
+	background: #fff;
+	border-radius: 16px;
+}
+
+.section-title {
+	color: var(--edit-purple);
+	margin-bottom: 1rem;
+}
+
+.form-control,
+.form-select {
+	border-radius: 10px;
+	border-color: #d6d8e2;
+}
+
+.form-control:focus,
+.form-select:focus {
+	border-color: #b391ff;
+	box-shadow: 0 0 0 0.2rem rgba(75, 31, 143, 0.15);
+}
+
+.addons-grid {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.addon-item {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.65rem 0.8rem;
+	border: 1px solid #e4d8ff;
+	border-radius: 12px;
+	background: #fbf9ff;
+	color: #31214f;
+}
+
+.addon-item input {
+	accent-color: var(--edit-purple);
+}
+
+.terms-list {
+	margin: 0;
+	padding-left: 1.2rem;
+	color: #5a5670;
+}
+
+.terms-list li {
+	margin-bottom: 0.5rem;
+}
+
+.fare-card {
+	background: var(--edit-bg);
+	border-radius: 16px;
+	top: 1rem;
+}
+
+.summary-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.65rem;
+	color: #40395e;
+}
+
+.final-row {
+	font-size: 1.05rem;
+	color: var(--edit-orange);
+}
+
+.btn-akasa-orange {
+	background: var(--edit-orange);
+	border-color: var(--edit-orange);
+	color: #fff;
+	font-weight: 600;
+}
+
+.btn-akasa-orange:hover,
+.btn-akasa-orange:focus {
+	background: #ea6a1f;
+	border-color: #ea6a1f;
+	color: #fff;
+}

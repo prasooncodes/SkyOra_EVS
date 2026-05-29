@@ -59,8 +59,8 @@ export class UserServices {
     });
   }
 
-  register(user: { name: string; age: number; gender: string; role?: string; email: string; password: string }) {
-    const payload = {
+  register(user: { name: string; age: number; gender: string; role?: string; email: string; password: string; captchaToken?: string }) {
+    const payload: any = {
       Name: user.name,
       Age: user.age,
       Gender: user.gender,
@@ -68,6 +68,10 @@ export class UserServices {
       Email: user.email,
       PasswordHash: user.password,
     };
+
+    if (user.captchaToken) {
+      payload.captchaToken = user.captchaToken;
+    }
 
     return this.http.post<any>(this.apiUrl, payload);
   }

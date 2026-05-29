@@ -91,11 +91,26 @@
             </div>
 
             <div class="col-12">
+              <div class="form-check mb-3 d-flex align-items-center flex-wrap gap-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="agreeTerms"
+                  [(ngModel)]="bookingData.agreedToTerms"
+                  name="agreedToTerms"
+                />
+                <label class="form-check-label text-muted mb-0" for="agreeTerms">
+                  I agree to
+                </label>
+                <a routerLink="/terms" class="text-purple text-decoration-underline">
+                  terms and conditions
+                </a>
+              </div>
               <button
                 type="button"
                 class="btn btn-akasa-orange w-100 search-submit-btn"
                 (click)="searchFlights()"
-                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination"
+                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination || !bookingData.agreedToTerms"
               >
                 {{ isSearching ? 'Searching...' : 'Search Flights' }}
               </button>
@@ -223,15 +238,16 @@
                   </div>
                    <div class="col-md-6 mb-3">
                     <label class="form-label">Gender</label>
-                    <input
-                      type="text"
-                      class="form-control"
+                    <select
+                      class="form-select"
                       name="passengerGender_{{ i }}"
                       [(ngModel)]="passenger.gender"
-                      min="1"
-                      max="120"
-                      placeholder="Enter gender"
                     >
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                      <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
                   </div>
                 </div>
 
@@ -308,7 +324,7 @@
               (click)="processBooking()"
               [disabled]="!flight || !isAllPassengersValid() || !isBookingDateValid(bookingData.bookingDate) || (bookingData.tripType === 'roundtrip' && !isReturnDateValid(bookingData.returnDate))"
             >
-              Confirm Booking
+              Check Out
             </button>
           </div>
         } @else {

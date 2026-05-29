@@ -312,6 +312,32 @@ namespace skyora1.Migrations
                     b.ToTable("messages");
                 });
 
+            modelBuilder.Entity("skyora1.Models.PageView", b =>
+                {
+                    b.Property<int>("PageViewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PageViewId"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FirstViewed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastViewed")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PageViewId");
+
+                    b.ToTable("pageViews");
+                });
+
             modelBuilder.Entity("skyora1.Models.Passenger", b =>
                 {
                     b.Property<int>("PassengerId")

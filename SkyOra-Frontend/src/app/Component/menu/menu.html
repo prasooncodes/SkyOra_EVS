@@ -1,8 +1,13 @@
 <div class="skyora-menu-container">
   <!-- Header Section -->
   <header class="menu-header">
-    <h1 class="cafe-logo">Cafe Skyora</h1>
-    <p class="cafe-tagline">Bites & Brews Under the Cosmic Sky</p>
+    <div>
+      <h1 class="cafe-logo">Cafe Skyora</h1>
+      <p class="cafe-tagline mb-0">Bites & Brews Under the Cosmic Sky</p>
+    </div>
+    <button type="button" class="btn btn-dark rounded-pill px-4" (click)="viewCart()">
+      View Cart ({{ cartCount() }})
+    </button>
   </header>
 
   <!-- Categories Navigation -->
@@ -15,160 +20,18 @@
 
   <!-- Menu Grid -->
   <main class="menu-grid">
-    <!-- Item 1: Skyora Blue Latte -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/blue_latte.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Skyora Blue Latte</h3>
-          <span class="item-price">₹280</span>
+    @for (item of menuItems; track item.id) {
+      <div class="menu-card">
+        <div class="item-image" [style.backgroundImage]="'url(' + item.image + ')'"></div>
+        <div class="item-details">
+          <div class="item-header">
+            <h3 class="item-title">{{ item.name }}</h3>
+            <span class="item-price">{{ item.price | currency:'INR':'symbol':'1.0-0' }}</span>
+          </div>
+          <p class="item-description">{{ item.description }}</p>
+          <button type="button" class="add-btn" (click)="addToCart(item)">Add to Order</button>
         </div>
-        <p class="item-description">Signature espresso infused with natural butterfly pea flower and vanilla syrup.</p>
-        <button class="add-btn">Add to Order</button>
       </div>
-    </div>
-
-    <!-- Item 2: Stardust Croissant -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/crosso.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Stardust Croissant</h3>
-          <span class="item-price">₹190</span>
-        </div>
-        <p class="item-description">Flaky, dark chocolate croissant topped with edible silver glitter dust.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 3: Nebula Passion Iced Tea -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/cold_brew.webp');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Nebula Passion Iced Tea</h3>
-          <span class="item-price">₹240</span>
-        </div>
-        <p class="item-description">Layered passionfruit tea with a splash of lemonade and a purple tint.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 4: Galaxy Velvet Cake -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/cake.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Galaxy Velvet Cake</h3>
-          <span class="item-price">₹320</span>
-        </div>
-        <p class="item-description">Rich red velvet cake layers coated in a cosmic mirror-glaze frosting.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 5: Meteor Mocha Crunch -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/mocha.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Meteor Mocha Crunch</h3>
-          <span class="item-price">₹295</span>
-        </div>
-        <p class="item-description">Rich espresso mixed with dark chocolate and topped with honeycomb crunch rocks.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 6: Asteroid Paneer Tikka Wrap -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/panner_wrap.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Asteroid Paneer Tikka Wrap</h3>
-          <span class="item-price">₹260</span>
-        </div>
-        <p class="item-description">Smoky paneer cubes tossed in mint chutney and wrapped in a charcoal tortilla.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 7: Comet Caramel Frappe -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/caramel.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Comet Caramel Frappe</h3>
-          <span class="item-price">₹310</span>
-        </div>
-        <p class="item-description">Blended ice coffee loaded with whipped cream and a gold-leaf caramel drizzle spiral.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 8: Solar Eclipse Sliders -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/slidder.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Solar Eclipse Sliders</h3>
-          <span class="item-price">₹340</span>
-        </div>
-        <p class="item-description">Twin gourmet mini burgers featuring spicy veggie patties in jet-black brioche buns.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 9: NEW - Makhani Pasta Fusion -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/pasta.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Makhani Pasta Fusion</h3>
-          <span class="item-price">₹315</span>
-        </div>
-        <p class="item-description">Penne pasta tossed in a creamy, mildly spiced makhani gravy and topped with fresh mozzarella.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 10: NEW - Supernova Loaded Fries -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/fries.jpg');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Supernova Loaded Fries</h3>
-          <span class="item-price">₹230</span>
-        </div>
-        <p class="item-description">Crispy golden fries drenched in cheese sauce, peri-peri spice, and jalapenos.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 11: NEW - Dark Matter Tonic Cold Brew -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/cold_brew.webp');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Dark Matter Cold Brew</h3>
-          <span class="item-price">₹270</span>
-        </div>
-        <p class="item-description">18-hour steep cold brew layered over crisp tonic water and finished with an orange twist.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
-
-    <!-- Item 12: NEW - Infinite S'mores Brownie -->
-    <div class="menu-card">
-      <div class="item-image" style="background-image: url('/assets/brownie.webp');"></div>
-      <div class="item-details">
-        <div class="item-header">
-          <h3 class="item-title">Infinite S'mores Brownie</h3>
-          <span class="item-price">₹210</span>
-        </div>
-        <p class="item-description">Fudgy dark chocolate brownie base topped with toasted, gooey marshmallows and graham cracker crumbs.</p>
-        <button class="add-btn">Add to Order</button>
-      </div>
-    </div>
+    }
   </main>
 </div>

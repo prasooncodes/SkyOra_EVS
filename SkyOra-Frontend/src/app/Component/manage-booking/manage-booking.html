@@ -1,0 +1,75 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-purple">Your Journeys</h2>
+    <span class="badge bg-orange px-3 py-2 rounded-pill">{{ bookings.length }} Bookings</span>
+  </div>
+
+  <div class="row">
+    <!-- Match: BookingId -->
+    @for (booking of bookings; track booking.BookingId) {
+      <div class="col-12 mb-4 animate-slide-in">
+        <div class="card ticket-card shadow-sm border-0">
+          <div class="row g-0">
+            <!-- Left Branding Strip -->
+            <div class="col-md-1 bg-purple d-none d-md-flex align-items-center justify-content-center">
+               <i class="bi bi-airplane text-white fs-3 rotate-90"></i>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-8 p-4">
+              <div class="row align-items-center">
+                <div class="col-sm-3">
+                  <small class="text-muted d-block">Booking Reference</small>
+                  <!-- Match: BookingId -->
+                  <span class="fw-bold text-purple fs-5">#{{ booking.BookingId }}</span>
+                </div>
+                
+                <!-- ✅ NEW: Flight Details Display -->
+                <div class="col-sm-5">
+                  <small class="text-muted d-block">Flight Details</small>
+                  <div>
+                    <span class="fw-bold">{{ booking.Flight?.FlightNo || 'N/A' }}</span>
+                    <span class="text-muted ms-2">{{ booking.Flight?.Source || 'N/A' }} → {{ booking.Flight?.Destination || 'N/A' }}</span>
+                  </div>
+                  <div class="small text-muted mt-1">
+                    Depart: {{ booking.Flight?.DepartureTime | date:'short' }}
+                  </div>
+                </div>
+                
+                <div class="col-sm-4 text-end">
+                  <small class="text-muted d-block">Passengers</small>
+                  <!-- Match: NumberOfPassengers -->
+                  <span class="badge bg-light text-purple border">{{ booking.NumberOfPassengers }} Traveler(s)</span>
+                </div>
+              </div>
+              
+              <div class="mt-3">
+                <!-- Match: BookingStatus -->
+                <span class="status-dot" [ngClass]="booking.BookingStatus?.toLowerCase()"></span>
+                <small class="fw-bold text-uppercase">{{ booking.BookingStatus }}</small>
+              </div>
+            </div>
+
+            <!-- Price & Action -->
+            <div class="col-md-3 p-4 bg-light-orange d-flex flex-column justify-content-center align-items-center border-start">
+              <small class="text-muted">Total Paid</small>
+              <!-- Match: TotalAmount -->
+              <h4 class="fw-bold text-purple">{{ booking.TotalAmount | currency:'INR' }}</h4>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onDeleteBooking(booking.BookingId || booking.bookingId)">Delete Booking</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onEditBooking(booking.BookingId || booking.bookingId)">Edit Booking</button>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="text-center py-5">
+        <div class="empty-state-icon mb-3">✈️</div>
+        <h3>No bookings found</h3>
+        <p class="text-muted">Ready for your next adventure?</p>
+        <button class="btn btn-orange rounded-pill px-4" routerLink="/bookflight">Book Now</button>
+      </div>
+    }
+  </div>
+</div>
+

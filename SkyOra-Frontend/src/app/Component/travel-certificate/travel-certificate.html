@@ -9,40 +9,40 @@
     <!-- Left Column: Input Form -->
     <section class="form-section">
       <div class="card-wrapper">
-        <h2 class="section-title">Generate Health Insurance Certificate</h2>
-        <p class="section-subtitle">Enter your booking details to generate your certified health insurance document.</p>
+        <h2 class="section-title">Generate Travel Insurance Certificate</h2>
+        <p class="section-subtitle">Enter your booking details to generate your certified travel insurance document.</p>
         
-        <form class="certificate-form">
+        <form class="certificate-form" (ngSubmit)="onGenerateCertificate()">
           <div class="form-group">
             <label for="passengerName">Passenger Full Name</label>
-            <input type="text" id="passengerName" placeholder="e.g. Aarav Sharma" required />
+            <input type="text" id="passengerName" name="passengerName" placeholder="e.g. Aarav Sharma" required [(ngModel)]="certificate.passengerName" />
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label for="pnrNumber">PNR / Booking Ref</label>
-              <input type="text" id="pnrNumber" placeholder="e.g. SK8492" required />
+              <input type="text" id="pnrNumber" name="pnrNumber" placeholder="e.g. SK8492" required [(ngModel)]="certificate.pnrNumber" />
             </div>
             <div class="form-group">
               <label for="flightNumber">Flight Number</label>
-              <input type="text" id="flightNumber" placeholder="e.g. SO-102" required />
+              <input type="text" id="flightNumber" name="flightNumber" placeholder="e.g. SO-102" required [(ngModel)]="certificate.flightNumber" />
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label for="origin">From (Origin)</label>
-              <input type="text" id="origin" placeholder="e.g. New Delhi (DEL)" required />
+              <input type="text" id="origin" name="origin" placeholder="e.g. New Delhi (DEL)" required [(ngModel)]="certificate.origin" />
             </div>
             <div class="form-group">
               <label for="destination">To (Destination)</label>
-              <input type="text" id="destination" placeholder="e.g. Mumbai (BOM)" required />
+              <input type="text" id="destination" name="destination" placeholder="e.g. Mumbai (BOM)" required [(ngModel)]="certificate.destination" />
             </div>
           </div>
 
           <div class="form-group">
             <label for="travelDate">Date of Travel</label>
-            <input type="date" id="travelDate" required />
+            <input type="date" id="travelDate" name="travelDate" required [(ngModel)]="certificate.travelDate" />
           </div>
 
           <button type="submit" class="primary-btn">Generate & View Certificate</button>
@@ -54,78 +54,88 @@
     <section class="preview-section">
       <div class="action-bar">
         <span class="preview-badge">Live Preview</span>
-        <button class="icon-btn" title="Download PDF">
+        <button class="icon-btn" title="Download Certificate" [disabled]="!showGenerated" (click)="downloadCertificate()">
           <span>Download PDF</span>
         </button>
       </div>
 
-      <!-- The Real Certificate Template Block -->
-      <div class="certificate-border">
-        <div class="certificate-inner">
-          
-          <!-- Decorative Corner Graphics -->
-          <div class="corner-design top-left"></div>
-          <div class="corner-design top-right"></div>
-          <div class="corner-design bottom-left"></div>
-          <div class="corner-design bottom-right"></div>
+      <ng-container *ngIf="showGenerated; else previewPlaceholder">
+        <!-- The Real Certificate Template Block -->
+        <div class="certificate-border" id="certificatePreview">
+          <div class="certificate-inner">
+            
+            <!-- Decorative Corner Graphics -->
+            <div class="corner-design top-left"></div>
+            <div class="corner-design top-right"></div>
+            <div class="corner-design bottom-left"></div>
+            <div class="corner-design bottom-right"></div>
 
-          <!-- Document Header -->
-          <div class="cert-header">
-            <div class="cert-logo-mark">✈</div>
-            <h3 class="cert-airline-name">SKYORA AIRLINES</h3>
-            <span class="cert-doc-type">OFFICIAL Health Insurance CERTIFICATE</span>
-          </div>
+            <!-- Document Header -->
+            <div class="cert-header">
+              <div class="cert-logo-mark">✈</div>
+              <h3 class="cert-airline-name">SKYORA AIRLINES</h3>
+              <span class="cert-doc-type">OFFICIAL Travel Insurance CERTIFICATE</span>
+            </div>
 
-          <!-- Statement Content -->
-          <div class="cert-body">
-            <p class="cert-salutation">This document hereby verifies that</p>
-            <h2 class="cert-passenger-name">Aarav Sharma</h2>
-            <p class="cert-statement">
-              successfully completed health insurance coverage on SkyOra Airlines flight operations. 
-              The verified travel records correspond to the commercial flight summary detailed below:
-            </p>
+            <!-- Statement Content -->
+            <div class="cert-body">
+              <p class="cert-salutation">This document hereby verifies that</p>
+              <h2 class="cert-passenger-name">{{ certificate.passengerName }}</h2>
+              <p class="cert-statement">
+                successfully completed travel insurance coverage on SkyOra Airlines flight operations.
+                The verified travel records correspond to the commercial flight summary detailed below:
+              </p>
 
-            <!-- Flight Details Table Summary -->
-            <div class="cert-data-grid">
-              <div class="data-cell">
-                <span class="cell-label">Booking Reference (PNR)</span>
-                <span class="cell-value">SK8492</span>
-              </div>
-              <div class="data-cell">
-                <span class="cell-label">Flight Route Code</span>
-                <span class="cell-value">SO-102</span>
-              </div>
-              <div class="data-cell">
-                <span class="cell-label">Departure Station</span>
-                <span class="cell-value">New Delhi (DEL)</span>
-              </div>
-              <div class="data-cell">
-                <span class="cell-label">Arrival Station</span>
-                <span class="cell-value">Mumbai (BOM)</span>
-              </div>
-              <div class="data-cell grid-span-2">
-                <span class="cell-label">Official Confirmed Date of Departure</span>
-                <span class="cell-value">May 24, 2026</span>
+              <!-- Flight Details Table Summary -->
+              <div class="cert-data-grid">
+                <div class="data-cell">
+                  <span class="cell-label">Booking Reference (PNR)</span>
+                  <span class="cell-value">{{ certificate.pnrNumber }}</span>
+                </div>
+                <div class="data-cell">
+                  <span class="cell-label">Flight Route Code</span>
+                  <span class="cell-value">{{ certificate.flightNumber }}</span>
+                </div>
+                <div class="data-cell">
+                  <span class="cell-label">Departure Station</span>
+                  <span class="cell-value">{{ certificate.origin }}</span>
+                </div>
+                <div class="data-cell">
+                  <span class="cell-label">Arrival Station</span>
+                  <span class="cell-value">{{ certificate.destination }}</span>
+                </div>
+                <div class="data-cell grid-span-2">
+                  <span class="cell-label">Official Confirmed Date of Departure</span>
+                  <span class="cell-value">{{ certificate.formattedTravelDate }}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Certificate Footer Signatures -->
-          <div class="cert-footer">
-            <div class="signature-block">
-              <div class="signature-line signature-font">SkyOra Ops Team</div>
-              <span class="signature-title">Flight Operations Registry</span>
-            </div>
-            <div class="verification-block">
-              <div class="qr-code-placeholder">
-                <span class="qr-text">VERIFIED SECURITY</span>
+            <!-- Certificate Footer Signatures -->
+            <div class="cert-footer">
+              <div class="signature-block">
+                <div class="signature-line signature-font">SkyOra Ops Team</div>
+                <span class="signature-title">Flight Operations Registry</span>
               </div>
-              <span class="signature-title">System Status: Active</span>
+              <div class="verification-block">
+                <div class="qr-code-placeholder">
+                  <span class="qr-text">VERIFIED SECURITY</span>
+                </div>
+                <span class="signature-title">System Status: Active</span>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
+      </ng-container>
+
+      <ng-template #previewPlaceholder>
+        <div class="certificate-border placeholder-border">
+          <div class="certificate-inner placeholder-inner">
+            <p class="placeholder-text">Fill in the form and click &quot;Generate & View Certificate&quot; to see the live preview here.</p>
+          </div>
+        </div>
+      </ng-template>
     </section>
   </div>
 </div>

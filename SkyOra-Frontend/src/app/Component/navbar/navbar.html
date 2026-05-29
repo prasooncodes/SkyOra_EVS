@@ -45,11 +45,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="akasa-nav-link" routerLink="/bookingsbyid" routerLinkActive="active-link">
-              <i class="bi bi-pass-fill"></i><span>My Trips</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="akasa-nav-link" routerLink="/offers" routerLinkActive="active-link">
               <i class="bi bi-tags-fill"></i><span>Offers</span>
             </a>
@@ -66,7 +61,7 @@
           </li>
           <li class="nav-item">
             <a class="akasa-nav-link" routerLink="/about" routerLinkActive="active-link">
-              <i class="bi bi-info-square-fill"></i><span>About</span>
+              <i class="bi bi-info-square-fill"></i><span>About Us</span>
             </a>
           </li>
           <li class="nav-item">
@@ -133,7 +128,7 @@
         <div *ngIf="isLoggedIn" class="dropdown user-session-card">
           <button class="btn user-trigger-pill dropdown-toggle shadow-sm" type="button" id="skyoraUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="user-avatar-initials">
-              {{ displayName?.substring(0,1)?.toUpperCase() || 'U' }}
+              {{ displayName.substring(0,1).toUpperCase() || 'U' }}
             </div>
             <span class="user-greeting">Hi, {{ displayName }}</span>
           </button>
@@ -150,8 +145,18 @@
               </button>
             </li>
             <li>
+              <button class="dropdown-item item-link-action" (click)="mytrips()">
+                <i class="bi bi-person-gear text-purple"></i>My Trips
+              </button>
+            </li>
+              <li>
+              <button class="dropdown-item item-link-action" (click)="managebookings()">
+                <i class="bi bi-person-gear text-purple"></i>Manage Bookings
+              </button>
+            </li>
+            <li>
               <button class="dropdown-item item-link-action logout-trigger" (click)="logout()">
-                <i class="bi bi-power text-danger"></i>Logout Flight
+                <i class="bi bi-power text-danger"></i>Logout 
               </button>
             </li>
           </ul>
