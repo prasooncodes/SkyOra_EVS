@@ -110,7 +110,7 @@
                 type="button"
                 class="btn btn-akasa-orange w-100 search-submit-btn"
                 (click)="searchFlights()"
-                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination || !bookingData.agreedToTerms"
+                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination || !bookingData.agreedToTerms || !bookingData.bookingDate || !isBookingDateValid(bookingData.bookingDate)"
               >
                 {{ isSearching ? 'Searching...' : 'Search Flights' }}
               </button>
@@ -133,7 +133,7 @@
                     style="cursor: pointer; border: 2px solid #ddd; transition: all 0.3s;"
                     [style.borderColor]="bookingData.flightId === (flightOption.FlightId || flightOption.flightId) ? '#ff6b35' : '#ddd'"
                   >
-                    <div class="row align-items-center">
+                    <div class="row align-items-center mb-2">
                       <div class="col-md-3">
                         <h6 class="fw-bold text-purple mb-1">{{ flightOption.FlightNo }}</h6>
                         <small class="text-muted">Flight Number</small>
@@ -171,6 +171,23 @@
                             [value]="flightOption.FlightId || flightOption.flightId"
                           >
                         </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row align-items-center mt-2 pt-2 border-top">
+                      <div class="col-md-4">
+                        <small class="text-muted d-block">Departure Date</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'MMM dd, yyyy') }}</h6>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <small class="text-muted d-block">Departure Time</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'HH:mm') }}</h6>
+                      </div>
+                      
+                      <div class="col-md-4 text-end">
+                        <small class="text-muted d-block">Arrival Time</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.ArrivalTime | date: 'HH:mm') }}</h6>
                       </div>
                     </div>
                   </div>

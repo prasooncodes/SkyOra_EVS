@@ -170,6 +170,11 @@ public class BookingController : ControllerBase
             sb.AppendLine($"<h2>SkyOra Ticket - Booking #{booking.BookingId}</h2>");
             sb.AppendLine($"<p>Passenger Count: {booking.NumberOfPassengers}</p>");
             sb.AppendLine($"<p>Total Amount: {booking.TotalAmount:C}</p>");
+            sb.AppendLine($"<p>Departure Date: {booking.BookingDate.ToString()}</p>");
+            if (booking.ReturnDate != default)
+            {
+                sb.AppendLine($"<p>Return Date: {booking.ReturnDate.ToString()}</p>");
+            }
             if (booking.Flight != null)
             {
                 sb.AppendLine($"<p>Flight: {booking.Flight.FlightNo} - {booking.Flight.Source} to {booking.Flight.Destination}</p>");
