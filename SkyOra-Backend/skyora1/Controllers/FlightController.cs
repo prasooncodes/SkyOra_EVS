@@ -39,11 +39,21 @@ namespace skyora1.Controllers
             }
         }
         [HttpGet("search")]
-        public async Task<IActionResult> GetFlightsByRoute(string source, string destination)
+        public async Task<IActionResult> GetFlightsByRoute(string source, string destination, string? departureDate)
         {
             try
             {
-                var flights = await _flightRepository.GetFlightsByRouteAsync(source, destination);
+                DateOnly? date = null;
+                if (!string.IsNullOrWhiteSpace(departureDate))
+                {
+                    if (DateOnly.TryParseExact(departureDate, "yyyy-MM-dd", out var parsed)
+                        || DateOnly.TryParse(departureDate, out parsed))
+                    {
+                        date = parsed;
+                    }
+                }
+
+                var flights = await _flightRepository.GetFlightsByRouteAsync(source, destination, date);
                 return Ok(flights);
             }
             catch (KeyNotFoundException ex)

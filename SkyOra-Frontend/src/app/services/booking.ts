@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth-service';
 
@@ -6,7 +6,7 @@ import { AuthService } from './auth-service';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = 'http://localhost:5084/api/Booking';
+  private apiUrl = 'https://localhost:7169/api/Booking';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -35,9 +35,10 @@ export class BookingService {
 
   private getAuthHeaders() {
     const token = this.authService.getToken();
-    return token
-      ? { headers: { Authorization: `Bearer ${token}` } }
-      : {};
+    if (!token) return {};
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return { headers };
   }
 
   getBookingById(id: number) {

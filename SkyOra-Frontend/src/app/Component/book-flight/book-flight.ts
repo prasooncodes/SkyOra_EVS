@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth-service';
 import { BookingFlowService } from '../../services/booking-flow';
 import { BookingService } from '../../services/booking';
 import { GoogleAnalyticsService } from '../../services/google-analytics';
+import { count } from 'console';
 
 @Component({
   selector: 'app-book-flight',
@@ -336,7 +337,7 @@ export class BookFlight implements OnInit {
     this.selectedPassengerIndex = null;
     
     // Track passenger count change
-    this.googleAnalyticsService.trackPassengerCountChange(count);
+    //this.googleAnalyticsService.trackPassengerCountChange(count);
   }
 
   loadFlightById(id: number): void {
@@ -386,6 +387,12 @@ export class BookFlight implements OnInit {
       return;
     }
 
+    if (!this.bookingData.bookingDate || !this.isBookingDateValid(this.bookingData.bookingDate)) {
+      this.safeAlert('Please select a valid departure date for the search.');
+      this.googleAnalyticsService.trackValidationError('Missing or invalid departure date');
+      return;
+    }
+
     if (this.searchCriteria.source === this.searchCriteria.destination) {
       this.safeAlert('Source and destination cities must be different.');
       this.googleAnalyticsService.trackValidationError('Source and destination cities are same');
@@ -400,7 +407,7 @@ export class BookFlight implements OnInit {
     );
 
     this.isSearching = true;
-    this.flightService.searchFlights(this.searchCriteria.source, this.searchCriteria.destination).subscribe({
+    this.flightService.searchFlights(this.searchCriteria.source, this.searchCriteria.destination, this.bookingData.bookingDate).subscribe({
       next: (data) => {
         this.searchedFlights = data;
         if (this.searchedFlights.length === 0) {

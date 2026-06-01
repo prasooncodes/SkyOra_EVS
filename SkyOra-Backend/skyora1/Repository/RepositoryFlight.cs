@@ -68,16 +68,32 @@ namespace skyora1.Repository
             }
             return await flight;
         }
-        public async Task<List<Flight>> GetFlightsByRouteAsync(string source, string destination)
+        public async Task<List<Flight>> GetFlightsByRouteAsync(string source, string destination, DateOnly? departureDate = null)
         {
-            var flights = await _context.flights
-                .Where(f => f.Source.ToLower() == source.ToLower()
-                         && f.Destination.ToLower() == destination.ToLower())
-                .ToListAsync();
+            var query = _context.flights.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(source))
+            {
+                query = query.Where(f => f.Source.ToLower() == source.ToLower());
+            }
+
+            if (!string.IsNullOrWhiteSpace(destination))
+            {
+                query = query.Where(f => f.Destination.ToLower() == destination.ToLower());
+            }
+
+            if (departureDate.HasValue)
+            {
+                var startDate = departureDate.Value.ToDateTime(new TimeOnly(0));
+                var endDate = startDate.AddDays(1);
+                query = query.Where(f => f.DepartureTime >= startDate && f.DepartureTime < endDate);
+            }
+
+            var flights = await query.ToListAsync();
 
             if (!flights.Any())
             {
-                throw new KeyNotFoundException($"No flights found from {source} to {destination}");
+                throw new KeyNotFoundException($"No flights found from {source} to {destination} on {departureDate?.ToString() ?? "any date"}");
             }
 
             return flights;
