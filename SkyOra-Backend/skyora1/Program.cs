@@ -32,6 +32,7 @@ namespace skyora1
             builder.Services.AddScoped<IFeedback, RepositoryFeedback>();
             builder.Services.AddScoped<IMessage, RepositoryMessage>();
             builder.Services.AddScoped<IPassenger, RepositoryPassenger>();
+            builder.Services.AddScoped<IChatKnowledge, ChatKnowledgeRepository>();
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("conn"));
@@ -59,6 +60,8 @@ namespace skyora1
                });
 
             builder.Services.AddAuthorization();
+
+            builder.Services.AddHttpClient();
 
             builder.Services.AddCors(options =>
             {
