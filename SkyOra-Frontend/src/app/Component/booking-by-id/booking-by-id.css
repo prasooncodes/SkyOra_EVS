@@ -4,6 +4,14 @@
 .btn-orange { background-color: #ff6e00; color: white; }
 .btn-purple { background-color: #2d1148; color: white; }
 
+/* Booking-by-id blue branding strip */
+.bg-brand-blue { background-color: #1e6fd8; }
+
+/* Ensure booking-by-id left strip uses the purple accent (higher specificity) */
+.ticket-card > .row > .col-md-1.bg-purple {
+  background-color: #2d1148 !important;
+}
+
 .ticket-card {
   border-radius: 12px;
   overflow: hidden;
@@ -40,4 +48,70 @@
 
 .animate-slide-in {
   animation: slideIn 0.4s ease-out forwards;
+}
+
+/* Layout improvements for compact, readable booking cards */
+.ticket-card .row {
+  align-items: start;
+}
+
+.ticket-card .col-md-8 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-right: 1rem;
+}
+
+/* Keep the passenger manifest compact and scrollable when many entries exist */
+.passenger-manifest-box .list-group {
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.passenger-manifest-box .list-group-item {
+  padding: 0.5rem 0.75rem;
+  align-items: center;
+}
+
+/* Truncate long passenger names or flight text to keep layout stable */
+.passenger-manifest-box .fw-bold {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.passenger-manifest-box .small.text-muted {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Seat badge styling */
+.passenger-manifest-box .badge {
+  font-weight: 700;
+  font-size: 0.86rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 12px;
+}
+
+/* Price column: keep compact and vertically centered */
+.ticket-card .col-md-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  min-width: 200px;
+}
+
+@media (max-width: 767px) {
+  .passenger-manifest-box .list-group {
+    max-height: 220px;
+  }
+  .passenger-manifest-box .fw-bold,
+  .passenger-manifest-box .small.text-muted {
+    max-width: 140px;
+  }
 }

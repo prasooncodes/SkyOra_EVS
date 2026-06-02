@@ -110,7 +110,7 @@
                 type="button"
                 class="btn btn-akasa-orange w-100 search-submit-btn"
                 (click)="searchFlights()"
-                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination || !bookingData.agreedToTerms"
+                [disabled]="isSearching || !searchCriteria.source || !searchCriteria.destination || !bookingData.agreedToTerms || !bookingData.bookingDate || !isBookingDateValid(bookingData.bookingDate)"
               >
                 {{ isSearching ? 'Searching...' : 'Search Flights' }}
               </button>
@@ -133,7 +133,7 @@
                     style="cursor: pointer; border: 2px solid #ddd; transition: all 0.3s;"
                     [style.borderColor]="bookingData.flightId === (flightOption.FlightId || flightOption.flightId) ? '#ff6b35' : '#ddd'"
                   >
-                    <div class="row align-items-center">
+                    <div class="row align-items-center mb-2">
                       <div class="col-md-3">
                         <h6 class="fw-bold text-purple mb-1">{{ flightOption.FlightNo }}</h6>
                         <small class="text-muted">Flight Number</small>
@@ -171,6 +171,23 @@
                             [value]="flightOption.FlightId || flightOption.flightId"
                           >
                         </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row align-items-center mt-2 pt-2 border-top">
+                      <div class="col-md-4">
+                        <small class="text-muted d-block">Departure Date</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'MMM dd, yyyy') }}</h6>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <small class="text-muted d-block">Departure Time</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'HH:mm') }}</h6>
+                      </div>
+                      
+                      <div class="col-md-4 text-end">
+                        <small class="text-muted d-block">Arrival Time</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.ArrivalTime | date: 'HH:mm') }}</h6>
                       </div>
                     </div>
                   </div>
@@ -269,6 +286,87 @@
                 </div>
               </div>
             }
+          </div>
+          
+          <!-- Seat Selection Map -->
+          <div class="card p-4 border-0 shadow-sm mt-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+              <div>
+                <h4 class="fw-bold mb-1 text-purple">2D Cockpit Seat View</h4>
+                <p class="text-muted mb-0 small">Select a passenger first, then click a seat inside the cabin to assign it.</p>
+              </div>
+              <span class="seat-card-badge">Interactive cabin</span>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-md-4">
+                <h6 class="mb-2 text-purple">Passengers</h6>
+                <div *ngFor="let p of passengers; let i = index" class="mb-2">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary w-100 text-start passenger-select"
+                    [class.active]="selectedPassengerIndex === i"
+                    (click)="selectPassenger(i)"
+                  >
+                    <strong>Passenger {{ i + 1 }}</strong>
+                    <div class="small text-muted">
+                      {{ p.name || 'Unnamed' }} · {{ p.seatType }} · {{ p.seatNumber || 'No seat chosen' }}
+                    </div>
+                  </button>
+                </div>
+                <div class="mt-3 seat-help-box">
+                  <div class="fw-semibold text-purple">How it works</div>
+                  <small class="text-muted d-block">1. Choose the passenger.</small>
+                  <small class="text-muted d-block">2. Click a matching open seat in the cockpit view.</small>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="cockpit-view">
+                  <div class="cockpit-header">
+                    <div class="cockpit-window-group">
+                      <span class="cockpit-window"></span>
+                      <span class="cockpit-window"></span>
+                    </div>
+                    <div class="cockpit-title">Cockpit</div>
+                    <div class="cockpit-label">Front of aircraft</div>
+                  </div>
+
+                  <div class="aircraft-body">
+                    @for (row of seatCabinRows; track row.rowNumber) {
+                      <div class="cabin-row" [class.business-row]="row.cabinClass === 'Business'" [class.economy-row]="row.cabinClass === 'Economy'">
+                        <div class="row-number">{{ row.rowNumber }}</div>
+                        <div class="row-seat-grid" [style.gridTemplateColumns]="row.gridTemplate">
+                          @for (slot of row.seats; track $index) {
+                            @if (slot) {
+                              <button
+                                type="button"
+                                class="seat-block"
+                                [class.business]="slot.type === 'Business'"
+                                [class.economy]="slot.type === 'Economy'"
+                                  [class.assigned]="slot.assignedTo !== null"
+                                  [class.occupied]="slot.taken === true"
+                                [class.selected-by-current]="slot.assignedTo === selectedPassengerIndex"
+                                [class.window]="slot.position === 'window'"
+                                [class.middle]="slot.position === 'middle'"
+                                [class.aisle]="slot.position === 'aisle'"
+                                  (click)="toggleSeatAssignment(slot.id)"
+                                  [disabled]="slot.taken === true"
+                              >
+                                  <span class="seat-label">{{ slot.id }}</span>
+                                  <span class="seat-state">{{ slot.taken ? 'Reserved' : (slot.assignedTo !== null ? 'Taken' : 'Open') }}</span>
+                              </button>
+                            } @else {
+                              <div class="aisle-gap"></div>
+                            }
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         }
       </div>

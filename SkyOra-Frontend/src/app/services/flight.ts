@@ -9,7 +9,7 @@ import { FlightInterface } from '../Models/flights';
 })
 export class FlightService {
 
-  private apiurl = 'http://localhost:5084/api/Flight';
+  private apiurl = 'https://localhost:7169/api/Flight';
   private bookingUrl = this.apiurl;
   private http: HttpClient;
 
@@ -37,8 +37,12 @@ export class FlightService {
     return this.http.put<any>(`${this.apiurl}/${id}`, flight);
   }
 
-  searchFlights(source: string, destination: string): Observable<FlightInterface[]> {
-    return this.http.get<FlightInterface[]>(`${this.apiurl}/search?source=${source}&destination=${destination}`);
+  searchFlights(source: string, destination: string, departureDate?: string): Observable<FlightInterface[]> {
+    let url = `${this.apiurl}/search?source=${encodeURIComponent(source)}&destination=${encodeURIComponent(destination)}`;
+    if (departureDate) {
+      url += `&departureDate=${encodeURIComponent(departureDate)}`;
+    }
+    return this.http.get<FlightInterface[]>(url);
   }
 
   createBooking(booking: any): Observable<any> {

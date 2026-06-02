@@ -12,15 +12,13 @@
 //   protected readonly title = signal('SkyOra-Frontend');
 // }
 
-
 import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { AnalyticsGoogleService } from './services/google_analytics';
 import { Navbar } from './Component/navbar/navbar';
+import { ChatWidgetComponent } from './Component/chat-widget/chat-widget';
 import { AnalyticsService } from './services/analytics';
-import { ChatWidgetComponent } from "./Component/chat-widget/chat-widget";
 
 @Component({
   standalone: true,
@@ -30,9 +28,25 @@ import { ChatWidgetComponent } from "./Component/chat-widget/chat-widget";
   <app-navbar></app-navbar>
   <router-outlet></router-outlet>
   <app-chat-widget></app-chat-widget>
-`, // This renders your whole app
+`,
 })
 export class App {
-  protected readonly title = signal('SkyOra-Frontend');
   private readonly analyticsService = inject(AnalyticsService);
+
+  constructor(
+    private router: Router,
+    private analytics: AnalyticsService
+  ) {
+    const platformId = inject(PLATFORM_ID);
+
+    if (isPlatformBrowser(platformId)) {
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe((event: any) => {
+        //this.analytics.trackPageview(event.urlAfterRedirects);
+      });
+    }
+  }
+
+  protected readonly title = signal('SkyOra-Frontend');
 }

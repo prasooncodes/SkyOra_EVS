@@ -220,3 +220,191 @@
   padding: 0.4rem 0.6rem;
 }
 
+/* Seat map styles */
+.seat-map {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+}
+.seat-item {}
+.seat {
+  width: 100%;
+  padding: 8px 6px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.seat.business { border-color: #b89cff; }
+.seat.economy { border-color: #ffd6c0; }
+.seat.assigned { background: #f1f1f1; opacity: 0.9; }
+.seat.selected-by-current { box-shadow: 0 6px 18px rgba(111,66,193,0.12); transform: translateY(-2px); border-color: #6f42c1; }
+.passenger-select.active { border-color: #6f42c1; background: #fff5fb; }
+.passenger-select { text-align: left; }
+
+.seat-card-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: #f2edff;
+  color: #6f42c1;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.seat-help-box {
+  padding: 1rem;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fffaf7 0%, #ffffff 100%);
+  border: 1px solid #f1dfd7;
+}
+
+.cockpit-view {
+  position: relative;
+  padding: 1rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff8f3 100%);
+  border: 1px solid #eeddd4;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+}
+
+.cockpit-header {
+  position: relative;
+  margin-bottom: 1rem;
+  padding: 1rem 1rem 1.2rem;
+  border-radius: 24px 24px 18px 18px;
+  background: linear-gradient(180deg, #4b2e83 0%, #6f42c1 100%);
+  color: #fff;
+  text-align: center;
+}
+
+.cockpit-header::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -18px;
+  width: 100px;
+  height: 36px;
+  transform: translateX(-50%);
+  background: #6f42c1;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.cockpit-window-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cockpit-window {
+  width: 58px;
+  height: 28px;
+  border-radius: 999px 999px 12px 12px;
+  background: linear-gradient(180deg, #dff3ff 0%, #9cc7e8 100%);
+  border: 2px solid rgba(255,255,255,0.6);
+  box-shadow: inset 0 -6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cockpit-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cockpit-label {
+  font-size: 0.78rem;
+  opacity: 0.9;
+  margin-top: 0.15rem;
+}
+
+.aircraft-body {
+  padding: 1.4rem 0.4rem 0.8rem;
+}
+
+.cabin-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.cabin-row.business-row .row-number {
+  background: #f3ecff;
+  color: #6f42c1;
+}
+
+.cabin-row.economy-row .row-number {
+  background: #fff4ee;
+  color: #d55c2b;
+}
+
+.row-number {
+  height: 100%;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.row-seat-grid {
+  display: grid;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.seat-block,
+.aisle-gap {
+  min-height: 72px;
+}
+
+.seat-block {
+  border: 1px solid #d9d1ca;
+  border-radius: 16px;
+  background: #ffffff;
+  padding: 0.55rem 0.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.15rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.seat-block:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.seat-block.business { border-color: #b89cff; }
+.seat-block.economy { border-color: #ffd0b8; }
+.seat-block.window { border-top-left-radius: 24px; border-bottom-left-radius: 24px; }
+.seat-block.aisle { border-top-right-radius: 24px; border-bottom-right-radius: 24px; }
+.seat-block.middle { border-radius: 14px; }
+.seat-block.assigned { background: #eef0f2; color: #6c757d; cursor: not-allowed; }
+.seat-block.selected-by-current { border-color: #6f42c1; box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.16); }
+.seat-block.occupied { background: #f5f5f5; color: #9aa0a6; border-color: #e0e0e0; cursor: not-allowed; opacity: 0.85; }
+
+.seat-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.seat-state {
+  font-size: 0.72rem;
+  color: inherit;
+  opacity: 0.75;
+}
+
+.aisle-gap {
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(111,66,193,0.05), rgba(255,107,53,0.05));
+}
+

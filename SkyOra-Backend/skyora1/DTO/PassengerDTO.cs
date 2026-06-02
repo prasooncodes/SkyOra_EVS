@@ -7,5 +7,8 @@
         public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
         public string Gender {  get; set; }
+        // Seat selection data
+        public string SeatNumber { get; set; } = string.Empty;
+        public string SeatType { get; set; } = string.Empty;
     }
 }

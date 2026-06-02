@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using skyora1.DTO;
+using Microsoft.EntityFrameworkCore;
 using skyora1.Models;
 using skyora1.Repository;
 using System.Security.Claims;
@@ -23,6 +24,28 @@ public class BookingController : ControllerBase
         _booking = booking;
         _db = db;
         _config = config;
+    }
+
+    // GET: api/Booking/flight/{flightId}/reserved-seats
+    [HttpGet("flight/{flightId}/reserved-seats")]
+    public async Task<IActionResult> GetReservedSeats(int flightId)
+    {
+        try
+        {
+            var seats = await _db.bookings
+                .Where(b => b.FlightId == flightId)
+                .SelectMany(b => b.Passengers)
+                .Select(p => p.SeatNumber)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct()
+                .ToListAsync();
+
+            return Ok(seats);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Failed to fetch reserved seats.", detail = ex.Message });
+        }
     }
 
     // ✅ GET ALL
@@ -147,6 +170,11 @@ public class BookingController : ControllerBase
             sb.AppendLine($"<h2>SkyOra Ticket - Booking #{booking.BookingId}</h2>");
             sb.AppendLine($"<p>Passenger Count: {booking.NumberOfPassengers}</p>");
             sb.AppendLine($"<p>Total Amount: {booking.TotalAmount:C}</p>");
+            sb.AppendLine($"<p>Departure Date: {booking.BookingDate.ToString()}</p>");
+            if (booking.ReturnDate != default)
+            {
+                sb.AppendLine($"<p>Return Date: {booking.ReturnDate.ToString()}</p>");
+            }
             if (booking.Flight != null)
             {
                 sb.AppendLine($"<p>Flight: {booking.Flight.FlightNo} - {booking.Flight.Source} to {booking.Flight.Destination}</p>");
@@ -158,9 +186,11 @@ public class BookingController : ControllerBase
                 sb.AppendLine("<ul>");
                 foreach (var p in booking.Passengers)
                 {
-                    // `Passenger` model does not have a SeatType property in the schema.
-                    // Avoid referencing it to prevent compile errors.
-                    sb.AppendLine($"<li>{p.Name} ({p.Age}) - {p.Gender}</li>");
+                    var seatInfo = string.IsNullOrWhiteSpace(p.SeatNumber)
+                        ? string.Empty
+                        : $" - Seat {p.SeatNumber} ({p.SeatType})";
+
+                    sb.AppendLine($"<li>{p.Name} ({p.Age}) - {p.Gender}{seatInfo}</li>");
                 }
                 sb.AppendLine("</ul>");
             }
