@@ -36,6 +36,8 @@ import { MenuCart } from './Component/menu-cart/menu-cart';
 import { ManageBooking } from './Component/manage-booking/manage-booking';
 import { EditBooking } from './Component/edit-booking/edit-booking';
 import { Inprogress } from './Component/inprogress/inprogress';
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -43,15 +45,15 @@ export const routes: Routes = [
     {path: 'users', component: User },
     {path:'home1', component:Home1},
     {path: 'flights', component: Flight },
-    {path: 'bookings', component: Booking },
-    {path: 'bookings/create', component: BookFlight },
-    {path: 'bookflight', component: BookFlight },
-    {path:'bookingsbyid', component:BookingByID},
-    {path: 'bookflight/:id', component: BookFlight },
-    {path: 'addflight', component: FlightAdd },
+    {path: 'bookings', component: Booking, canActivate: [AuthGuard] },
+    {path: 'bookings/create', component: BookFlight, canActivate: [AuthGuard] },
+    {path: 'bookflight', component: BookFlight, canActivate: [AuthGuard] },
+    {path:'bookingsbyid', component:BookingByID, canActivate: [AuthGuard]},
+    {path: 'bookflight/:id', component: BookFlight, canActivate: [AuthGuard] },
+    {path: 'addflight', component: FlightAdd, canActivate: [AdminGuard] },
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent },
-    {path: 'editflight/:id', component: FlightEdit },
+    {path: 'editflight/:id', component: FlightEdit, canActivate: [AdminGuard] },
     {path:'about', component:Aboutus},
     {path:'contact',component:Contactus},
     {path:'network',component:NetworkComponent},
@@ -64,10 +66,10 @@ export const routes: Routes = [
     {path:'dismessages', component:DisplayMails},
     {path:'passengerdetails/:id', component:PassengerDetail},
     {path:'passengerdetails', component:PassengerDetail},
-    {path:'booking-cart', component: BookingCart},
+    {path:'booking-cart', component: BookingCart, canActivate: [AuthGuard]},
     {path:'payment',component:PaymentGateway},
     {path:'payment-success', component: PaymentSuccess},
-    {path:'manageaccount', component: ManageAccount},
+    {path:'manageaccount', component: ManageAccount, canActivate: [AuthGuard]},
     {path:'admin-register', component: AdminRegistration},
     {path:'menu',component:Menu},
     {path:'travel',component:TravelCertificate},
@@ -76,9 +78,9 @@ export const routes: Routes = [
     {path:'error', component: Error},
     {path:'terms', component: TermsConditions},
     {path:'menu-cart',component:MenuCart},
-    {path:'manage-bookings', component: ManageBooking},
-    {path:'edit-booking/:id', component: EditBooking},
-    {path:'admin-register', component: AdminRegistration},
+    {path:'manage-bookings', component: ManageBooking, canActivate: [AdminGuard]},
+    {path:'edit-booking/:id', component: EditBooking, canActivate: [AdminGuard]},
+    {path:'admin-register', component: AdminRegistration, canActivate: [AdminGuard]},
     {path:'inprogress', component: Inprogress},
 
 ];
