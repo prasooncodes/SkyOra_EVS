@@ -38,6 +38,7 @@ import { EditBooking } from './Component/edit-booking/edit-booking';
 import { Inprogress } from './Component/inprogress/inprogress';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { Seatselection } from './Component/seatselection/seatselection';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -82,5 +83,6 @@ export const routes: Routes = [
     {path:'edit-booking/:id', component: EditBooking, canActivate: [AdminGuard]},
     {path:'admin-register', component: AdminRegistration, canActivate: [AdminGuard]},
     {path:'inprogress', component: Inprogress},
+    {path:'seatselect',component:Seatselection}
 
 ];

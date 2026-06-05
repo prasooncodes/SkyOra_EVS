@@ -37,12 +37,25 @@ export class MenuCart {
   }
 
   checkout(): void {
-    const formattedTotal = new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR'
-    }).format(this.totalPayable());
+    const amount = this.totalPayable();
 
-    alert(`Proceeding to payment with total amount: ${formattedTotal}`);
+    if (amount <= 0) {
+      return;
+    }
+
+    this.router.navigate(['/payment'], {
+      state: {
+        checkoutType: 'menu',
+        amount,
+        cartItems: this.cartItems(),
+        summary: {
+          subtotal: this.subtotal(),
+          deliveryFee: this.deliveryFee(),
+          discount: this.discount(),
+          totalPayable: amount
+        }
+      }
+    });
   }
 
   goBack(): void {

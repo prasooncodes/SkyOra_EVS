@@ -1,0 +1,410 @@
+.seat-selection-landing {
+	position: relative;
+	overflow: hidden;
+	min-height: 100vh;
+	background:
+		radial-gradient(circle at top left, rgba(255, 122, 0, 0.18), transparent 35%),
+		radial-gradient(circle at top right, rgba(22, 33, 62, 0.22), transparent 30%),
+		linear-gradient(180deg, #08111f 0%, #0f1b33 45%, #f6f7fb 45%, #f6f7fb 100%);
+	color: #10233f;
+}
+
+.background-glow {
+	position: absolute;
+	width: 26rem;
+	height: 26rem;
+	border-radius: 50%;
+	filter: blur(16px);
+	opacity: 0.45;
+	pointer-events: none;
+}
+
+.background-glow-left {
+	top: 2rem;
+	left: -8rem;
+	background: rgba(255, 111, 0, 0.18);
+}
+
+.background-glow-right {
+	top: 4rem;
+	right: -9rem;
+	background: rgba(0, 166, 255, 0.18);
+}
+
+.hero-panel,
+.journey-panel,
+.benefit-banner {
+	position: relative;
+	z-index: 1;
+}
+
+.hero-panel {
+	display: grid;
+	grid-template-columns: 1.15fr 0.85fr;
+	gap: 2rem;
+	align-items: center;
+	padding-top: 2rem;
+}
+
+.hero-copy {
+	color: #fff;
+}
+
+.eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.85rem;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.hero-copy h1 {
+	margin: 1rem 0 1rem;
+	max-width: 12ch;
+	font-size: clamp(2.8rem, 5vw, 5.3rem);
+	line-height: 0.95;
+	font-weight: 900;
+	letter-spacing: -0.04em;
+}
+
+.hero-lead {
+	max-width: 56ch;
+	color: rgba(255, 255, 255, 0.84);
+	font-size: 1.05rem;
+	line-height: 1.8;
+}
+
+.hero-actions {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	margin-top: 1.75rem;
+}
+
+.btn-primary-cta,
+.btn-secondary-cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 3.25rem;
+	padding: 0.8rem 1.35rem;
+	border-radius: 999px;
+	text-decoration: none;
+	font-weight: 800;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary-cta {
+	background: linear-gradient(135deg, #ff8a00, #ff5c00);
+	color: #fff;
+	box-shadow: 0 18px 38px rgba(255, 92, 0, 0.3);
+}
+
+.btn-secondary-cta {
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.btn-primary-cta:hover,
+.btn-secondary-cta:hover {
+	transform: translateY(-2px);
+}
+
+.btn-primary-cta.large {
+	min-width: 14rem;
+}
+
+.hero-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+	margin-top: 2rem;
+}
+
+.stat-card,
+.info-card,
+.step-card,
+.benefit-banner,
+.aircraft-card {
+	border-radius: 28px;
+	background: rgba(255, 255, 255, 0.94);
+	box-shadow: 0 24px 70px rgba(7, 18, 34, 0.12);
+}
+
+.stat-card {
+	padding: 1rem 1.1rem;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+.stat-value {
+	display: block;
+	font-size: 1.55rem;
+	font-weight: 900;
+	line-height: 1;
+}
+
+.stat-label {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 0.85rem;
+	color: rgba(255, 255, 255, 0.78);
+}
+
+.hero-visual {
+	display: flex;
+	justify-content: center;
+}
+
+.aircraft-card {
+	width: 100%;
+	padding: 1.4rem;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 246, 255, 0.96));
+	border: 1px solid rgba(16, 35, 63, 0.08);
+}
+
+.aircraft-header,
+.aircraft-footer {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
+
+.aircraft-pill,
+.seat-chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 999px;
+	padding: 0.45rem 0.8rem;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	background: #fff;
+	color: #10233f;
+	border: 1px solid rgba(16, 35, 63, 0.08);
+}
+
+.aircraft-pill.subtle {
+	background: #eef3ff;
+}
+
+.seat-grid {
+	display: grid;
+	gap: 0.8rem;
+	margin: 1.3rem 0 1.4rem;
+}
+
+.seat-row {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr) 1.15fr repeat(3, 1fr);
+	gap: 0.55rem;
+}
+
+.seat,
+.aisle {
+	height: 3rem;
+	border-radius: 16px;
+}
+
+.seat {
+	border: 1px solid rgba(16, 35, 63, 0.08);
+	background: linear-gradient(180deg, #e9eef8, #d7dff0);
+}
+
+.seat.chosen {
+	background: linear-gradient(180deg, #ff9b3a, #ff6300);
+	box-shadow: 0 10px 20px rgba(255, 99, 0, 0.25);
+}
+
+.seat-window,
+.seat-middle,
+.seat-aisle {
+	position: relative;
+}
+
+.aisle {
+	background: repeating-linear-gradient(
+		180deg,
+		transparent,
+		transparent 10px,
+		rgba(16, 35, 63, 0.04) 10px,
+		rgba(16, 35, 63, 0.04) 20px
+	);
+}
+
+.aircraft-footer {
+	align-items: center;
+	padding-top: 0.4rem;
+	border-top: 1px solid rgba(16, 35, 63, 0.08);
+}
+
+.footer-label {
+	font-size: 0.74rem;
+	text-transform: uppercase;
+	color: #71809b;
+	letter-spacing: 0.08em;
+}
+
+.footer-value {
+	font-weight: 800;
+	color: #10233f;
+}
+
+.seat-chip.active {
+	background: #10233f;
+	color: #fff;
+}
+
+.info-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.info-card {
+	padding: 1.5rem;
+}
+
+.info-icon {
+	width: 3rem;
+	height: 3rem;
+	display: grid;
+	place-items: center;
+	border-radius: 16px;
+	background: linear-gradient(135deg, rgba(255, 120, 0, 0.14), rgba(16, 35, 63, 0.08));
+	margin-bottom: 1rem;
+	font-size: 1.2rem;
+}
+
+.info-card h2,
+.journey-copy h2,
+.benefit-banner h2 {
+	margin: 0 0 0.75rem;
+	font-size: 1.35rem;
+	font-weight: 850;
+	letter-spacing: -0.02em;
+}
+
+.info-card p,
+.journey-copy p,
+.step-card p {
+	margin: 0;
+	color: #60708d;
+	line-height: 1.75;
+}
+
+.journey-panel {
+	display: grid;
+	grid-template-columns: 0.9fr 1.1fr;
+	gap: 1rem;
+	align-items: start;
+}
+
+.journey-copy {
+	padding: 1.3rem 0.4rem 1.3rem 0;
+}
+
+.journey-steps {
+	display: grid;
+	gap: 1rem;
+}
+
+.step-card {
+	padding: 1.3rem 1.4rem;
+	border: 1px solid rgba(16, 35, 63, 0.06);
+}
+
+.step-number {
+	display: inline-flex;
+	margin-bottom: 0.75rem;
+	padding: 0.45rem 0.7rem;
+	border-radius: 999px;
+	background: #eef3ff;
+	color: #10233f;
+	font-size: 0.8rem;
+	font-weight: 900;
+}
+
+.step-card h3 {
+	margin: 0 0 0.5rem;
+	font-size: 1.05rem;
+	font-weight: 850;
+}
+
+.benefit-banner {
+	padding: 1.4rem;
+	display: grid;
+	grid-template-columns: 0.9fr 1.2fr auto;
+	gap: 1rem;
+	align-items: center;
+}
+
+.benefit-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.benefit-item {
+	padding: 0.7rem 1rem;
+	border-radius: 999px;
+	background: #eef3ff;
+	color: #10233f;
+	font-weight: 700;
+}
+
+.banner-actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+@media (max-width: 992px) {
+	.hero-panel,
+	.journey-panel,
+	.benefit-banner {
+		grid-template-columns: 1fr;
+	}
+
+	.hero-copy h1 {
+		max-width: none;
+	}
+
+	.info-grid,
+	.hero-stats {
+		grid-template-columns: 1fr;
+	}
+
+	.banner-actions {
+		justify-content: flex-start;
+	}
+}
+
+@media (max-width: 576px) {
+	.seat-selection-landing {
+		background: linear-gradient(180deg, #08111f 0%, #0f1b33 38%, #f6f7fb 38%, #f6f7fb 100%);
+	}
+
+	.hero-copy h1 {
+		font-size: 2.4rem;
+	}
+
+	.seat-row {
+		gap: 0.4rem;
+	}
+
+	.seat,
+	.aisle {
+		height: 2.3rem;
+		border-radius: 12px;
+	}
+}

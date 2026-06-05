@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { FlightService } from '../../services/flight';
 import { FlightInterface } from '../../Models/flights';
 import { AuthService } from '../../services/auth-service';
@@ -21,6 +22,7 @@ export class BookFlight implements OnInit {
   flightId: number = 0;
   flight: FlightInterface | null = null;
   searchedFlights: FlightInterface[] = [];
+  searchedReturnFlights: FlightInterface[] = [];
   isSearching: boolean = false;
 
   private readonly businessSeatLabels = ['A', 'B', 'C', 'D'];
@@ -53,6 +55,7 @@ export class BookFlight implements OnInit {
 
   bookingData = {
     flightId: 0,
+    returnFlightId: 0,
     userId: 0,
     numberOfPassengers: 1,
     bookingDate: '',
@@ -79,6 +82,7 @@ export class BookFlight implements OnInit {
     } | null>;
   }> = [];
   selectedPassengerIndex: number | null = null;
+  selectedReturnFlight: FlightInterface | null = null;
 
   // Minimum selectable booking date (YYYY-MM-DD) - cannot be before today
   minBookingDate: string = '';
@@ -353,31 +357,59 @@ export class BookFlight implements OnInit {
   }
 
   selectFlightById(id: number): void {
+    this.assignFlightById(id, 'outbound');
+  }
+
+  selectReturnFlightById(id: number): void {
+    this.assignFlightById(id, 'return');
+  }
+
+  private assignFlightById(id: number, journey: 'outbound' | 'return'): void {
     if (!id) {
-      this.flight = null;
+      if (journey === 'outbound') {
+        this.flight = null;
+        this.bookingData.flightId = 0;
+      } else {
+        this.selectedReturnFlight = null;
+        this.bookingData.returnFlightId = 0;
+      }
       return;
     }
 
     const flightId = id;
-    const matchedFlight = this.searchedFlights.find(f => (f.FlightId || f.flightId) === flightId);
-    if (matchedFlight) {
-      this.flight = matchedFlight;
-      // regenerate seat map when selecting from search results
-      this.generateSeatMap();
-      this.clearSeatAssignments();
-      this.cdr.detectChanges();
-    } else {
-      this.loadFlightById(id);
+    const sourceList = journey === 'return' ? this.searchedReturnFlights : this.searchedFlights;
+    const matchedFlight = sourceList.find(f => (f.FlightId || f.flightId) === flightId);
+
+    if (journey === 'outbound') {
+      if (matchedFlight) {
+        this.flight = matchedFlight;
+        // regenerate seat map when selecting from search results
+        this.generateSeatMap();
+        this.clearSeatAssignments();
+        this.cdr.detectChanges();
+      } else {
+        this.loadFlightById(id);
+      }
+
+      this.bookingData.flightId = id;
+
+      // Track flight selection
+      this.googleAnalyticsService.trackFlightSelection(
+        id,
+        this.searchCriteria.source,
+        this.searchCriteria.destination
+      );
+      return;
     }
 
-    this.bookingData.flightId = id;
-
-    // Track flight selection
-    this.googleAnalyticsService.trackFlightSelection(
-      id,
-      this.searchCriteria.source,
-      this.searchCriteria.destination
-    );
+    if (matchedFlight) {
+      this.selectedReturnFlight = matchedFlight;
+      this.bookingData.returnFlightId = id;
+      this.cdr.detectChanges();
+    } else {
+      this.selectedReturnFlight = null;
+      this.bookingData.returnFlightId = 0;
+    }
   }
 
   searchFlights(): void {
@@ -407,9 +439,63 @@ export class BookFlight implements OnInit {
     );
 
     this.isSearching = true;
-    this.flightService.searchFlights(this.searchCriteria.source, this.searchCriteria.destination, this.bookingData.bookingDate).subscribe({
+    const outboundSearch$ = this.flightService.searchFlights(
+      this.searchCriteria.source,
+      this.searchCriteria.destination,
+      this.bookingData.bookingDate
+    );
+
+    if (this.bookingData.tripType === 'roundtrip') {
+      const returnSearch$ = this.flightService.searchFlights(
+        this.searchCriteria.destination,
+        this.searchCriteria.source,
+        this.bookingData.returnDate
+      );
+
+      forkJoin({ outbound: outboundSearch$, returnFlights: returnSearch$ }).subscribe({
+        next: ({ outbound, returnFlights }) => {
+          this.searchedFlights = outbound;
+          this.searchedReturnFlights = returnFlights;
+
+          if (this.searchedFlights.length === 0 || this.searchedReturnFlights.length === 0) {
+            this.safeAlert('No flights found for one or both legs of the selected trip.');
+            this.googleAnalyticsService.trackEvent('flight_search_no_results', {
+              source_city: this.searchCriteria.source,
+              destination_city: this.searchCriteria.destination,
+              trip_type: this.bookingData.tripType
+            });
+          }
+
+          if (this.searchedFlights.length === 1) {
+            const flightId = this.searchedFlights[0].FlightId || this.searchedFlights[0].flightId || 0;
+            this.assignFlightById(flightId, 'outbound');
+          }
+
+          if (this.searchedReturnFlights.length === 1) {
+            const returnFlightId = this.searchedReturnFlights[0].FlightId || this.searchedReturnFlights[0].flightId || 0;
+            this.assignFlightById(returnFlightId, 'return');
+          }
+
+          this.isSearching = false;
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Flight search failed:', error);
+          this.safeAlert('No Flight available for the selected dates. Please try again later.');
+          this.googleAnalyticsService.trackError('flight_search_error', error?.message || 'Unknown error');
+          this.isSearching = false;
+        }
+      });
+      return;
+    }
+
+    outboundSearch$.subscribe({
       next: (data) => {
         this.searchedFlights = data;
+        this.searchedReturnFlights = [];
+        this.selectedReturnFlight = null;
+        this.bookingData.returnFlightId = 0;
+
         if (this.searchedFlights.length === 0) {
             this.safeAlert('No flights found for the selected route.');
             this.googleAnalyticsService.trackEvent('flight_search_no_results', {
@@ -418,14 +504,14 @@ export class BookFlight implements OnInit {
             });
         } else if (this.searchedFlights.length === 1) {
           const flightId = this.searchedFlights[0].FlightId || this.searchedFlights[0].flightId || 0;
-          this.selectFlightById(flightId);
+          this.assignFlightById(flightId, 'outbound');
         }
         this.isSearching = false;
         this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Flight search failed:', error);
-        this.safeAlert('Unable to search flights. Please try again later.');
+        this.safeAlert('No Flight available for the selected date. Please try again later.');
         this.googleAnalyticsService.trackError('flight_search_error', error?.message || 'Unknown error');
         this.isSearching = false;
       }
@@ -436,20 +522,23 @@ export class BookFlight implements OnInit {
     if (!this.flight) {
       return 0;
     }
-    // Calculate total price for all passengers based on their seat types
-    let totalPrice = 0;
-    for (let i = 0; i < this.passengers.length; i++) {
-      const passengerSeatType = this.passengers[i].seatType;
-      const price = passengerSeatType === 'Economy'
-        ? Number(this.flight.EconomyPrice || this.flight.economyPrice || 0)
-        : Number(this.flight.BusinessPrice || this.flight.businessPrice || 0);
-      totalPrice += price;
+    return this.passengers.reduce((totalPrice, passenger) => {
+      const outboundPrice = this.getPriceForFlight(this.flight, passenger.seatType);
+      const returnPrice = this.bookingData.tripType === 'roundtrip' && this.selectedReturnFlight
+        ? this.getPriceForFlight(this.selectedReturnFlight, passenger.seatType)
+        : 0;
+      return totalPrice + outboundPrice + returnPrice;
+    }, 0);
+  }
+
+  private getPriceForFlight(flight: FlightInterface | null, seatType: string): number {
+    if (!flight) {
+      return 0;
     }
-    // If round-trip, assume return fare equals outbound fare
-    if (this.bookingData.tripType === 'roundtrip') {
-      totalPrice = totalPrice * 2;
-    }
-    return totalPrice;
+
+    return seatType === 'Economy'
+      ? Number(flight.EconomyPrice || flight.economyPrice || 0)
+      : Number(flight.BusinessPrice || flight.businessPrice || 0);
   }
 
   get totalPrice(): number {
@@ -527,6 +616,12 @@ export class BookFlight implements OnInit {
       return;
     }
 
+    if (this.bookingData.tripType === 'roundtrip' && !this.selectedReturnFlight) {
+      this.safeAlert('Please select both departure and return flights before confirming booking.');
+      this.googleAnalyticsService.trackValidationError('Missing return flight');
+      return;
+    }
+
     // Track booking initiated
     this.googleAnalyticsService.trackBookingInitiated(
       this.totalPrice,
@@ -537,12 +632,15 @@ export class BookFlight implements OnInit {
     const bookingPayload = {
       UserId: this.bookingData.userId,
       FlightId: this.bookingData.flightId,
+      ReturnFlightId: this.selectedReturnFlight?.FlightId || this.selectedReturnFlight?.flightId || 0,
       NumberOfPassengers: this.passengers.length,
       TotalAmount: this.totalPrice,
       BookingStatus: 'Pending',
       TripType: this.bookingData.tripType,
       BookingDate: this.bookingData.bookingDate,
       ReturnDate: this.bookingData.tripType === 'roundtrip' ? this.bookingData.returnDate : this.bookingData.bookingDate,
+      OutboundFlight: this.flight ? { ...this.flight } : null,
+      ReturnFlight: this.selectedReturnFlight ? { ...this.selectedReturnFlight } : null,
       Passengers: this.passengers.map(p => ({
         Name: p.name.trim(),
         Age: Number(p.age),
@@ -568,6 +666,11 @@ export class BookFlight implements OnInit {
      */
     onTripTypeChange(tripType: string): void {
       this.bookingData.tripType = tripType;
+      if (tripType !== 'roundtrip') {
+        this.searchedReturnFlights = [];
+        this.selectedReturnFlight = null;
+        this.bookingData.returnFlightId = 0;
+      }
       this.googleAnalyticsService.trackTripTypeSelection(tripType);
     }
 

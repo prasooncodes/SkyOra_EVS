@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { FlightInterface } from '../Models/flights';
 
 export interface PendingPassenger {
   Name: string;
@@ -12,6 +13,7 @@ export interface PendingBookingPayload {
   BookingId?: number;
   UserId: number;
   FlightId: number;
+  ReturnFlightId?: number;
   NumberOfPassengers: number;
   TotalAmount: number;
   BookingStatus: string;
@@ -19,6 +21,8 @@ export interface PendingBookingPayload {
   BookingDate: string;
   ReturnDate: string;
   Passengers: PendingPassenger[];
+  OutboundFlight?: FlightInterface | null;
+  ReturnFlight?: FlightInterface | null;
 }
 
 @Injectable({
@@ -35,6 +39,8 @@ export class BookingFlowService {
   setPendingBooking(payload: PendingBookingPayload): void {
     this.pendingBookingState.set({
       ...payload,
+      OutboundFlight: payload.OutboundFlight ? { ...payload.OutboundFlight } : null,
+      ReturnFlight: payload.ReturnFlight ? { ...payload.ReturnFlight } : null,
       NumberOfPassengers: payload.Passengers.length,
       Passengers: payload.Passengers.map((passenger) => ({ ...passenger }))
     });
@@ -43,6 +49,8 @@ export class BookingFlowService {
   setLastConfirmedBooking(payload: PendingBookingPayload): void {
     this.lastConfirmedBookingState.set({
       ...payload,
+      OutboundFlight: payload.OutboundFlight ? { ...payload.OutboundFlight } : null,
+      ReturnFlight: payload.ReturnFlight ? { ...payload.ReturnFlight } : null,
       NumberOfPassengers: payload.Passengers.length,
       Passengers: payload.Passengers.map((passenger) => ({ ...passenger }))
     });
