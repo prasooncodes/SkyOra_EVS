@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg sticky-top akasa-navbar-portal">
   <div class="container-fluid container-max-limit px-4">
-    
+
     <!-- ✅ Brand Architecture: Custom Typography & Moving Vector Core -->
     <a class="navbar-brand-akasa" routerLink="/home1">
       <div class="logo-wrapper">
@@ -11,7 +11,9 @@
     </a>
 
     <!-- ✅ Mobile Interactive Controller Switch Toggle -->
-    <button class="navbar-toggler-akasa border-0" type="button" data-bs-toggle="collapse" data-bs-target="#skyoraNavbarContent" aria-controls="skyoraNavbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler-akasa border-0" type="button" data-bs-toggle="collapse"
+      data-bs-target="#skyoraNavbarContent" aria-controls="skyoraNavbarContent" aria-expanded="false"
+      aria-label="Toggle navigation">
       <div class="hamburger-menu">
         <span></span>
         <span></span>
@@ -21,18 +23,19 @@
 
     <!-- ✅ Menu Content Controller Link Wrapper Matrix -->
     <div class="collapse navbar-collapse" id="skyoraNavbarContent">
-      
-      <!-- Central Nav Anchor List Element Group -->
+
+      <!-- Central Links Pool (mx-auto centers this block) -->
       <ul class="navbar-nav mx-auto central-links-pool">
-        
+
         <!-- Guest View Only Links -->
         <li class="nav-item" *ngIf="!isLoggedIn">
-          <a class="akasa-nav-link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="akasa-nav-link" routerLink="/" routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }">
             <i class="bi bi-house-door-fill"></i><span>Home</span>
           </a>
         </li>
 
-        <!-- Standard Registered Flyer User Views Link Lists -->
+        <!-- Standard Registered Flyer User Links -->
         <ng-container *ngIf="isLoggedIn && role === 'user'">
           <li class="nav-item">
             <a class="akasa-nav-link" routerLink="/home1" routerLinkActive="active-link">
@@ -71,7 +74,7 @@
           </li>
         </ng-container>
 
-        <!-- Fleet Administrator Privileged View Link Lists -->
+        <!-- Fleet Administrator Links -->
         <ng-container *ngIf="isLoggedIn && role === 'admin'">
           <li class="nav-item">
             <a class="akasa-nav-link" routerLink="/home1" routerLinkActive="active-link">
@@ -111,9 +114,51 @@
         </ng-container>
       </ul>
 
-      <!-- ✅ Right Authentication Dashboard Actions Interface Dropdowns -->
+      <!-- ✅ Right-Aligned User Session Dropdown (Moved outside the central list) -->
+      <div *ngIf="isLoggedIn" class="dropdown user-session-card ms-lg-auto mt-2 mt-lg-0">
+        <button class="btn user-trigger-pill dropdown-toggle shadow-sm" type="button" id="skyoraUserDropdown"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="user-avatar-initials">
+            {{ displayName.substring(0,1).toUpperCase() || 'U' }}
+          </div>
+          <span class="user-greeting">Hi, {{ displayName }}</span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end session-menu-list shadow border-0"
+          aria-labelledby="skyoraUserDropdown">
+          <li class="menu-account-header">
+            <span class="meta-label">Account Profile</span>
+            <span class="meta-value text-truncate">{{ displayName }}</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider my-1">
+          </li>
+
+          <!-- Conditional Options Based on Role -->
+          <li>
+            <button class="dropdown-item item-link-action" (click)="manageaccount()">
+              <i class="bi bi-person-gear text-purple"></i>Manage Account
+            </button>
+          </li>
+          <li *ngIf="role === 'user'">
+            <button class="dropdown-item item-link-action" (click)="mytrips()">
+              <i class="bi bi-airplane-engines text-purple"></i>My Trips
+            </button>
+          </li>
+          <li *ngIf="role === 'user'">
+            <button class="dropdown-item item-link-action" (click)="managebookings()">
+              <i class="bi bi-journal-check text-purple"></i>Manage Bookings
+            </button>
+          </li>
+          <li>
+            <button class="dropdown-item item-link-action logout-trigger" (click)="logout()">
+              <i class="bi bi-power text-danger"></i>Logout
+            </button>
+          </li>
+        </ul>
+      </div>
       <div class="d-flex align-items-center auth-section-container">
-        
+
         <!-- Guest View Authentication Toggle Layout Tabs Box -->
         <div *ngIf="!isLoggedIn" class="auth-segmented-pill shadow-sm">
           <a class="auth-segment-btn login-tab" routerLink="/login" routerLinkActive="segment-active">
@@ -124,43 +169,6 @@
           </a>
         </div>
 
-        <!-- Authenticated Logged In Member Profile Options Group Menu -->
-        <div *ngIf="isLoggedIn" class="dropdown user-session-card">
-          <button class="btn user-trigger-pill dropdown-toggle shadow-sm" type="button" id="skyoraUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="user-avatar-initials">
-              {{ displayName.substring(0,1).toUpperCase() || 'U' }}
-            </div>
-            <span class="user-greeting">Hi, {{ displayName }}</span>
-          </button>
-          
-          <ul class="dropdown-menu dropdown-menu-end session-menu-list shadow border-0" aria-labelledby="skyoraUserDropdown">
-            <li class="menu-account-header">
-              <span class="meta-label">Account Profile</span>
-              <span class="meta-value text-truncate">{{ displayName }}</span>
-            </li>
-            <li><hr class="dropdown-divider my-1"></li>
-            <li>
-              <button class="dropdown-item item-link-action" (click)="manageaccount()">
-                <i class="bi bi-person-gear text-purple"></i>Manage Account
-              </button>
-            </li>
-            <li>
-              <button class="dropdown-item item-link-action" (click)="mytrips()">
-                <i class="bi bi-person-gear text-purple"></i>My Trips
-              </button>
-            </li>
-              <li>
-              <button class="dropdown-item item-link-action" (click)="managebookings()">
-                <i class="bi bi-person-gear text-purple"></i>Manage Bookings
-              </button>
-            </li>
-            <li>
-              <button class="dropdown-item item-link-action logout-trigger" (click)="logout()">
-                <i class="bi bi-power text-danger"></i>Logout 
-              </button>
-            </li>
-          </ul>
-        </div>
 
       </div>
 

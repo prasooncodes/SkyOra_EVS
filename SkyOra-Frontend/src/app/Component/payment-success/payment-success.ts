@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { BookingFlowService, PendingBookingPayload } from '../../services/booking-flow';
@@ -16,7 +16,23 @@ export class PaymentSuccess {
   private readonly bookingFlowService = inject(BookingFlowService);
   private readonly flightService = inject(FlightService);
 
+  private readonly navigationState = (typeof history !== 'undefined'
+    ? (history.state as { checkoutType?: 'booking' | 'menu'; amount?: number } | undefined)
+    : undefined);
+
+  readonly checkoutType = signal<'booking' | 'menu'>((this.navigationState?.checkoutType as 'booking' | 'menu' | undefined) ?? 'booking');
+  readonly amount = signal<number>(Number(this.navigationState?.amount || 0));
+  readonly title = computed(() => this.checkoutType() === 'menu' ? 'Payment Done' : 'Payment Complete');
+  readonly message = computed(() => this.checkoutType() === 'menu'
+    ? 'Payment done. Enjoy your food at the lounge.'
+    : 'Your payment has been processed and your flight is now confirmed.');
+  readonly showTicketActions = computed(() => this.checkoutType() !== 'menu');
+
   downloadTicket(): void {
+    if (this.checkoutType() === 'menu') {
+      return;
+    }
+
     const booking = this.bookingFlowService.getLastConfirmedBooking();
 
     if (!booking) {
@@ -131,4 +147,4 @@ export class PaymentSuccess {
     link.click();
     URL.revokeObjectURL(link.href);
   }
-}
+  }

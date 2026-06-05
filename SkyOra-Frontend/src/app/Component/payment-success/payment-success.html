@@ -1,16 +1,32 @@
 <section class="success-page">
   <div class="success-card">
-    <div class="success-badge">Payment Complete</div>
-    <h1>Thank you for booking with SkyOra</h1>
-    <p>Your payment has been processed and your flight is now confirmed.</p>
+    <div class="success-badge">{{ checkoutType() === 'menu' ? 'Food Payment Complete' : 'Payment Complete' }}</div>
+    <h1>{{ title() }}</h1>
+    <p>{{ message() }}</p>
+
+    @if (checkoutType() === 'menu') {
+      <div class="success-tip mb-3">
+        <strong>Amount Paid:</strong> ₹{{ amount() }}
+      </div>
+    }
 
     <div class="success-actions">
-      <button type="button" class="btn btn-primary" (click)="downloadTicket()">Download Ticket</button>
-      <a routerLink="/bookingsbyid" class="btn btn-secondary">View My Bookings</a>
+      @if (showTicketActions()) {
+        <button type="button" class="btn btn-primary" (click)="downloadTicket()">Download Ticket</button>
+        <a routerLink="/bookingsbyid" class="btn btn-secondary">View My Bookings</a>
+      } @else {
+        <a routerLink="/menu" class="btn btn-primary">Back to Menu</a>
+        <a routerLink="/bookflight" class="btn btn-secondary">Explore Flights</a>
+        
+      }
     </div>
 
     <div class="success-tip">
-      <strong>Tip:</strong> Your ticket will download directly with the booking details you entered.
+      @if (showTicketActions()) {
+        <strong>Tip:</strong> Your ticket will download directly with the booking details you entered.
+      } @else {
+        <strong>Enjoy:</strong> Please collect your food from the lounge counter at your convenience.
+      }
     </div>
   </div>
 </section>
