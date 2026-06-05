@@ -1,0 +1,126 @@
+<section class="seat-selection-landing">
+	<div class="background-glow background-glow-left"></div>
+	<div class="background-glow background-glow-right"></div>
+
+	<div class="container position-relative py-5">
+		<div class="hero-panel">
+			<div class="hero-copy">
+				<span class="eyebrow">Seat selection made easy</span>
+				<h1>Enjoy choosing your seat while booking your flight.</h1>
+				<p class="hero-lead">
+					Find the seat that fits your journey, compare flight options, and move smoothly into booking without leaving the page.
+				</p>
+
+				<div class="hero-actions">
+					<a routerLink="/bookflight" class="btn btn-primary-cta">Book Flights</a>
+					<a routerLink="/network" class="btn btn-secondary-cta">Browse Flights</a>
+				</div>
+
+				<div class="hero-stats">
+					@for (stat of stats; track stat.label) {
+						<div class="stat-card">
+							<span class="stat-value">{{ stat.value }}</span>
+							<span class="stat-label">{{ stat.label }}</span>
+						</div>
+					}
+				</div>
+			</div>
+
+			<div class="hero-visual" aria-label="Seat selection preview">
+				<div class="aircraft-card">
+					<div class="aircraft-header">
+						<span class="aircraft-pill">Boarding comfort</span>
+						<span class="aircraft-pill subtle">Live seat plan</span>
+					</div>
+
+					<div class="seat-grid">
+						<div class="seat-row">
+							<span class="seat seat-window chosen"></span>
+							<span class="seat seat-middle"></span>
+							<span class="seat seat-aisle"></span>
+							<span class="aisle"></span>
+							<span class="seat seat-aisle"></span>
+							<span class="seat seat-middle"></span>
+							<span class="seat seat-window"></span>
+						</div>
+						<div class="seat-row">
+							<span class="seat seat-window"></span>
+							<span class="seat seat-middle chosen"></span>
+							<span class="seat seat-aisle"></span>
+							<span class="aisle"></span>
+							<span class="seat seat-aisle"></span>
+							<span class="seat seat-middle"></span>
+							<span class="seat seat-window"></span>
+						</div>
+						<div class="seat-row">
+							<span class="seat seat-window"></span>
+							<span class="seat seat-middle"></span>
+							<span class="seat seat-aisle chosen"></span>
+							<span class="aisle"></span>
+							<span class="seat seat-aisle"></span>
+							<span class="seat seat-middle"></span>
+							<span class="seat seat-window"></span>
+						</div>
+					</div>
+
+					<div class="aircraft-footer">
+						<div>
+							<div class="footer-label">Best for</div>
+							<div class="footer-value">Comfort-focused travelers</div>
+						</div>
+						<div class="seat-chip">Aisle</div>
+						<div class="seat-chip active">Window</div>
+						<div class="seat-chip">Front row</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="info-grid mt-5">
+			@for (item of highlights; track item.title) {
+				<article class="info-card">
+					<div class="info-icon">{{ item.icon }}</div>
+					<h2>{{ item.title }}</h2>
+					<p>{{ item.description }}</p>
+				</article>
+			}
+		</div>
+
+		<div class="journey-panel mt-5">
+			<div class="journey-copy">
+				<span class="eyebrow">How it works</span>
+				<h2>Book with a clearer view of your journey.</h2>
+				<p>
+					Seat selection is part of the fun. We keep the booking process intuitive so you can focus on the trip instead of the form.
+				</p>
+			</div>
+
+			<div class="journey-steps">
+				@for (step of journeySteps; track step.step) {
+					<div class="step-card">
+						<span class="step-number">{{ step.step }}</span>
+						<h3>{{ step.title }}</h3>
+						<p>{{ step.description }}</p>
+					</div>
+				}
+			</div>
+		</div>
+
+		<div class="benefit-banner mt-5">
+			<div>
+				<span class="eyebrow">Why travelers like it</span>
+				<h2>Built for fast decisions and a better booking experience.</h2>
+			</div>
+
+			<div class="benefit-list">
+				@for (benefit of benefits; track benefit) {
+					<div class="benefit-item">{{ benefit }}</div>
+				}
+			</div>
+
+			<div class="banner-actions">
+				<a routerLink="/bookflight" class="btn btn-primary-cta large">Book Flights Now</a>
+			</div>
+		</div>
+	</div>
+</section>

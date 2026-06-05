@@ -13,8 +13,17 @@
         <div class="row g-3">
           <div class="col-md-6">
             <div class="summary-box h-100">
-              <p class="summary-label">Flight ID</p>
-              <p class="summary-value">{{ pendingBooking()?.FlightId }}</p>
+              <p class="summary-label">Departure Flight</p>
+              <p class="summary-value">
+                {{ pendingBooking()?.OutboundFlight?.FlightNo || pendingBooking()?.OutboundFlight?.FlightId || pendingBooking()?.FlightId }}
+              </p>
+
+              @if (pendingBooking()?.OutboundFlight) {
+                <p class="summary-label">Route</p>
+                <p class="summary-value">
+                  {{ pendingBooking()?.OutboundFlight?.Source }} to {{ pendingBooking()?.OutboundFlight?.Destination }}
+                </p>
+              }
 
               <p class="summary-label">Trip Type</p>
               <p class="summary-value text-capitalize">{{ pendingBooking()?.TripType }}</p>
@@ -31,6 +40,20 @@
 
           <div class="col-md-6">
             <div class="summary-box h-100">
+              @if (pendingBooking()?.TripType === 'roundtrip') {
+                <p class="summary-label">Return Flight</p>
+                <p class="summary-value">
+                  {{ pendingBooking()?.ReturnFlight?.FlightNo || pendingBooking()?.ReturnFlight?.FlightId || pendingBooking()?.ReturnFlightId || 'Select a return flight' }}
+                </p>
+
+                @if (pendingBooking()?.ReturnFlight) {
+                  <p class="summary-label">Return Route</p>
+                  <p class="summary-value">
+                    {{ pendingBooking()?.ReturnFlight?.Source }} to {{ pendingBooking()?.ReturnFlight?.Destination }}
+                  </p>
+                }
+              }
+
               <p class="summary-label">Passengers</p>
               <p class="summary-value">{{ pendingBooking()?.NumberOfPassengers }}</p>
 

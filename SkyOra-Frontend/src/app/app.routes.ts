@@ -36,6 +36,7 @@ import { MenuCart } from './Component/menu-cart/menu-cart';
 import { ManageBooking } from './Component/manage-booking/manage-booking';
 import { EditBooking } from './Component/edit-booking/edit-booking';
 import { Inprogress } from './Component/inprogress/inprogress';
+import { Seatselection } from './Component/seatselection/seatselection';
 
 export const routes: Routes = [
     {path: '', component: Welcome },
@@ -80,5 +81,6 @@ export const routes: Routes = [
     {path:'edit-booking/:id', component: EditBooking},
     {path:'admin-register', component: AdminRegistration},
     {path:'inprogress', component: Inprogress},
+    {path:'seatselect',component:Seatselection}
 
 ];

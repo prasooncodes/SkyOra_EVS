@@ -121,7 +121,7 @@
         <!-- Available Flights -->
         @if (searchedFlights.length > 0) {
           <div class="card p-4 border-0 shadow-sm mb-4">
-            <h4 class="fw-bold mb-4 text-purple">Available Flights</h4>
+            <h4 class="fw-bold mb-4 text-purple">Departure Flights</h4>
             
             <div class="row g-3">
               @for (flightOption of searchedFlights; track flightOption.FlightId) {
@@ -185,6 +185,84 @@
                         <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'HH:mm') }}</h6>
                       </div>
                       
+                      <div class="col-md-4 text-end">
+                        <small class="text-muted d-block">Arrival Time</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.ArrivalTime | date: 'HH:mm') }}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (bookingData.tripType === 'roundtrip' && searchedReturnFlights.length > 0) {
+          <div class="card p-4 border-0 shadow-sm mb-4">
+            <h4 class="fw-bold mb-4 text-purple">Return Flights</h4>
+
+            <div class="row g-3">
+              @for (flightOption of searchedReturnFlights; track flightOption.FlightId) {
+                <div class="col-12 mb-3">
+                  <div
+                    class="flight-card p-3 border rounded cursor-pointer"
+                    [ngClass]="{'selected': selectedReturnFlight && selectedReturnFlight.FlightId === (flightOption.FlightId || flightOption.flightId)}"
+                    (click)="selectReturnFlightById(flightOption.FlightId || flightOption.flightId || 0)"
+                    style="cursor: pointer; border: 2px solid #ddd; transition: all 0.3s;"
+                    [style.borderColor]="selectedReturnFlight && selectedReturnFlight.FlightId === (flightOption.FlightId || flightOption.flightId) ? '#ff6b35' : '#ddd'"
+                  >
+                    <div class="row align-items-center mb-2">
+                      <div class="col-md-3">
+                        <h6 class="fw-bold text-purple mb-1">{{ flightOption.FlightNo }}</h6>
+                        <small class="text-muted">Flight Number</small>
+                      </div>
+
+                      <div class="col-md-3 text-center">
+                        <h6 class="mb-0">
+                          {{ flightOption.Source }} <i class="bi bi-arrow-right"></i> {{ flightOption.Destination }}
+                        </h6>
+                        <small class="text-muted">Route</small>
+                      </div>
+
+                      <div class="col-md-2 text-center">
+                        <h6 class="fw-bold text-orange mb-1">
+                          ₹{{ flightOption.EconomyPrice || flightOption.economyPrice }}
+                        </h6>
+                        <small class="text-muted">Economy</small>
+                      </div>
+
+                      <div class="col-md-2 text-center">
+                        <h6 class="fw-bold text-orange mb-1">
+                          ₹{{ flightOption.BusinessPrice || flightOption.businessPrice }}
+                        </h6>
+                        <small class="text-muted">Business</small>
+                      </div>
+
+                      <div class="col-md-2 text-end">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="returnFlightSelection"
+                            [id]="'return_flight_' + (flightOption.FlightId || flightOption.flightId)"
+                            [checked]="selectedReturnFlight && selectedReturnFlight.FlightId === (flightOption.FlightId || flightOption.flightId)"
+                            [value]="flightOption.FlightId || flightOption.flightId"
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row align-items-center mt-2 pt-2 border-top">
+                      <div class="col-md-4">
+                        <small class="text-muted d-block">Departure Date</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'MMM dd, yyyy') }}</h6>
+                      </div>
+
+                      <div class="col-md-4">
+                        <small class="text-muted d-block">Departure Time</small>
+                        <h6 class="fw-semibold mb-0">{{ (flightOption.DepartureTime | date: 'HH:mm') }}</h6>
+                      </div>
+
                       <div class="col-md-4 text-end">
                         <small class="text-muted d-block">Arrival Time</small>
                         <h6 class="fw-semibold mb-0">{{ (flightOption.ArrivalTime | date: 'HH:mm') }}</h6>

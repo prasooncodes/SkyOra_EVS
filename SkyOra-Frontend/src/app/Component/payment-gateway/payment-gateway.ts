@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BookingService } from '../../services/booking';
 import { BookingFlowService } from '../../services/booking-flow';
+import { MenuCartService } from '../../services/menu-cart.service';
 
 type PaymentMethodId = 'card' | 'upi' | 'netBanking' | 'wallet';
 
@@ -13,6 +14,17 @@ interface PaymentMethod {
   subtitle: string;
   description: string;
   accent: string;
+}
+
+interface PaymentNavigationState {
+  checkoutType?: 'booking' | 'menu';
+  amount?: number;
+  summary?: {
+    subtotal?: number;
+    deliveryFee?: number;
+    discount?: number;
+    totalPayable?: number;
+  };
 }
 
 @Component({
@@ -27,6 +39,10 @@ export class PaymentGateway {
   private readonly router = inject(Router);
   private readonly bookingService = inject(BookingService);
   private readonly bookingFlowService = inject(BookingFlowService);
+  private readonly menuCartService = inject(MenuCartService);
+  private readonly navigationState = (typeof history !== 'undefined'
+    ? (history.state as PaymentNavigationState | undefined)
+    : undefined);
 
   readonly paymentMethods: PaymentMethod[] = [
     {
@@ -63,7 +79,16 @@ export class PaymentGateway {
   readonly isProcessing = signal(false);
   readonly paymentSuccess = signal(false);
   readonly paymentError = signal('');
+  readonly checkoutType = signal<'booking' | 'menu'>('booking');
   readonly pendingBooking = this.bookingFlowService.pendingBooking;
+
+  readonly pageTitle = computed(() => this.checkoutType() === 'menu' ? 'Food Payment' : 'Payment Gateway');
+  readonly pageDescription = computed(() => this.checkoutType() === 'menu'
+    ? 'Confirm your food order and complete payment to enjoy your meal at the lounge.'
+    : 'Choose your preferred payment method and complete your booking in a few steps.');
+  readonly successMessage = computed(() => this.checkoutType() === 'menu'
+    ? 'Payment done. Enjoy your food at the lounge.'
+    : 'Payment successful. Your booking is being confirmed.');
 
   readonly paymentForm = this.fb.group({
     amount: [2499, [Validators.required, Validators.min(1)]],
@@ -82,7 +107,15 @@ export class PaymentGateway {
   );
 
   constructor() {
+    const navigationState = (this.router.getCurrentNavigation()?.extras.state ?? this.navigationState) as PaymentNavigationState | undefined;
     const pending = this.bookingFlowService.getPendingBooking();
+
+    if (navigationState?.checkoutType === 'menu') {
+      this.checkoutType.set('menu');
+      this.paymentForm.patchValue({ amount: navigationState.amount || 0 });
+      this.applyMethodValidators(this.selectedMethod());
+      return;
+    }
 
     if (!pending) {
       this.safeAlert('No pending booking found. Please complete booking details first.');
@@ -106,6 +139,11 @@ export class PaymentGateway {
   }
 
   submitPayment(): void {
+    if (this.checkoutType() === 'menu') {
+      this.submitMenuPayment();
+      return;
+    }
+
     const pending = this.bookingFlowService.getPendingBooking();
 
     if (!pending) {
@@ -176,6 +214,32 @@ export class PaymentGateway {
         }
       });
     }, 1600);
+  }
+
+  private submitMenuPayment(): void {
+    if (this.paymentForm.invalid) {
+      this.paymentForm.markAllAsTouched();
+      this.paymentError.set('Please complete the highlighted fields before continuing.');
+      return;
+    }
+
+    this.isProcessing.set(true);
+    this.paymentError.set('');
+    this.paymentSuccess.set(false);
+
+    const enteredAmount = Number(this.paymentForm.controls.amount.value || 0);
+
+    setTimeout(() => {
+      this.isProcessing.set(false);
+      this.paymentSuccess.set(true);
+      this.menuCartService.clearCart();
+      this.router.navigate(['/payment-success'], {
+        state: {
+          checkoutType: 'menu',
+          amount: enteredAmount
+        }
+      });
+    }, 1200);
   }
 
   private getValidationErrorMessage(error: HttpErrorResponse): string {
