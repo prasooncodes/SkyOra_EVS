@@ -1,0 +1,78 @@
+<div class="cancel-page">
+	<div class="cancel-hero">
+		<div class="cancel-hero__badge">Cancellation rules</div>
+		<h1>Review refund details before cancelling</h1>
+		<p>
+			Booking #{{ bookingReference() }} will be checked against the current date and departure date before you confirm the cancellation.
+		</p>
+	</div>
+
+	@if (isLoading()) {
+		<div class="state-card">Loading booking details...</div>
+	} @else if (loadError()) {
+		<div class="state-card state-card--error">{{ loadError() }}</div>
+	} @else if (booking()) {
+		<div class="cancel-layout">
+			<section class="info-card">
+				<h2>Cancellation policy</h2>
+				<ul>
+					<li>7 or more days before departure: 50% refund</li>
+					<li>3 to 6 days before departure: 25% refund</li>
+					<li>Less than 3 days before departure: no refund</li>
+				</ul>
+
+				<div class="booking-meta">
+					<div>
+						<span>Flight</span>
+						<strong>{{ booking()?.Flight?.FlightNo || 'N/A' }}</strong>
+					</div>
+					<div>
+						<span>Route</span>
+						<strong>{{ booking()?.Flight?.Source || 'N/A' }} → {{ booking()?.Flight?.Destination || 'N/A' }}</strong>
+					</div>
+					<div>
+						<span>Departure</span>
+						<strong>{{ booking()?.Flight?.DepartureTime | date:'medium' }}</strong>
+					</div>
+					<div>
+						<span>Paid amount</span>
+						<strong>₹{{ totalAmount() | number:'1.0-0' }}</strong>
+					</div>
+				</div>
+			</section>
+
+			<section class="summary-card">
+				<h2>Refund summary</h2>
+
+				@if (!refundCalculated()) {
+					<p>Click the button below to calculate how much will be refunded right now.</p>
+				} @else {
+					<div class="summary-row">
+						<span>Days until departure</span>
+						<strong>{{ daysUntilDeparture() }}</strong>
+					</div>
+					<div class="summary-row">
+						<span>Refund percentage</span>
+						<strong>{{ refundPercentage() * 100 }}%</strong>
+					</div>
+					<div class="refund-amount">
+						₹{{ refundAmount() | number:'1.0-0' }}
+					</div>
+					<p class="summary-note">
+						This amount will be refunded to your original payment method in 2-3 working days after cancellation.
+					</p>
+				}
+
+				<button class="primary-btn" type="button" [disabled]="isCalculating() || isCancelling()" (click)="calculateRefund()">
+					{{ refundCalculated() ? 'Recalculate Refund' : 'Calculate Refund' }}
+				</button>
+
+				@if (refundCalculated()) {
+					<button class="secondary-btn" type="button" [disabled]="isCancelling()" (click)="confirmCancelBooking()">
+						{{ isCancelling() ? 'Cancelling...' : 'Confirm Cancel Booking' }}
+					</button>
+				}
+			</section>
+		</div>
+	}
+</div>

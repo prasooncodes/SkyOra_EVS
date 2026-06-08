@@ -21,34 +21,7 @@
 			<form [formGroup]="editForm" (ngSubmit)="saveBooking()" novalidate>
 				<div class="row g-4">
 					<div class="col-lg-8">
-						<div class="card border-0 shadow-sm p-4 section-card">
-							<h5 class="fw-bold section-title">Travel Details</h5>
-
-							<div class="row g-3">
-								<div class="col-md-6">
-									<label class="form-label">Trip Type</label>
-									<select class="form-select" formControlName="tripType">
-										<option value="oneway">One-way</option>
-										<option value="roundtrip">Round-trip</option>
-									</select>
-								</div>
-
-								<div class="col-md-6">
-									<label class="form-label">Departure Date</label>
-									<input class="form-control" type="date" formControlName="bookingDate" />
-								</div>
-
-								@if (editForm.value.tripType === 'roundtrip') {
-									<div class="col-md-6">
-										<label class="form-label">Return Date</label>
-										<input class="form-control" type="date" formControlName="returnDate" />
-										@if (editForm.controls.returnDate.touched && editForm.controls.returnDate.invalid) {
-											<small class="text-danger">Return date is required for round-trip.</small>
-										}
-									</div>
-								}
-							</div>
-						</div>
+						
 
 						<div class="card border-0 shadow-sm p-4 section-card mt-4">
 							<h5 class="fw-bold section-title">Travel Options</h5>
