@@ -67,8 +67,8 @@
               <small class="text-muted">Total Paid</small>
               <!-- Match: TotalAmount -->
               <h4 class="fw-bold text-purple">{{ booking.TotalAmount | currency:'INR' }}</h4>
-              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onDeleteBooking(booking.BookingId || booking.bookingId)">Cancel Booking</button>
-              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onEditBooking(booking.BookingId || booking.bookingId)">Edit Booking</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onDeleteBooking(getBookingId(booking))">Cancel Booking</button>
+              <button class="btn btn-purple btn-sm mt-2 px-4 rounded-pill" (click)="onEditBooking(getBookingId(booking))">Edit Booking</button>
              
             </div>
           </div>

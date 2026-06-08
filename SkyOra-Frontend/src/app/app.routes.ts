@@ -34,6 +34,7 @@ import { PaymentSuccess } from './Component/payment-success/payment-success';
 import { Error } from './Component/error/error';
 import { MenuCart } from './Component/menu-cart/menu-cart';
 import { ManageBooking } from './Component/manage-booking/manage-booking';
+import { CancelBooking } from './Component/cancel-booking/cancel-booking';
 import { EditBooking } from './Component/edit-booking/edit-booking';
 import { Inprogress } from './Component/inprogress/inprogress';
 import { AuthGuard } from './guards/auth.guard';
@@ -79,8 +80,9 @@ export const routes: Routes = [
     {path:'error', component: Error},
     {path:'terms', component: TermsConditions},
     {path:'menu-cart',component:MenuCart},
-    {path:'manage-bookings', component: ManageBooking, canActivate: [AdminGuard]},
-    {path:'edit-booking/:id', component: EditBooking, canActivate: [AdminGuard]},
+    {path:'manage-bookings', component: ManageBooking, canActivate: [AuthGuard]},
+    {path:'cancel-booking/:id', component: CancelBooking, canActivate: [AuthGuard]},
+    {path:'edit-booking/:id', component: EditBooking, canActivate: [AuthGuard]},
     {path:'admin-register', component: AdminRegistration, canActivate: [AdminGuard]},
     {path:'inprogress', component: Inprogress},
     {path:'seatselect',component:Seatselection}
