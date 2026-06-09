@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from '../../services/messages';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-contactus',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './contactus.html',
   styleUrls: ['./contactus.css'],
 })

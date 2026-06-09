@@ -78,7 +78,7 @@
               <small class="text-muted">Total Paid</small>
               <h4 class="fw-bold text-purple">{{ (booking.TotalAmount || booking.totalAmount) | currency:'INR' }}</h4>
               <!-- Keeping your fallback link completely operational to handle custom independent page redirections -->
-              <button class="btn btn-purple btn-sm mt-3 px-4 rounded-pill shadow-sm" routerLink="/passengerdetails/{{ booking.BookingId || booking.bookingId }}">Manage Ticket</button>
+              <button class="btn btn-purple btn-sm mt-3 px-4 rounded-pill shadow-sm" routerLink="/passengerdetails/{{ booking.BookingId || booking.bookingId }}">Passenger Details</button>
             </div>
           </div>
         </div>
