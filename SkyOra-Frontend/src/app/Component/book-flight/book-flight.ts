@@ -9,12 +9,13 @@ import { AuthService } from '../../services/auth-service';
 import { BookingFlowService } from '../../services/booking-flow';
 import { BookingService } from '../../services/booking';
 import { GoogleAnalyticsService } from '../../services/google-analytics';
+import { RouterLink } from '@angular/router';
 import { count } from 'console';
 
 @Component({
   selector: 'app-book-flight',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './book-flight.html',
   styleUrls: ['./book-flight.css'],
 })
@@ -52,7 +53,7 @@ export class BookFlight implements OnInit {
     source: '',
     destination: ''
   };
-
+                                                                                    
   bookingData = {
     flightId: 0,
     returnFlightId: 0,
