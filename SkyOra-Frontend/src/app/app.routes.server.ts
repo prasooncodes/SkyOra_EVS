@@ -18,7 +18,23 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server
   },
   {
+    path: 'bookflight/:id',
+    renderMode: RenderMode.Server
+  },
+  {
     path: 'cancel-booking/:id',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'offers/:category',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'passengerdetails/:id',
+    renderMode: RenderMode.Server
+  },
+  {
+    path: 'edit-booking/:id',
     renderMode: RenderMode.Server
   },
   {
