@@ -1,18 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { PLATFORM_ID } from '@angular/core';
 
-import MyNetwork from './my-network';
+import { NetworkComponent } from './my-network';
 
-describe('MyNetwork', () => {
-  let component: MyNetwork;
-  let fixture: ComponentFixture<MyNetwork>;
+describe('NetworkComponent', () => {
+  let component: NetworkComponent;
+  let fixture: ComponentFixture<NetworkComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MyNetwork],
+      imports: [NetworkComponent, HttpClientTestingModule],
+      providers: [
+        {
+          provide: PLATFORM_ID,
+          useValue: 'server'
+        }
+      ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MyNetwork);
+    fixture = TestBed.createComponent(NetworkComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 

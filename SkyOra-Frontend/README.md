@@ -38,21 +38,36 @@ This will compile your project and store the build artifacts in the `dist/` dire
 
 ## Running unit tests
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+To execute unit tests with the Angular test runner, use one of the following commands:
 
 ```bash
-ng test
+npm run test:unit
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+or
 
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+This runs the existing Angular unit test suite for services and components.
+
+## Running user acceptance tests (UAT)
+
+This project includes Playwright-based UAT/e2e tests. Install browser dependencies first:
+
+```bash
+npm install
+npx playwright install
+```
+
+Then run the acceptance test suite:
+
+```bash
+npm run test:uat
+```
+
+The UAT tests automatically start the local Angular server and verify critical pages like the home page and login page.
 
 ## Additional Resources
 

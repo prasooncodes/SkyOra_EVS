@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { BookFlight } from './book-flight';
 
@@ -8,11 +9,12 @@ describe('BookFlight', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BookFlight],
+      imports: [BookFlight, HttpClientTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BookFlight);
     component = fixture.componentInstance;
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
