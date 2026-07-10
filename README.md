@@ -13,14 +13,17 @@ SkyOra is designed as a scalable web application for travel services, combining:
 
 ## Features
 
-- User registration and login
-- JWT-based authentication and authorization
-- Flight browsing and management
-- Booking and passenger management
-- Payment-related flow
-- Feedback and messaging support
-- Admin-related management workflows
-- Testing support for unit and user acceptance testing
+- User registration, login, and account management
+- JWT-based authentication and role-based access control
+- Flight browsing, adding, editing, and management
+- Booking creation, updating, cancellation, and tracking
+- Passenger detail collection and booking cart workflows
+- Payment gateway experience and booking confirmation flow
+- Travel certificate, baggage, pet policy, and add-on information pages
+- Feedback submission and display of messages or support feedback
+- Admin registration and administrative management features
+- Responsive UI with multiple travel and account-related screens
+- Testing support for unit, component, and user acceptance testing
 
 ## Tech Stack
 
