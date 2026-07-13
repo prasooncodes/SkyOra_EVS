@@ -1,0 +1,264 @@
+.flight-page {
+	position: relative;
+	min-height: calc(100vh - 5.5rem);
+	padding: 2rem 0 3rem;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at top left, rgba(255, 107, 53, 0.18), transparent 34%),
+		radial-gradient(circle at bottom right, rgba(7, 43, 84, 0.16), transparent 28%),
+		linear-gradient(180deg, #eef4fb 0%, #f8fbfe 100%);
+}
+
+.flight-orb {
+	position: absolute;
+	border-radius: 999px;
+	filter: blur(8px);
+	pointer-events: none;
+}
+
+.flight-orb--one {
+	top: 2rem;
+	left: -4rem;
+	width: 14rem;
+	height: 14rem;
+	background: rgba(255, 107, 53, 0.12);
+}
+
+.flight-orb--two {
+	right: -3rem;
+	bottom: 2rem;
+	width: 16rem;
+	height: 16rem;
+	background: rgba(7, 43, 84, 0.1);
+}
+
+.flight-shell {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+	gap: 1.75rem;
+	align-items: start;
+}
+
+.flight-intro {
+	padding: 1rem 0;
+	color: #0d1b37;
+}
+
+.flight-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.45rem 0.85rem;
+	border-radius: 999px;
+	background: rgba(255, 107, 53, 0.12);
+	color: #d94f1e;
+	border: 1px solid rgba(255, 107, 53, 0.18);
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.flight-intro h1 {
+	margin: 1rem 0 0.85rem;
+	font-size: clamp(2.4rem, 4vw, 4.5rem);
+	line-height: 1.02;
+	font-weight: 900;
+	letter-spacing: -0.03em;
+}
+
+.flight-intro p {
+	margin: 0;
+	max-width: 58ch;
+	color: #5f6b80;
+	font-size: 1.02rem;
+	line-height: 1.7;
+}
+
+.flight-notes {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1rem;
+	margin-top: 1.6rem;
+}
+
+.flight-note-card {
+	padding: 1rem 1.1rem;
+	border-radius: 20px;
+	background: rgba(255, 255, 255, 0.74);
+	border: 1px solid rgba(13, 27, 55, 0.08);
+	box-shadow: 0 18px 45px rgba(13, 27, 55, 0.08);
+	backdrop-filter: blur(14px);
+}
+
+.flight-note-card strong {
+	display: block;
+	margin-bottom: 0.3rem;
+	color: #072b54;
+}
+
+.flight-note-card span {
+	color: #5f6b80;
+	line-height: 1.5;
+}
+
+.flight-card {
+	padding: 1.75rem;
+	border-radius: 28px;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	box-shadow: 0 26px 70px rgba(7, 17, 31, 0.14);
+	backdrop-filter: blur(16px);
+}
+
+.flight-card__header {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: start;
+	margin-bottom: 1.35rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(13, 27, 55, 0.08);
+}
+
+.flight-kicker {
+	margin: 0 0 0.35rem;
+	color: #c8102e;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.flight-card h2 {
+	margin: 0;
+	color: #072b54;
+	font-size: 1.75rem;
+	font-weight: 800;
+}
+
+.flight-card__hint {
+	margin: 0;
+	color: #6c7a90;
+	font-size: 0.94rem;
+	white-space: nowrap;
+}
+
+.flight-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.field label {
+	color: #072b54;
+	font-size: 0.92rem;
+	font-weight: 700;
+}
+
+.field .form-control {
+	width: 100%;
+	padding: 0.92rem 1rem;
+	border-radius: 16px;
+	border: 1px solid #d9e3ee;
+	background: #fff;
+	color: #0d1b37;
+	box-shadow: 0 1px 0 rgba(13, 27, 55, 0.02);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.field .form-control::placeholder {
+	color: #8c98ab;
+}
+
+.field .form-control:focus {
+	border-color: #ff6b35;
+	box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15);
+}
+
+.field .form-control.ng-invalid.ng-touched {
+	border-color: #c8102e;
+}
+
+.field-error {
+	margin: 0;
+	color: #c8102e;
+	font-size: 0.88rem;
+	line-height: 1.45;
+}
+
+.flight-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1.35rem;
+}
+
+.flight-submit {
+	min-width: 180px;
+	padding: 0.95rem 1.4rem;
+	border: none;
+	border-radius: 16px;
+	background: linear-gradient(135deg, #c8102e, #ff6b35);
+	color: #fff;
+	font-size: 0.98rem;
+	font-weight: 800;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	box-shadow: 0 18px 34px rgba(200, 16, 46, 0.22);
+	transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.flight-submit:hover:not(:disabled) {
+	transform: translateY(-1px);
+	box-shadow: 0 22px 42px rgba(200, 16, 46, 0.28);
+}
+
+.flight-submit:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+@media (max-width: 992px) {
+	.flight-shell {
+		grid-template-columns: 1fr;
+	}
+
+	.flight-card__header {
+		flex-direction: column;
+	}
+
+	.flight-card__hint {
+		white-space: normal;
+	}
+}
+
+@media (max-width: 768px) {
+	.flight-page {
+		padding: 1.25rem 0 2rem;
+	}
+
+	.flight-card {
+		padding: 1.25rem;
+		border-radius: 22px;
+	}
+
+	.flight-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.flight-intro h1 {
+		font-size: 2.25rem;
+	}
+
+	.flight-submit {
+		width: 100%;
+	}
+}
