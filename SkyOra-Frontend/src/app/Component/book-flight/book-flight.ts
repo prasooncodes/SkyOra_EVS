@@ -412,7 +412,6 @@ export class BookFlight implements OnInit {
       this.bookingData.returnFlightId = 0;
     }
   }
-
   searchFlights(): void {
     if (!this.searchCriteria.source || !this.searchCriteria.destination) {
       this.safeAlert('Please select both source and destination cities.');

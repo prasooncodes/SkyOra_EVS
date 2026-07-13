@@ -1,71 +1,134 @@
-<h2>Edit Flight</h2>
+<div class="flight-page">
+  <div class="flight-orb flight-orb--one"></div>
+  <div class="flight-orb flight-orb--two"></div>
 
-<form [formGroup]="flightForm" (ngSubmit)="updateFlight()">
+  <div class="container flight-shell">
+    <section class="flight-intro">
+      <span class="flight-chip">Flight Management</span>
+      <h1>Edit Flight</h1>
+      <p>
+        Adjust route details, timings, and cabin inventory while keeping the interface aligned with the
+        SkyOra admin experience.
+      </p>
 
-  <!-- Flight Number -->
-  <div class="form-group mb-2">
-    <label>Flight No</label>
-    <input class="form-control" formControlName="flightNo" />
+      <div class="flight-notes">
+        <div class="flight-note-card">
+          <strong>Route refresh</strong>
+          <span>Update origin, destination, and schedule data in one pass.</span>
+        </div>
+        <div class="flight-note-card">
+          <strong>Inventory sync</strong>
+          <span>Keep seat counts and pricing consistent before saving changes.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="flight-card">
+      <div class="flight-card__header">
+        <div>
+          <p class="flight-kicker">Existing flight record</p>
+          <h2>Update details</h2>
+        </div>
+        <p class="flight-card__hint">Make sure the schedule still lines up with cabin availability.</p>
+      </div>
+
+      <form [formGroup]="flightForm" (ngSubmit)="updateFlight()" novalidate>
+        <div class="flight-grid">
+          <div class="field">
+            <label for="flightNo">Flight No</label>
+            <input id="flightNo" class="form-control" formControlName="flightNo" />
+            @if (fg['flightNo'].invalid && (fg['flightNo'].dirty || fg['flightNo'].touched)) {
+              <p class="field-error">Flight number is required.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="source">Source</label>
+            <input id="source" class="form-control" formControlName="source" />
+            @if (fg['source'].invalid && (fg['source'].dirty || fg['source'].touched)) {
+              <p class="field-error">Source is required.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="destination">Destination</label>
+            <input id="destination" class="form-control" formControlName="destination" />
+            @if (fg['destination'].invalid && (fg['destination'].dirty || fg['destination'].touched)) {
+              <p class="field-error">Destination is required.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="departureTime">Departure Time</label>
+            <input id="departureTime" type="datetime-local" class="form-control" formControlName="departureTime" />
+            @if (fg['departureTime'].invalid && (fg['departureTime'].dirty || fg['departureTime'].touched)) {
+              <p class="field-error">Departure time is required.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="arrivalTime">Arrival Time</label>
+            <input id="arrivalTime" type="datetime-local" class="form-control" formControlName="arrivalTime" />
+            @if (fg['arrivalTime'].invalid && (fg['arrivalTime'].dirty || fg['arrivalTime'].touched)) {
+              <p class="field-error">Arrival time is required.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="totalBusinessSeats">Total Business Seats</label>
+            <input id="totalBusinessSeats" type="number" class="form-control" formControlName="totalBusinessSeats" />
+            @if (fg['totalBusinessSeats'].invalid && (fg['totalBusinessSeats'].dirty || fg['totalBusinessSeats'].touched)) {
+              <p class="field-error">Enter a valid number.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="totalEconomySeats">Total Economy Seats</label>
+            <input id="totalEconomySeats" type="number" class="form-control" formControlName="totalEconomySeats" />
+            @if (fg['totalEconomySeats'].invalid && (fg['totalEconomySeats'].dirty || fg['totalEconomySeats'].touched)) {
+              <p class="field-error">Enter a valid number.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="availableBusinessSeats">Available Business Seats</label>
+            <input id="availableBusinessSeats" type="number" class="form-control" formControlName="availableBusinessSeats" />
+            @if (fg['availableBusinessSeats'].invalid && (fg['availableBusinessSeats'].dirty || fg['availableBusinessSeats'].touched)) {
+              <p class="field-error">Enter a valid number.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="availableEconomySeats">Available Economy Seats</label>
+            <input id="availableEconomySeats" type="number" class="form-control" formControlName="availableEconomySeats" />
+            @if (fg['availableEconomySeats'].invalid && (fg['availableEconomySeats'].dirty || fg['availableEconomySeats'].touched)) {
+              <p class="field-error">Enter a valid number.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="businessPrice">Business Price</label>
+            <input id="businessPrice" type="number" class="form-control" formControlName="businessPrice" />
+            @if (fg['businessPrice'].invalid && (fg['businessPrice'].dirty || fg['businessPrice'].touched)) {
+              <p class="field-error">Enter a valid price.</p>
+            }
+          </div>
+
+          <div class="field">
+            <label for="economyPrice">Economy Price</label>
+            <input id="economyPrice" type="number" class="form-control" formControlName="economyPrice" />
+            @if (fg['economyPrice'].invalid && (fg['economyPrice'].dirty || fg['economyPrice'].touched)) {
+              <p class="field-error">Enter a valid price.</p>
+            }
+          </div>
+        </div>
+
+        <div class="flight-actions">
+          <button class="flight-submit" type="submit" [disabled]="flightForm.invalid">
+            Update Flight
+          </button>
+        </div>
+      </form>
+    </section>
   </div>
-
-  <!-- Source -->
-  <div class="form-group mb-2">
-    <label>Source</label>
-    <input class="form-control" formControlName="source" />
-  </div>
-
-  <!-- Destination -->
-  <div class="form-group mb-2">
-    <label>Destination</label>
-    <input class="form-control" formControlName="destination" />
-  </div>
-
-  <!-- Departure -->
-  <div class="form-group mb-2">
-    <label>Departure Time</label>
-    <input type="datetime-local" class="form-control" formControlName="departureTime" />
-  </div>
-
-  <!-- Arrival -->
-  <div class="form-group mb-2">
-    <label>Arrival Time</label>
-    <input type="datetime-local" class="form-control" formControlName="arrivalTime" />
-  </div>
-
-  <!-- Seats -->
-  <div class="form-group mb-2">
-    <label>Total Business Seats</label>
-    <input type="number" class="form-control" formControlName="totalBusinessSeats" />
-  </div>
-
-  <div class="form-group mb-2">
-    <label>Total Economy Seats</label>
-    <input type="number" class="form-control" formControlName="totalEconomySeats" />
-  </div>
-
-  <div class="form-group mb-2">
-    <label>Available Business Seats</label>
-    <input type="number" class="form-control" formControlName="availableBusinessSeats" />
-  </div>
-
-  <div class="form-group mb-2">
-    <label>Available Economy Seats</label>
-    <input type="number" class="form-control" formControlName="availableEconomySeats" />
-  </div>
-
-  <!-- Prices -->
-  <div class="form-group mb-2">
-    <label>Business Price</label>
-    <input type="number" class="form-control" formControlName="businessPrice" />
-  </div>
-
-  <div class="form-group mb-2">
-    <label>Economy Price</label>
-    <input type="number" class="form-control" formControlName="economyPrice" />
-  </div>
-
-  <!-- Submit -->
-  <button class="btn btn-success mt-3" [disabled]="flightForm.invalid">
-    Update Flight
-  </button>
-</form>
+</div>
